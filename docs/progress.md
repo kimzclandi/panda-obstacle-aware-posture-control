@@ -2,6 +2,14 @@
 
 更新时间：2026-10-04（Asia/Singapore）。UTC 实验目录时间比本地日期早一天属正常换算。历史阶段1/pilot记录保留于 [progress_history_stage1_to_pilot.md](progress_history_stage1_to_pilot.md)；原始实验和失败记录均未覆盖。
 
+## GitHub 发布
+
+2026-10-04 已上传至 [kimzclandi/panda-obstacle-aware-posture-control](https://github.com/kimzclandi/panda-obstacle-aware-posture-control)，仓库为 **private**，未邀请外部协作者。原五次 Git 提交全部保留；`main` 另含发布文档更新，`v1.0.0` 指向完整实验包对应的原提交 `62d74a5`。
+
+[Release v1.0.0](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 已发布完整 ZIP（716,482,807 字节）、打包 receipt、独立英文 PDF、MP4 及 `SHA256SUMS`。GitHub 返回的五个附件字节数与 SHA-256 均与本地一致。完整 ZIP 的 SHA-256 为 `52c9a77d28a992bc1e03ba0465d47bcce1f4d3a55c7ff8e63c7af3e14b85958b`。
+
+已从远程重新克隆并逐文件核对 281 个 tracked 文件，历史、tree 和 tag 对应关系正确；原科学输入冻结检查再次通过。本次只更新发布文档，没有重新训练或修改原始实验。Git checkout 不包含 experiments 和冻结安装元数据，冻结模型验证必须下载完整 Release ZIP 并按搬迁流程运行。此项是 GitHub 存档发布，未上传 Canvas。
+
 ## 当前完成范围
 
 **阶段1–4的预算受控研究、英文报告、中文解读、演示视频和答辩材料已完成。** 三个独立seed各训练98,304policy steps；64 train、24 validation、100 test均有完整物理witness；5policy×100test=500/500回合完成。结果没有达到“RL超过APF”：APF92%，PPO80%/81%/65%，tracker70%。该负结果如实保留，不在看过test之后改预算或模型。
