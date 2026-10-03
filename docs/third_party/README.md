@@ -6,5 +6,7 @@
 - `notices/`：从实际安装包复制的 LICENSE / COPYING / NOTICE 文件，保留 site-packages 下相对路径。
 - `notices/pybullet_data/franka_panda/LICENSE.txt`：本项目使用 Panda URDF/mesh 资产的 Apache-2.0 许可；区别于 PyBullet 主库 Zlib。
 - 新增 `imageio-ffmpeg==0.6.0` 的 BSD-2-Clause 包装层许可；另归档实际随包 FFmpeg `7.0.2-static` 的 `-L` / `-version` 输出。该二进制声明 GPL-3.0-or-later，与 Python 包装层许可分别记录。二进制 hash 和命令证据在 inventory 新增条目中；未将二进制复制到本目录。
+- 新增 `reportlab==5.0.1`、`pypdf==6.19.0`、`charset-normalizer==3.5.2`，从本机实际 wheel 归档六份 notice，并保存各自 METADATA 的 SHA-256 和上游字段。ReportLab 本体为 BSD-3-Clause；附带 DarkGarden 字体声明 GPL-2.0-or-later 及字体嵌入例外，Bitstream Vera 字体另有许可，均按原文单独归档。归档字体许可不意味着已将字体用于报告。
+- 补充后三十五个 distribution 的全部已归档 notice SHA-256 已逐一回读验证；只归档文档，没有把新增包源码或字体二进制复制到项目。
 
 一些 wheel 附带其他组件或未用资产，归档它们的许可不表示项目使用了所有组件。许可摘要和用途见上一级 `attribution.md`；实际安装新增依赖后须更新快照。此目录只保存文档，不重新分发包代码或模型。

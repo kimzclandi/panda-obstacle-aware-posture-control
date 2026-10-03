@@ -47,3 +47,40 @@ Panda 所有运动碰撞 link 都有非零惯性 COM 平移。直接把世界最
 建议先测试 `influence_distance` 为 `.08/.12/.18`，`obstacle_gain` 为 `.0001/.0004/.0012`；保留明确预先规定的组合和并列选择规则（先成功率，再失败率/净空或控制成本）。随后视 validation 失败原因调整自碰与关节项，报告完整候选范围和预算。势场作用距离过短可能来不及避让；过长会使多个链接斥力抵消或引起无必要运动。高 gain 可能频繁 action 饱和并扭转梯度方向，不能假定更大更强；低 gain 可能只在已经不可挽回时有微小响应。
 
 局部势场会陷入局部极小值、受最近几何特征切换影响，也可能在主任务零空间投影后几乎没有有效避障方向。近未来轨迹信息可被公平提供，但当前 APF 是反应式几何场；不要将这一点误称为传统方法的理论上限。除非正式比较已完成，不宣称 PPO 超过 APF，也不将 witness 搜索失败当成不可行证明。
+
+## 实际 study validation 调参结果（2026-10-04）
+
+预先声明的 12 组网格已经全部运行，使用独立 study 数据集中的 **24 个 validation 场景**（simple 12、tight 12）。本次调参没有读取 test。共保存 288 次物理 rollout；每个候选都包含同样的 24 个场景，碰撞失败也保留在分母与轨迹档案中。以下是选参数据，不能当作最终 held-out 泛化结果。
+
+数据集：[study train/validation scenes](../experiments/20261003T194210.629028Z_study_scenes/scenes.json)，SHA256 `4a164c1b3792f67e637cf3516c69c3b9a77f9a1d42d27896f3c21b7a4211a55f`。调参证据目录：[20261003T195747.519524Z_potential_validation_tuning](../experiments/20261003T195747.519524Z_potential_validation_tuning/)。独立控制台日志：[study_potential_validation_tuning_console.log](../experiments/study_potential_validation_tuning_console.log)。
+
+| Candidate index | Obstacle gain | Influence distance (m) | Self gain | 完整成功数 / 24 |
+| --- | ---: | ---: | ---: | ---: |
+| 0，选中 | 0.0001 | 0.08 | 0 | 23 |
+| 1 | 0.0001 | 0.08 | 0.00008 | 23 |
+| 2 | 0.0001 | 0.16 | 0 | 23 |
+| 3 | 0.0001 | 0.16 | 0.00008 | 23 |
+| 4 | 0.0004 | 0.08 | 0 | 21 |
+| 5 | 0.0004 | 0.08 | 0.00008 | 21 |
+| 6 | 0.0004 | 0.16 | 0 | 20 |
+| 7 | 0.0004 | 0.16 | 0.00008 | 20 |
+| 8 | 0.0016 | 0.08 | 0 | 20 |
+| 9 | 0.0016 | 0.08 | 0.00008 | 20 |
+| 10 | 0.0016 | 0.16 | 0 | 20 |
+| 11 | 0.0016 | 0.16 | 0.00008 | 20 |
+
+按预先规定的“完整成功数最大，精确相同时选择最早 grid index”规则，选中 **candidate 0，23/24（95.83%）**。simple 为 12/12、tight 为 11/12。其余三个并列候选不会因为失败场景或后续 test 表现而替换当前选择。
+
+选参文件：[selected.json](../experiments/20261003T195747.519524Z_potential_validation_tuning/selected.json)，SHA256 `0eb9b6bb27910c9761b9c30feb8f6d258d7212e2ce98304f1276a802564cabdf`。完整实际参数：`influence_distance=.08`、`obstacle_gain=.0001`、`self_influence=.06`、`self_gain=0`、`distance_floor=.015`、`joint_gain=.4`、`joint_margin=.3`；后三项与自碰作用距离沿用固定默认值。选中 `self_gain=0` 表示次级势场的自碰排斥项关闭，**不关闭或减少任何自碰检测与失败判据**。该选择与非零 self gain 在本 validation 上并列，不足以证明自碰项在其他分布上没有价值。
+
+选中候选唯一失败场景为 `study-4410-0111`，碰撞发生于 `t=2.320833 s`；保留的执行前缀最大位置误差约 `0.1517 mm`，末次最小球净空约 `-0.00985 mm`。这是跟踪误差小但避障仍失败的具体实例，不能用低误差覆盖碰撞失败。证据：[summary.json](../experiments/20261003T195747.519524Z_potential_validation_tuning/rollouts/candidate-00/study-4410-0111/summary.json)。所有 12 候选累计 34 个失败回合均记录为碰撞；这里不推断更高 gain 失败的唯一原因，须结合动作裁剪、投影与具体几何另做诊断。
+
+完成后已审计：12 组参数与预先保存的 grid 一致，288 个 `(candidate, scenario)` 组合唯一且齐全；每组都是同一 validation ID 集；逐回合 `summary.json` 与 `episodes.json` 一致，全部轨迹存在；数据集 hash 在配置和 selected 记录中一致；选参符合固定并列规则。调参过程中未修改物理源码、候选网格或生成参数。
+
+复跑命令（将自动创建新的独立实验目录，不覆盖本次结果）：
+
+```bash
+env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python \
+  -m panda_posture.batch tune \
+  --dataset experiments/20261003T194210.629028Z_study_scenes/scenes.json
+```

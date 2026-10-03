@@ -1,0 +1,15 @@
+{
+  "purpose": "Actual fonts embedded in the English PDF and used to rasterize demonstration labels",
+  "package": "fonts-dejavu-core",
+  "license_notice": "docs/third_party/notices/system_fonts/DejaVu-copyright.txt",
+  "fonts": [
+    {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+      "sha256": "ae7b7855e115a5966d8b1b3f80f254ccc117ec86f9965e202ee2940453837280"
+    },
+    {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+      "sha256": "5c1247acef7f2b8522a31742c76d6adcb5569bacc0be7ceaa4dc39dd252ce895"
+    }
+  ]
+}

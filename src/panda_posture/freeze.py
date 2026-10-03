@@ -341,9 +341,12 @@ def freeze_study(trainval_path, test_path, params_path, models, output, protocol
     _require(not set(training_audit['scenario_ids']) & set(test_audit['scenario_ids']), 'Cross-source duplicate scene IDs')
     _require(not set(training_audit['physical_hashes']) & set(test_audit['physical_hashes']),
              'Cross-source duplicate physical configurations')
-    sources = sorted(p for directory in ('src', 'scripts', 'configs') for p in (ROOT/directory).rglob('*')
+    # Bind all scientific execution/statistical code and configuration. Report
+    # layout, packaging and relocation utilities have their own provenance;
+    # editing prose or a PDF margin must not change the scientific contract.
+    sources = sorted(p for directory in ('src', 'configs') for p in (ROOT/directory).rglob('*')
                      if p.is_file() and '__pycache__' not in p.parts)
-    sources += [ROOT/'requirements.lock.txt', ROOT/'pyproject.toml']
+    sources += [ROOT/'scripts/freeze_study.py', ROOT/'requirements.lock.txt', ROOT/'pyproject.toml']
     source_hashes = {str(p.relative_to(ROOT)): _sha(p) for p in sources}
     artifacts = [protocol_record, trainval_record, test_record, params_record]
     artifacts += training_audit['files'] + test_audit['files'] + potential_files

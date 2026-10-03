@@ -17,7 +17,7 @@
 | [filelock](https://github.com/tox-dev/py-filelock) | `3.32.3` | MIT | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/filelock-3.32.3.dist-info/licenses/LICENSE) |
 | [fonttools](http://github.com/fonttools/fonttools) | `4.66.1` | MIT；附带组件见 LICENSE.external | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/fonttools-4.66.1.dist-info/licenses/LICENSE) |
 | [fsspec](https://github.com/fsspec/filesystem_spec) | `2026.7.0` | BSD-3-Clause | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/fsspec-2026.7.0.dist-info/licenses/LICENSE) |
-| [gymnasium](https://github.com/Farama-Foundation/Gymnasium) | `1.3.0` | MIT | 已安装环境接口；不等于 PPO 环境已实现 | [本地许可](third_party/notices/gymnasium-1.3.0.dist-info/licenses/LICENSE) |
+| [gymnasium](https://github.com/Farama-Foundation/Gymnasium) | `1.3.0` | MIT | 项目 RL 环境接口及环境检查；具体实验见 progress | [本地许可](third_party/notices/gymnasium-1.3.0.dist-info/licenses/LICENSE) |
 | [iniconfig](https://github.com/pytest-dev/iniconfig) | `2.3.0` | MIT | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/iniconfig-2.3.0.dist-info/licenses/LICENSE) |
 | [Jinja2](https://github.com/pallets/jinja/) | `3.1.6` | BSD-3-Clause | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/jinja2-3.1.6.dist-info/licenses/LICENSE.txt) |
 | [kiwisolver](https://github.com/nucleic/kiwi) | `1.5.1` | BSD-3-Clause | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/kiwisolver-1.5.1.dist-info/licenses/LICENSE) |
@@ -38,11 +38,16 @@
 | [setuptools](https://github.com/pypa/setuptools) | `78.1.0` | MIT；vendored 组件另有许可 | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/setuptools-78.1.0.dist-info/licenses/LICENSE) |
 | [six](https://github.com/benjaminp/six) | `1.17.0` | MIT | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/six-1.17.0.dist-info/LICENSE) |
 | [sympy](https://github.com/sympy/sympy) | `1.14.0` | BSD-3-Clause | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/sympy-1.14.0.dist-info/licenses/LICENSE) |
-| [torch](https://github.com/pytorch/pytorch) | `2.14.1+cpu` | Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND BSD-2-Clause AND BSD-3-Clause AND BSL-1.0 AND MIT | 已安装 CPU 深度学习后端；不等于模型已训练 | [本地许可](third_party/notices/torch-2.14.1+cpu.dist-info/licenses/LICENSE) |
+| [torch](https://github.com/pytorch/pytorch) | `2.14.1+cpu` | Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND BSD-2-Clause AND BSD-3-Clause AND BSL-1.0 AND MIT | CPU 深度学习后端；已用于 PPO pilot，训练规模见实验记录 | [本地许可](third_party/notices/torch-2.14.1+cpu.dist-info/licenses/LICENSE) |
 | [typing_extensions](https://github.com/python/typing_extensions) | `4.16.0` | PSF-2.0 | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/typing_extensions-4.16.0.dist-info/licenses/LICENSE) |
-| [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3) | `2.9.0` | MIT | PPO 框架已安装；不等于模型已训练 | [本地许可](third_party/notices/stable_baselines3-2.9.0.dist-info/licenses/LICENSE) |
+| [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3) | `2.9.0` | MIT | 复用 PPO 算法实现、训练与模型序列化；项目未声称自创 PPO | [本地许可](third_party/notices/stable_baselines3-2.9.0.dist-info/licenses/LICENSE) |
 | [imageio-ffmpeg](https://github.com/imageio/imageio-ffmpeg) | `0.6.0` | Python 包装层 BSD-2-Clause；随包 FFmpeg 二进制另见下项 | 新增视频编码依赖；未复制包装代码到项目源码 | [包装层许可](third_party/notices/imageio_ffmpeg-0.6.0.dist-info/LICENSE) |
 | FFmpeg（由 imageio-ffmpeg wheel 提供） | `7.0.2-static` | 实际二进制 `-L` 声明 GPL-3.0-or-later；构建开启 GPL/version3 | 视频编码外部可执行程序；项目归档许可/构建证据，不归档二进制 | [许可声明](third_party/notices/imageio_ffmpeg/binaries/ffmpeg-7.0.2-license-declaration.txt)、[版本与构建参数](third_party/notices/imageio_ffmpeg/binaries/ffmpeg-7.0.2-version-build.txt) |
+| [reportlab](https://www.reportlab.com/) | `5.0.1` | 本体 BSD-3-Clause；wheel 内附带字体各有许可，见下文 | PDF 报告生成；未复制其实现为项目源码 | [本体许可](third_party/notices/reportlab-5.0.1.dist-info/licenses/LICENSE) |
+| [pypdf](https://github.com/py-pdf/pypdf) | `6.19.0` | BSD-3-Clause | PDF 页数/内容检查与报告交付验证工具 | [本地许可](third_party/notices/pypdf-6.19.0.dist-info/licenses/LICENSE) |
+| [charset-normalizer](https://github.com/jawah/charset_normalizer) | `3.5.2` | MIT | 新增文档工具的间接文本编码依赖 | [本地许可](third_party/notices/charset_normalizer-3.5.2.dist-info/licenses/LICENSE) |
+
+新增三包已核对 `.venv` 中实际 dist-info 的版本、上游字段和许可文件；`inventory.json` 保存原始元数据及 METADATA SHA-256，不以网页的最新版本替代实际安装版本。ReportLab 本体许可与附带字体分开归档：[DarkGarden 字体声明](third_party/notices/reportlab/fonts/DarkGarden-copying.txt)为 GPL-2.0-or-later，并含原文所述字体嵌入例外；[GPL 正文](third_party/notices/reportlab/fonts/DarkGarden-copying-gpl.txt)及 [Bitstream Vera 字体许可](third_party/notices/reportlab/fonts/bitstream-vera-license.txt)均保留。归档它们只说明这些文件存在于安装 wheel，不表示报告实际使用了这些字体，也不将其许可概括为 ReportLab 全包统一 BSD。
 
 ## Panda 模型资产：与 PyBullet 本体许可分开
 
@@ -75,3 +80,7 @@ Proposal 列出的成员为 LIN KAIHAO、LIU LINJUN、WANG KEXIN。用户确认�
 | 日期 | 实际参与者 | 工作内容 | 复用/AI 协助 | 可核验证据 | 本人复跑或解释确认 |
 | --- | --- | --- | --- | --- | --- |
 | 2026-10-04 | Codex（AI 协助） | 首轮规格、决策与教学文档草拟 | 基于用户需求与 proposal | 本目录文件；具体工程实测见 progress | 学生掌握尚未确认 |
+
+## 实际报告/视频字体
+
+英文 PDF 嵌入及视频文字使用系统 DejaVu Sans / Bold。实际字体 SHA 与路径见 `third_party/system_fonts.json`，许可原文归档在 `third_party/notices/system_fonts/DejaVu-copyright.txt`。这是本次报告使用的字体，区别于 ReportLab wheel 附带而未使用的字体。重新生成报告需系统 `fonts-dejavu-core`，PDF 已嵌入所需字体。

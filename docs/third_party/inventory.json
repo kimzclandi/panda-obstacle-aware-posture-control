@@ -1365,6 +1365,90 @@
         ],
         "binary_redistributed_in_project": false
       }
+    },
+    {
+      "name": "reportlab",
+      "version": "5.0.1",
+      "license_expression": null,
+      "license_metadata": "BSD license (see license.txt for details), Copyright (c) 2000-2025, ReportLab Inc.",
+      "project_urls": [],
+      "home_page": "https://www.reportlab.com/",
+      "metadata_evidence": {
+        "installed_path": ".venv/lib/python3.11/site-packages/reportlab-5.0.1.dist-info/METADATA",
+        "sha256": "eaf25ccdf6556f532b6efbc78104a0d47832b67dd1cf9b747a142a1c68e9fbaa"
+      },
+      "files": [
+        {
+          "installed_path": ".venv/lib/python3.11/site-packages/reportlab-5.0.1.dist-info/licenses/LICENSE",
+          "archived_path": "third_party/notices/reportlab-5.0.1.dist-info/licenses/LICENSE",
+          "sha256": "ef831761646313921375fc2cb888e8eeaf7da213d0b92852c10c42f3a0b4d138"
+        },
+        {
+          "installed_path": ".venv/lib/python3.11/site-packages/reportlab/fonts/DarkGarden-copying-gpl.txt",
+          "archived_path": "third_party/notices/reportlab/fonts/DarkGarden-copying-gpl.txt",
+          "sha256": "1b2a567f289f66a143c56353e7b3d4fa5862514a5e3c5cfdf8b02ee5e5aaa953"
+        },
+        {
+          "installed_path": ".venv/lib/python3.11/site-packages/reportlab/fonts/DarkGarden-copying.txt",
+          "archived_path": "third_party/notices/reportlab/fonts/DarkGarden-copying.txt",
+          "sha256": "3cd1020510efa7f6b3166a5a2740f92bd664a695ea179e0bda442e74cd0ef3a4"
+        },
+        {
+          "installed_path": ".venv/lib/python3.11/site-packages/reportlab/fonts/bitstream-vera-license.txt",
+          "archived_path": "third_party/notices/reportlab/fonts/bitstream-vera-license.txt",
+          "sha256": "3361d054759a2fc686a2c058be82deaf9c2e6fe549be9004d7935a6c1736315d"
+        }
+      ],
+      "license_summary_from_installed_files": "Code: BSD-3-Clause. Bundled DarkGarden font: GPL-2.0-or-later with the supplied font-embedding exception. Bitstream Vera font: separate Bitstream Vera license.",
+      "bundled_asset_scope": "Archiving all installed font notices does not mean these fonts are used or copied into project deliverables."
+    },
+    {
+      "name": "pypdf",
+      "version": "6.19.0",
+      "license_expression": "BSD-3-Clause",
+      "license_metadata": null,
+      "project_urls": [
+        "Bug Reports, https://github.com/py-pdf/pypdf/issues",
+        "Changelog, https://pypdf.readthedocs.io/en/latest/meta/CHANGELOG.html",
+        "Documentation, https://pypdf.readthedocs.io/en/latest/",
+        "Source, https://github.com/py-pdf/pypdf"
+      ],
+      "home_page": null,
+      "metadata_evidence": {
+        "installed_path": ".venv/lib/python3.11/site-packages/pypdf-6.19.0.dist-info/METADATA",
+        "sha256": "c4f428636f3cb180014024dfb4414b41b8c75b568ffe4a06beeb5175b311c6b5"
+      },
+      "files": [
+        {
+          "installed_path": ".venv/lib/python3.11/site-packages/pypdf-6.19.0.dist-info/licenses/LICENSE",
+          "archived_path": "third_party/notices/pypdf-6.19.0.dist-info/licenses/LICENSE",
+          "sha256": "a97ac230e5f33ef10a5367a850eb01f91f1a0b064e34742c7794d2294557f524"
+        }
+      ]
+    },
+    {
+      "name": "charset-normalizer",
+      "version": "3.5.2",
+      "license_expression": null,
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Changelog, https://github.com/jawah/charset_normalizer/blob/master/CHANGELOG.md",
+        "Documentation, https://charset-normalizer.readthedocs.io/",
+        "Code, https://github.com/jawah/charset_normalizer",
+        "Issue tracker, https://github.com/jawah/charset_normalizer/issues"
+      ],
+      "home_page": null,
+      "metadata_evidence": {
+        "installed_path": ".venv/lib/python3.11/site-packages/charset_normalizer-3.5.2.dist-info/METADATA",
+        "sha256": "89ce6362bb7be88558f4be99a98f5d1b4da93d19cd0323e5ee0bac05cf883dfb"
+      },
+      "files": [
+        {
+          "installed_path": ".venv/lib/python3.11/site-packages/charset_normalizer-3.5.2.dist-info/licenses/LICENSE",
+          "archived_path": "third_party/notices/charset_normalizer-3.5.2.dist-info/licenses/LICENSE",
+          "sha256": "6d0d41bfe170ac6c7dc248c9a63e254d0fb45a60d50a8257d0af92c6e249b887"
+        }
+      ]
     }
   ]
 }
