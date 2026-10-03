@@ -138,3 +138,5 @@ History 同时记录阶段与 optimizer epochs；最终模型保存/加载检查
 ## D019：Git 源码与完整实验 Release 分开发布
 
 用户要求上传到 GitHub；账号经 GitHub 连接器核验为 `kimzclandi`。新建 `panda-obstacle-aware-posture-control` 私有仓库，保留现有 Git 历史，不自动授权外部协作者。Git 保存源码、配置、文档和现有报告/视频；忽略环境及大体积原始实验。完整 716,482,807 字节 ZIP 用作 Release 附件，SHA-256 为 `52c9a77d28a992bc1e03ba0465d47bcce1f4d3a55c7ff8e63c7af3e14b85958b`，其内容与提交 `62d74a5` 对应，保留模型、全部失败与冻结元数据。README 明确 clone 与完整复现包的区别；不把只有代码的 checkout 宣称为具备冻结复评所需数据。发布文档变化不修改已冻结源码、配置、权重或原始 ZIP。实际上传成功与远程核验结果另记发布 receipt。
+
+2026-10-04 后续更新：用户明确要求先公开，并表示已征得同意；据此将同一仓库改为 public。原 private 发布记录作为历史保留，当前可见性以此更新和 GitHub 设置为准；完整 Release 同时可公开访问。

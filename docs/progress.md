@@ -4,7 +4,7 @@
 
 ## GitHub 发布
 
-2026-10-04 已上传至 [kimzclandi/panda-obstacle-aware-posture-control](https://github.com/kimzclandi/panda-obstacle-aware-posture-control)，仓库为 **private**，未邀请外部协作者。原五次 Git 提交全部保留；`main` 另含发布文档更新，`v1.0.0` 指向完整实验包对应的原提交 `62d74a5`。
+2026-10-04 已上传至 [kimzclandi/panda-obstacle-aware-posture-control](https://github.com/kimzclandi/panda-obstacle-aware-posture-control)。最初以 private 发布；随后用户明确表示已征得同意并要求公开，现已改为 **public**，仓库与 Release 可公开查看和下载。原五次 Git 提交全部保留；`main` 另含发布文档更新，`v1.0.0` 指向完整实验包对应的原提交 `62d74a5`。
 
 [Release v1.0.0](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 已发布完整 ZIP（716,482,807 字节）、打包 receipt、独立英文 PDF、MP4 及 `SHA256SUMS`。GitHub 返回的五个附件字节数与 SHA-256 均与本地一致。完整 ZIP 的 SHA-256 为 `52c9a77d28a992bc1e03ba0465d47bcce1f4d3a55c7ff8e63c7af3e14b85958b`。
 
