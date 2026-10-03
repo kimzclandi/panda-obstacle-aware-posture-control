@@ -1,0 +1,36 @@
+{
+  "created_utc": "2026-10-03T20:34:35.149286+00:00",
+  "scope": "Completed bounded study and delivery verification, same Linux host with independent relocated environment",
+  "key_tests": {
+    "command": "bash scripts/run_tests.sh -q",
+    "passed": 108,
+    "elapsed_seconds": 8.16,
+    "evidence": "Actual command stdout in this session; no unrun checks claimed"
+  },
+  "frozen_inputs_rechecked": true,
+  "n_test_episodes": 500,
+  "pdf_pages": 9,
+  "pdf_visual_review_passed": true,
+  "video_visual_review_passed": true,
+  "replay_panes": 6,
+  "max_replay_q_difference_rad": 0.0,
+  "relocated_environment_validation": "passed; three fixed validation rollouts, original/reloaded action equality and old/new physical arrays equal; not 500 new test episodes",
+  "artifacts": [
+    {
+      "path": "deliverables/report_en/final_report_en.pdf",
+      "sha256": "d490818c107b96098c190edf5a2a4348bbb0439e42db637eeb2aecc01dd11bba"
+    },
+    {
+      "path": "deliverables/videos/final_demo_en.mp4",
+      "sha256": "b8296db3300d2dd984493af51e83fa11ea549d3784634d33245c6fe343d2f878"
+    },
+    {
+      "path": "experiments/20261003T201319.444915Z_paired_evaluation/episodes.json",
+      "sha256": "e88fd737a0d4a503402daa37412f7c1fd515be7e8026e4f383ba30e551029b51"
+    },
+    {
+      "path": "experiments/20261003T202857.594683Z_relocation_verification/summary.json",
+      "sha256": "1d3f9a09e5587b13708589c5975975ef077b629f68b9d8942e8a262496358a48"
+    }
+  ]
+}

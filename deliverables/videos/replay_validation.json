@@ -1,0 +1,75 @@
+{
+  "checks": [
+    {
+      "scenario_id": "study-4490-0017",
+      "frame_count": 120,
+      "duration_s": 4.0,
+      "panes": [
+        {
+          "controller": "Tracker only",
+          "source_success": false,
+          "failure_reasons": [
+            "collision"
+          ],
+          "first_failure_time_s": 1.9041666666666666,
+          "max_q_difference_rad": 0.0,
+          "physical_replay_verified": true
+        },
+        {
+          "controller": "Potential field",
+          "source_success": true,
+          "failure_reasons": [],
+          "first_failure_time_s": null,
+          "max_q_difference_rad": 0.0,
+          "physical_replay_verified": true
+        },
+        {
+          "controller": "PPO seed 144",
+          "source_success": false,
+          "failure_reasons": [
+            "collision"
+          ],
+          "first_failure_time_s": 1.5791666666666666,
+          "max_q_difference_rad": 0.0,
+          "physical_replay_verified": true
+        }
+      ]
+    },
+    {
+      "scenario_id": "study-4490-0069",
+      "frame_count": 120,
+      "duration_s": 4.0,
+      "panes": [
+        {
+          "controller": "Tracker only",
+          "source_success": false,
+          "failure_reasons": [
+            "collision"
+          ],
+          "first_failure_time_s": 2.325,
+          "max_q_difference_rad": 0.0,
+          "physical_replay_verified": true
+        },
+        {
+          "controller": "Potential field",
+          "source_success": false,
+          "failure_reasons": [
+            "collision"
+          ],
+          "first_failure_time_s": 2.1666666666666665,
+          "max_q_difference_rad": 0.0,
+          "physical_replay_verified": true
+        },
+        {
+          "controller": "PPO seed 144",
+          "source_success": true,
+          "failure_reasons": [],
+          "first_failure_time_s": null,
+          "max_q_difference_rad": 0.0,
+          "physical_replay_verified": true
+        }
+      ]
+    }
+  ],
+  "index_update": "videos field only"
+}

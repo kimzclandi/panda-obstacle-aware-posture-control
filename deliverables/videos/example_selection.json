@@ -1,0 +1,17 @@
+{
+  "rule": "First lexicographic scene in each prespecified outcome category; PPO seed 144 fixed, not best-test-seed selection",
+  "cases": [
+    {
+      "scenario_id": "study-4490-0017",
+      "category": "APF succeeds; PPO 144 fails"
+    },
+    {
+      "scenario_id": "study-4490-0069",
+      "category": "PPO 144 succeeds; APF fails"
+    }
+  ],
+  "source_evaluation": "experiments/20261003T201319.444915Z_paired_evaluation",
+  "episodes_sha256": "e88fd737a0d4a503402daa37412f7c1fd515be7e8026e4f383ba30e551029b51",
+  "selection_script_sha256": "4849539ae36d6b42a9adbd5f88f79606920cc7ed576fe9009553b98286d88cf0",
+  "complete_episode_count": 500
+}

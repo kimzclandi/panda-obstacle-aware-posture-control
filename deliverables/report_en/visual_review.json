@@ -1,0 +1,108 @@
+{
+  "pages": 9,
+  "pdf_sha256": "d490818c107b96098c190edf5a2a4348bbb0439e42db637eeb2aecc01dd11bba",
+  "render_command": "pdftoppm -scale-to 1300 -png final_report_en.pdf page",
+  "reviewer": "Codex visual inspection",
+  "passed": true,
+  "page_checks": [
+    {
+      "page": 1,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    },
+    {
+      "page": 2,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    },
+    {
+      "page": 3,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    },
+    {
+      "page": 4,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    },
+    {
+      "page": 5,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    },
+    {
+      "page": 6,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    },
+    {
+      "page": 7,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    },
+    {
+      "page": 8,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    },
+    {
+      "page": 9,
+      "passed": true,
+      "checks": [
+        "layout",
+        "text legibility",
+        "tables/plots",
+        "footer",
+        "no clipped or missing content"
+      ]
+    }
+  ]
+}

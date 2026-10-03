@@ -25,6 +25,10 @@ env -u PYTHONPATH .venv/bin/python scripts/check_environment.py
 
 bootstrap 只安装到当前项目，不修改系统 Python。使用新项目的 `.venv/bin/python`；若仍导入旧 checkout 的 editable package，搬迁脚本会拒绝。复现目标首先是同版本 Linux/CPU/DIRECT 配置。相同输入 hash 不等于不同机器上的浮点物理轨迹必然逐位相同，重新运行的结果应单独保留并说明机器环境。
 
+安装脚本使用 PyPI 获取普通依赖，并用 PyTorch CPU 的 torch 页面提供特定 wheel；不会修改锁定版本。这样避免 uv 的 first-index 规则让 PyTorch 索引中的旧普通包遮住 PyPI 上的锁定版本。此问题曾在新目录实装时出现，原失败与修复日志保留为搬迁验证证据。
+
+本次原冻结还包含五个 `src/panda_posture.egg-info/` 元数据文件。editable 安装会重新生成 `SOURCES.txt`；bootstrap 在存在 `experiments/study_pretest_freeze.json` 时，先验证这些文件符合原 hash，安装后恢复它们原来的字节，并在 `.bootstrap/metadata_audits/` 保存原始、再生版本及前后 hash。该步骤保持原冻结证据，不改科研源码、参数或依赖版本。交付包必须保留这五个文件，不能仅依 Git 忽略规则打包而漏掉它们。
+
 ## 3. 为相同冻结输入重绑路径
 
 以原工程根目录 `/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture` 为旧根，在新工程根目录运行：
@@ -50,7 +54,27 @@ env -u PYTHONPATH .venv/bin/python scripts/relocate_freeze.py \
 
 任何字节不一致都不能以“只是搬迁”为由绕过。缺文件时补齐交付包，环境/资产不一致时恢复锁定依赖；代码或参数确实需要修改时，应创建新的研究与输出，不能继续沿用同一冻结实验的结论。新清单和 parent snapshot 都拒绝覆盖；失败后若已有 parent snapshot，使用一个新的复现目录重试。
 
-## 4. 新建批量重评估结果
+## 4. 先做三模型的交付快速验证
+
+原目录使用：
+
+```bash
+env -u PYTHONPATH .venv/bin/python scripts/validate_delivery.py --index study_index.json
+```
+
+搬迁后使用新清单覆盖旧位置引用，不编辑原 study index：
+
+```bash
+env -u PYTHONPATH .venv/bin/python scripts/validate_delivery.py \
+  --index study_index.json \
+  --freeze experiments/reproduction_01/relocated_freeze.json
+```
+
+脚本先验证完整冻结输入及 index 的模型/参数对应关系，然后固定选取冻结 trainval manifest 中的第一个 validation 场景。三个模型各自加载、另存至新的实验目录、重载；在每个实际访问的 observation 上比较两模型的确定性 action，并通过共享仿真执行器运行一次物理轨迹。比较通过才记录 save/load 成功；任务碰撞、超差等失败照实保留并使快速验收非零退出，不改换更容易的场景。即使任务失败，也分别说明是正常执行后的策略失败还是模型加载/执行异常。
+
+输出为独立 `experiments/<UTC>_delivery_validation/`，包含 `status.json`、重载副本、逐模型验证结果、物理 summary 与 NPZ。其决策耗时包含双模型推理检查，不作正式 benchmark 速度证据。若 index 的 `evaluation` 尚为 null，仍可验证受训模型；这是 validation 功能检查，不能因此宣称 held-out test 已完成。若已有 evaluation 路径，仅核对该批次配置身份，不读取 test 性能或重新选模。
+
+## 5. 新建批量重评估结果
 
 以下命令从 relocated manifest 中读取**已冻结**的模型、参数和场景，不重新选 checkpoint、不调参，也不重新训练：
 
@@ -84,3 +108,13 @@ env -u PYTHONPATH .venv/bin/python -m panda_posture.analysis \
 所有提前失败仍在分母；`complete=false` 的中断批次不能作完整成功率统计。连续误差/平滑度只比较共同完成完整时域的场景；overall 配对 bootstrap 保留固定难度比例，三个训练 seed 的波动与场景区间分别报告。此命令使用既有受训模型重评估；若要重新训练三个 seed，应作为另一组实验记录，不能替换原 checkpoint 或声称新训练逐位重现旧权重。
 
 原始冻结清单、原始批量结果、新位置映射和新批量结果是不同证据。搬迁脚本只核验内容与位置，不执行模型、不读取 test 的性能来修改任何选择。
+
+## 6. 已实际执行的搬迁验收
+
+原目录快速验收保存在 `experiments/20261003T201415.503267Z_delivery_validation/`。随后复制冻结证据到全新的项目目录，独立安装 Python 3.11.17 与锁定依赖，完成 bootstrap、路径重绑和同一个快速验收入口；完整证据归档在 [relocation_verification](../experiments/20261003T202857.594683Z_relocation_verification/summary.json)。
+
+固定 validation 场景 `study-4410-0005` 上，seed 144、145、146 均完成 960 个物理步，每个模型的 240 次访问 observation 上保存前后确定性 action 完全一致。搬迁前后的全部物理状态与命令数组也逐位一致，最大关节差和命令差均为 0；耗时数组不纳入一致性声明。26 个冻结源码文件全部保持原 hash，三模型均通过原冻结输入核验。
+
+首次 bootstrap 因 uv 索引优先级失败，修复为 PyPI + Torch CPU 专属 find-links 后成功；editable 安装实际只再生了被冻结的 `SOURCES.txt`，自动元数据保护恢复原字节且保留审计。归档包含失败/成功日志、独立新环境路径与版本、metadata 原始/再生文件、parent/relocated manifest 和三个实际重跑 NPZ。交付验证相关 18 项边界测试通过。
+
+这证明了本机上新目录、新环境的可迁移安装与功能重现；不是另一种操作系统或不同硬件上的确定性保证，也不是额外 test 性能比较。

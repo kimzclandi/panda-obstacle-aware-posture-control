@@ -1,0 +1,37 @@
+{
+  "pages": 9,
+  "study_index": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/study_index.json",
+  "index_sha256": "64b5dffac1c5dee311437bbe17e5d3478e24fb9defbf9a77d7e0c09351f88898",
+  "episodes_sha256": "e88fd737a0d4a503402daa37412f7c1fd515be7e8026e4f383ba30e551029b51",
+  "pdf_sha256": "d490818c107b96098c190edf5a2a4348bbb0439e42db637eeb2aecc01dd11bba",
+  "generator_sha256": "0a51237c8147001af84d7810f76900ac3ef4e3fd639fee647a9ff5ede4f072ce",
+  "development_evidence": [
+    {
+      "path": "experiments/20261003T191423.707824Z_stage1_tracker/summary.json",
+      "sha256": "c10e6d3128ba1120b049f4508fcc57c0b44440d6de42df12dde4e12da4d310b2"
+    },
+    {
+      "path": "experiments/20261003T191423.707824Z_stage1_tracker/jacobian_check.json",
+      "sha256": "9cd01f58e66c5676c922d96a96a3d91a7658d255a519b2c1a1d19839f0430bbb"
+    },
+    {
+      "path": "experiments/20261003T194031.739736Z_reward_probe/summary.json",
+      "sha256": "cd23652dca1d2914ee3b9620a5fd1c370de0a2084eebe25fd13e95eb96d9358c"
+    },
+    {
+      "path": "experiments/20261003T194210.629028Z_study_scenes/generation_summary.json",
+      "sha256": "08b6daee81e69e711b5beb1e4ceef57d0597b88486f2a15a4529387953fb1c14"
+    }
+  ],
+  "video_evidence": [
+    {
+      "path": "deliverables/videos/case_1.json",
+      "sha256": "8c1bb75798085006e564783fb020b9b073d45efabd1dd2e766fae868c508b546"
+    },
+    {
+      "path": "deliverables/videos/case_2.json",
+      "sha256": "bbe9fc1a47daacd7ef48df5abec89be84616bc6acbee1c9342b8579c47e7d682"
+    }
+  ],
+  "visual_review": "passed: all 9 pages rendered with pdftoppm and visually inspected; no clipping, overlap or missing glyphs"
+}

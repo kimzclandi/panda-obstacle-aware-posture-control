@@ -69,7 +69,7 @@ SB3 的逐步 callback 在采样期间触发，先于该 rollout 的优化更新
 
 ## 5. 验证状态与后续验证
 
-新增九项风险测试实际通过（2026-10-04 本地，最新 4.30 s）：55 维特征及上一执行命令、参考时钟、物理执行不重置、终止/外部截断、超差永久锁存、初始碰撞拒绝、动作裁剪、逐物理步 reward、split ID/物理 hash 保护、SB3 环境检查、最后优化更新参与选模且未训练模型不可选，以及实际 32 步 PPO 训练后保存/加载的确定性动作逐位一致。一次测试可覆盖多个相关断言；32 步模型只为工程检查，不是训练结果。
+最初 pilot 风险测试实际通过（2026-10-04 本地，历史运行 4.30 s）：55 维特征及上一执行命令、参考时钟、物理执行不重置、终止/外部截断、超差永久锁存、初始碰撞拒绝、动作裁剪、逐物理步 reward、split ID/物理 hash 保护、SB3 环境检查、最后优化更新参与选模且未训练模型不可选，以及实际 32 步 PPO 训练后保存/加载的确定性动作逐位一致。一次测试可覆盖多个相关断言；32 步模型只为工程检查，不是训练结果。
 
 ```bash
 env -u PYTHONPATH PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/bin/python -m pytest tests/test_env.py -q
@@ -77,4 +77,4 @@ env -u PYTHONPATH .venv/bin/python -m panda_posture.train \
   --dataset experiments/<scene_run>/scenes.json --steps 8192 --seed 44 --eval-every 4096
 ```
 
-接下来须检查：真实球障碍场景的短训练是否运行完成、best/final 文件能否独立加载、吞吐与选模数据是否齐全、随机/零动作/振荡等诊断是否揭示 reward hacking。通过 pilot 不等于三 seed 正式训练、固定 held-out 测试或 RL 超越势场。
+截至2026-10-04，短训练与3seed各98,304步研究均已完成，best/final可独立加载，reward probes、冻结100场景测试及另目录重装验证通过。实际test为APF92%、PPO80%/81%/65%，没有RL超越势场的结论。完整证据见 progress.md；方法契约与上述pilot选择一致。

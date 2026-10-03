@@ -1,0 +1,143 @@
+Learning Obstacle-Aware Posture Control for a Redundant Robotic Arm
+
+NUS ME5418 - Machine Learning in Robotics<br/>Individual report draft | Group 44 | English edition
+
+Abstract
+
+A redundant arm can place its tool correctly while an intermediate link strikes an obstacle. This project therefore learns only the secondary posture motion, leaving a common analytic position tracker responsible for the prescribed path and clock. A fixed-base Franka Panda in PyBullet follows four-second smooth spatial lines around one known static sphere. A tracker-only controller, a validation-tuned full-body artificial potential field (APF), and three independently trained PPO policies share the same actuator interface and safety tests.
+
+The study uses 64 training, 24 validation and 100 held-out scenarios, each admitted only after a complete physical joint-motion witness and motor-command replay succeed. Each PPO seed receives 98,304 policy decisions. Test success is 70% for tracking alone, 92% for tuned APF, and 80%, 81%, 65% for PPO seeds 144, 145 and 146. No learned policy exceeded the tuned potential-field baseline on this fixed test set. These results concern the frozen witness-filtered distribution and limited training budget; they do not establish global feasibility, convergence, continuous-time safety or a benefit attributable specifically to future-reference features.
+
+1. Problem and motivation
+
+Tool-position accuracy is only one part of safe arm motion. Seven arm joints provide redundancy for a three-dimensional position task, allowing posture changes without intentionally changing the desired tool velocity. Near an obstacle, however, the remaining directions may be poorly aligned with a locally useful repulsion direction. A learned secondary policy might prepare posture earlier; a geometric controller may instead be more reliable when the model and obstacle are already known. The research question is whether learning improves complete-trajectory success over a tuned conventional alternative, and where either method fails.
+
+The scope deliberately excludes orientation tracking, vision, grasping, hardware and moving obstacles. The policy cannot alter the reference path, duration or clock. This controlled setting makes a negative learning result informative: it tests the added value of learned posture decisions after accurate tracking and usable geometry are already supplied.
+
+New work beyond the proposal comprises the physical execution engine, verified geometry/Jacobians, full-arm APF, witnessed datasets, Gymnasium task, checkpoint-selection safeguards, paired test analysis and motor-replay videos. The following sections describe measured engineering outcomes rather than a proposed experiment.
+
+2. Shared robot and control system
+
+Frames, shapes and execution
+
+The robot is the bundled Panda URDF with a fixed base. Joint and link names are discovered at load time: seven arm joints occupy indices 0-6, two finger joints 9 and 10, and the tool is the origin of panda_grasptarget, link 11. Fingers have fixed 0.02 m position targets and remain collision geometry. The movable model has nine degrees of freedom; the arm columns are selected from the full position Jacobian using the discovered DOF map.
+
+q is a seven-vector in rad; x and x_ref are world-frame tool positions in m. J is 3 x 7 in m/rad. The reference is x_ref(t) = x_0 + (10s^3 - 15s^4 + 6s^5) Delta_x, with s = t/4 clipped to [0,1]. Its analytic derivative supplies v_ref in m/s. This gives zero endpoint velocity and acceleration.
+
+qdot_raw = J_dls [v_ref + 8 (x_ref - x)] + N u_secondary<br/>J_dls = V_3 diag(sigma / (sigma^2 + 0.01^2)) U^T<br/>N = V_null V_null^T; u_secondary = 0.5 clip(a, -1, 1) rad/s<br/>V_3 is the first three columns of full V (7 x 3); U is 3 x 3.
+
+The primary inverse damps small singular values. The secondary projector uses the SVD numerical nullspace separately: I - J_dls J is generally not an exact nullspace projector. Commands are finally clipped to the shared 1 rad/s joint target limit and applied through URDF-limited velocity motors. The primary controller and Jacobian update at 240 Hz; the seven-vector secondary action updates at 60 Hz and is held over four physical steps. Every formal state transition calls stepSimulation. Resets are restricted to initialization or offline diagnostics.
+
+Verification and safety boundary
+
+Closest-point queries cover the base, arm links, hand and fingers. The explicit self-collision list checks 45 pairs and excludes 10 adjacent or rigidly connected structural pairs; a two-hop link pair can collide and is not excluded automatically. Positive collision and distance-gradient tests are included. Success checks the initial state and all 960 post-step states: error <= 20 mm, signed forbidden separation > 10 micrometres, and URDF joint limits within 1e-4 rad numerical tolerance. A violation is latched. No sampled collision result proves safety between simulation steps.
+
+3. Conventional and learned posture control
+
+Artificial potential field baseline
+
+The APF sums obstacle, optional self-collision and joint-limit velocity terms. For a closest-point pair, the world normal n points from object B to A; the distance derivative is n^T(J_A - J_B), with J_B = 0 for the static sphere. Inside an influence distance d_0, repulsion scales as k(1/d - 1/d_0)/d^2 times that derivative. The distance used in this coefficient is floored at 15 mm to regularize near-contact growth. A quadratic soft joint-limit term acts inside a 0.3 rad margin, with boundary gain 0.4 rad/s. The result is bounded through the same action interface as PPO. This is a local controller inspired by artificial-potential-field methods [1], not a safety certificate or a globally optimal planner.
+
+Twelve predeclared combinations were evaluated on all 24 validation scenes: obstacle gain {0.0001, 0.0004, 0.0016}, influence {0.08, 0.16} m and self gain {0, 0.00008}. Maximum full success selects the baseline; exact ties choose the earliest grid entry. Selected values are obstacle gain 0.0001, influence 0.08 m and self gain 0.0. Other terms remain fixed. This finite search is the tuning claim; it does not exhaust all possible conventional controllers.
+
+Observation and action
+
+The resulting 55-vector is float32: normalized clearance features clip to [-1,1], and the final vector clips to [-10,10], with no running normalization. World coordinates are used for spatial features, joint coordinates for joint features. Witnesses, controller labels and expert actions are absent. Geometry is available to APF and PPO through different deterministic representations. The action is a bounded seven-vector; no orientation or clock action exists. Fixed finger servos and unobserved solver state make the observation an engineering approximation to the simulator state.
+
+PPO uses SB3 [2,3]: separate tanh actor 55-64-64-7 and critic 55-64-64-1 MLPs, and a diagonal Gaussian with learned log standard deviations during training. Deterministic evaluation clips the mean action to the bounds. The clipped policy-ratio surrogate has value and entropy terms; clipping controls optimization, not robot safety. Gamma is applied per 60 Hz policy step, not per physics step.
+
+4. Reward, training and task semantics
+
+Reward is integrated over every physical step, including the four steps between policy decisions. With e = ||x_ref - x||_2 the scalar tool error, epsilon = 0.02 m, d the smaller self/obstacle clearance, m = 0.05 m and v_k the motor target, the rate is:
+
+r_k / dt = 1 - 2 min((e/epsilon)^2,1)<br/> - 2 clip((m-d)/m,0,1)^2<br/> - 0.1 min(mean(((v_k-v_(k-1))/v_max)^2),1).<br/>The mean follows elementwise squaring over the seven joints.
+
+Complete success adds 20; task failure subtracts 20 + 3.1 times the remaining reference seconds. The running rate is bounded between -3.1 and 1. For this four-second undiscounted task, success has a conservative return lower bound of 7.6 and failure an upper bound of -16. This reduces the obvious incentive to end early merely to avoid future running costs. It does not guarantee learning or eliminate all failures among suboptimal policies; PPO also uses discounted returns.
+
+A 24-episode validation probe compared zero, alternating extreme and fixed extreme secondary actions. Nine failures and fifteen successes retained their labels; failed returns did not exceed successful returns in this probe under either the implemented discount or the undiscounted sum. Oscillation reduced return on the five scenes completed by every probe, but one pair of failed trajectories differed by +0.00450 in undiscounted return in favor of oscillation. The probe is a diagnostic, not an exhaustive reward-hacking proof.
+
+Terminated and truncated
+
+Reaching the defined four-second horizon is task termination, as are collision, joint-limit or numerical failures. A tracking-tolerance violation permanently removes success eligibility but does not pause the clock. Only an external budget cutoff is truncation; it is unused in study training. Progress is observed so the finite horizon is represented explicitly. This distinction follows Gymnasium bootstrapping semantics [4]. Failed episodes remain in every fixed evaluation denominator.
+
+Step-zero validation is diagnostic and cannot win selection. The final optimizer update is evaluated explicitly because a step callback occurs before that rollout is optimized. Each chosen model is loaded into an independent environment and evaluated again; final-model save/load deterministic actions are required to match exactly. Training uses CPU PyTorch with one thread per independent process. The three study runs are concurrent independent learners, not distributed training. No GPU acceleration or convergence claim is made.
+
+5. Feasibility and experimental protocol
+
+A dynamic witness defines admissibility
+
+Candidate initial arm angles are perturbed by up to 0.25 rad around the base pose. Line displacement components are sampled from x in [0.05,0.13], y in [-0.11,0.11], z in [-0.065,0.07] m; duration is always four seconds. Sphere radii lie in [0.035,0.07] m. Offline geometry placement uses an intermediate surface on an unobstructed candidate motion. The prescribed surface-gap band is [0.035,0.07] m for simple layouts and [-0.018,0.008] m for tight layouts. These names denote generation strata, not guaranteed empirical difficulty.
+
+Initial forbidden contact is rejected and initial obstacle clearance must be at least 1 mm. Three bounded witness attempts are run: tracker, default APF, and one seeded constant random secondary command. Acceptance uses their union. One successful attempt is selected and its complete motor sequence is replayed through the same actuator dynamics, reference time, limits and tolerance. Discrete IK states alone are insufficient. Searches without a witness are labelled unverified feasible, not mathematically infeasible. The witness is never a training input or an imitation-learning target.
+
+The train/validation generator accepted 88 of 182 logged candidates: 85 were initially colliding, one failed the initial margin and eight remained unverified. Eight accepted scenes had only a random-secondary witness, two only a tracker witness and eight only an APF witness. This prevents acceptance from being equivalent to APF success, but the bounded union still creates selection bias. Claims therefore remain conditional on this generator and local initial-pose region.
+
+Physical configuration hashes exclude labels and seeds and reject duplicate tasks across splits. Before model selection, access to test-generation results is restricted to feasibility and file integrity; candidate witness outcomes do not feed back to tuning. After validation selects the models and parameters, a detailed integrity audit creates the pretest manifest binding dataset, witness evidence, scientific source files, numerical thresholds, selected APF parameters and three checkpoint hashes. The test entry point refuses mismatched inputs. Normalization never updates on test.
+
+The primary endpoint is complete-trajectory success, with all failures retained. Pairwise success effects use 10,000 matched bootstrap resamples; overall resampling stays within each difficulty and preserves the 50/50 mixture. This measures scenario-sampling uncertainty conditional on a fixed learned policy and the accepted distribution. Variation across three training seeds is reported separately. Continuous comparisons use only scenes that all compared policies physically completed for the full horizon, with the conditional sample size stated. They cannot replace the primary endpoint.
+
+6. Held-out results and training behavior
+
+No learned policy exceeded the tuned potential-field baseline on this fixed test set.
+
+Figure 1. Identical fixed test scenes, all failures retained. The two difficulty strata each contain 50 scenes. Counts are shown above bars; seed identifiers refer to independent training runs.
+
+Figure 2. Full validation success versus collected policy decisions. Circles occur during rollout collection before the current optimizer update; stars are the final updated model. Step zero is shown but excluded from selection. These are validation measurements, not smoothed training returns.
+
+The three-seed mean is 75.3%, with sample standard deviation 8.96 percentage points and range 65%-81%. This describes training-seed variability on the same 100 scenes; the outcomes are not 300 independent test scenarios. Checkpoints were chosen at 61,440 decisions (seed 144), 12,288 decisions (seed 145), 49,152 decisions (seed 146).
+
+7. Paired effects, accuracy and execution cost
+
+The intervals above are empirical percentile intervals from stratified paired scenario resampling, conditional on each trained policy. They are not confidence intervals over repeated training. Per-stratum Wilson intervals and all pairwise results are retained in the machine-readable analysis. The overall Wilson interval is labelled a descriptive approximation because the difficulty mixture is fixed.
+
+Conditional continuous comparison: 45 / 100 scenes completed for four seconds by every policy. This excludes early-terminated scenes from continuous averages while retaining them in success and collision rates. Completion does not itself imply success; no success-only filter is applied.
+
+*Mean per-episode integral of squared finite-difference command acceleration (rad^2/s^3); smaller is smoother on this shared subset. Min gap is the mean of per-episode minimum obstacle clearance. Saturation is the fraction of joint-step targets clipped. These conditional values do not demonstrate superior global performance.
+
+All timing entries are milliseconds: unweighted means of episode-level means over all 100 executed prefixes. Decision includes state/reference, geometric safety checks, Jacobian and primary control, plus amortized secondary computation. Secondary includes APF geometry/control or PPO feature construction and inference. Motor + physics includes finger/arm command submission and stepSimulation. Robot loading, rendering and disk writes are excluded. Prefix lengths differ, so these descriptive implementation costs are not paired speedup estimates or hard real-time guarantees.
+
+Measured per-seed learning wall times including callback validation: 13.47 min (144), 13.01 min (145), 13.45 min (146). These runs overlap; their sum is summed per-process wall time, neither elapsed study duration nor CPU process time. The study uses CPU simulation and does not claim a measured GPU benefit.
+
+8. Failure cases and interpretation
+
+Figure 3. Two fixed-test examples. Lines end at actual termination; a missing suffix is not zero error. Dashed lines mark the 0.01 mm obstacle-contact band. The 20 mm tracking tolerance is off the error-plot scale. Geometry curves show sphere clearance; safety checks also include self-collision and limits.
+
+<b>study-4490-0017</b> - APF succeeds; PPO 144 fails. Tracker: latched collision; executed 1.904 s; Tuned APF: success; executed 4.000 s; PPO 144: latched collision; executed 1.579 s.
+
+<b>study-4490-0069</b> - PPO 144 succeeds; APF fails. Tracker: latched collision; executed 2.325 s; Tuned APF: latched collision; executed 2.167 s; PPO 144: success; executed 4.000 s.
+
+Selection uses the first lexicographic scene in prespecified outcome categories and fixes PPO seed 144, rather than choosing the best test seed. These examples illustrate selected behavior; they do not estimate its frequency. The accompanying videos physically replay the recorded motor commands and verify the complete joint trajectory. Early failures freeze visibly at their failure time while other panes continue.
+
+Mechanism versus hypothesis
+
+PPO tight-layout success is 74%, 74% and 60%, above tracker-only at 42% but below APF at 84%. On simple layouts it achieves 86%, 88% and 70%, versus tracker 98% and APF 100%. Posture changes help some tight cases but introduce easy-case failures. Seed 146 has 32 collisions and three limit failures: all reach panda_joint6's 3.8223 rad upper bound while the unprojected secondary term remains +0.5 rad/s inside the final 0.3 rad margin.
+
+Across the 500 executed prefixes, the largest checked position error is 0.498 mm, below the 20 mm criterion; maximum projection leakage is 2.69e-16 m/s and final joint-target saturation is zero. No tracking-tolerance failure occurs. These diagnostics narrow the observed problem to collision/limit handling, rather than measured primary-task leakage or final velocity clipping. They do not describe the unexecuted suffixes of early failures.
+
+Failure in a witnessed scene means this policy did not realize a known feasible motion; it does not establish what PPO should learn within this budget. Projected repulsion alignment, closest-feature changes, limited scene diversity and competing clearance rewards are hypotheses for further study. No causal ablation, independently trained no-future-reference policy or longer-budget study on new held-out data isolates those explanations. Neither anticipation nor insufficient training is established as the sole cause.
+
+9. Lessons, limitations and reproducibility
+
+The engineering process changed the quality of the evidence more than adding model complexity. Name-based DOF mapping and finite differences prevented a tool/Jacobian mismatch. Explicit collision-pair handling was necessary because closest-point queries do not automatically inherit every filter choice. NaN failures needed explicit latching. The final-update callback boundary required an additional validation pass; a previous pilot was audited separately rather than silently rewriting history. These are concrete implementation lessons, not claims about unrecorded personal learning or other members' contributions.
+
+No learned policy exceeded the tuned potential-field baseline on this fixed test set. The defensible conclusion is restricted to known geometry, four-second local lines, one sphere, the specified witness filter, three seeds and the declared PPO/APF budgets. Learning has not been compared with a globally optimized planner, MPC or a broader APF search. Three seeds provide limited training-variance evidence; 100 fixed scenes provide limited conditional generalization evidence. A 240 Hz collision check does not prove continuous-time safety. Physics/model mismatch, orientation tasks, moving obstacles and hardware remain outside scope.
+
+Reproduction and next experiment
+
+The source package contains the pinned environment, training and evaluation entry points, all three functional checkpoints, selected APF parameters, scene IDs and dynamic witnesses, raw failures and trajectories, a pretest freeze manifest and regenerated analysis. README.md and docs/reproduction.md explain bootstrap, quick validation, full paired evaluation and path relocation. The report builder consumes a project-relative study index and refuses an incomplete 500-row batch. A future extension should be declared before observing a new test set: more diverse training scenes and a larger compute budget, followed by an independently trained future-reference ablation. Optional arcs are deferred to preserve the core comparison.
+
+External reuse includes PyBullet and its Panda asset, Gymnasium, SB3/PyTorch and scientific/reporting libraries; exact versions, licenses and notices are archived. Project-specific control integration, task semantics, scene/witness pipeline, analysis and verification are implemented here. The course permits AI assistance according to the user; no percentage of originality is asserted because the course counting rule remains unspecified. This draft does not invent separate group-member contributions. The submitting student should check identity details and add their own supported reflection before upload.
+
+References and evidence
+
+[1] O. Khatib (1986). Real-Time Obstacle Avoidance for Manipulators and Mobile Robots. International Journal of Robotics Research, 5(1), 90-98. <link href="https://khatib.stanford.edu/publications/pdfs/Khatib_1986_IJRR.pdf" color="#164e70">Author-hosted paper</link>.
+
+[2] J. Schulman, F. Wolski, P. Dhariwal, A. Radford and O. Klimov (2017). Proximal Policy Optimization Algorithms. arXiv:1707.06347. <link href="https://arxiv.org/abs/1707.06347" color="#164e70">Primary paper</link>.
+
+[3] Stable-Baselines3. PPO implementation documentation; installed version 2.9.0 is pinned in requirements.lock.txt. <link href="https://stable-baselines3.readthedocs.io/en/master/modules/ppo.html" color="#164e70">Official documentation</link> (accessed 4 October 2026).
+
+[4] Farama Foundation. Gymnasium: Handling Time Limits. <link href="https://gymnasium.farama.org/main/tutorials/handling_time_limits/" color="#164e70">Official documentation</link> (accessed 4 October 2026).
+
+[5] Bullet Physics / PyBullet bundled franka_panda model. Local URDF, geometry, joint metadata and asset hashes are recorded by the model and freeze manifests. Panda asset license: Apache-2.0; PyBullet: Zlib.
+
+[6] Project evidence: study_index.json; frozen protocol; training_summary.json for seeds 144-146; paired episodes.json; analysis/summary.json; source snapshots and immutable experiment folders. All numerical results above derive from these local records.

@@ -118,7 +118,9 @@ def figure_cases(cases, evaluation, out):
                 axes[0, column].set_ylabel('Obstacle clearance (mm)')
                 axes[1, column].set_ylabel('Position error (mm)')
         axes[0, column].axhline(.01, color='black', lw=.8, ls='--')
-        axes[1, column].axhline(20, color='black', lw=.8, ls='--')
+        axes[1, column].text(.97, .92, 'Tolerance = 20 mm (off scale)', transform=axes[1, column].transAxes,
+                             ha='right', va='top', fontsize=8,
+                             bbox=dict(facecolor='white', alpha=.85, edgecolor='none'))
         axes[0, column].set_title(sid, fontsize=10)
         axes[1, column].set_xlabel('Reference time (s)')
         for ax in axes[:, column]:
@@ -134,6 +136,7 @@ class Report:
     def __init__(self, output):
         for name, filename in [('Body', 'DejaVuSans.ttf'), ('Bold', 'DejaVuSans-Bold.ttf')]:
             pdfmetrics.registerFont(TTFont(name, '/usr/share/fonts/truetype/dejavu/'+filename))
+        pdfmetrics.registerFontFamily('Body', normal='Body', bold='Bold', italic='Body', boldItalic='Bold')
         self.styles = {
             'body': ParagraphStyle('body', fontName='Body', fontSize=9.7, leading=14.2, spaceAfter=8),
             'small': ParagraphStyle('small', fontName='Body', fontSize=8.1, leading=11.6, spaceAfter=6),
@@ -239,6 +242,28 @@ def main():
     figure_results(summary, figs/'success.png')
     figure_learning(runs, figs/'learning.png')
     cases = choose_cases(rows)
+    video_records = []
+    if len(idx.get('videos', [])) != len(cases):
+        raise ValueError('Both physically verified case videos must exist before the report')
+    for metadata_path, case in zip(idx['videos'], cases):
+        metadata_path = ROOT/metadata_path
+        meta = read(metadata_path)
+        video = metadata_path.with_suffix('.mp4')
+        if (meta['scenario_id'] != case['scenario_id'] or meta['ppo_seed'] != 144
+                or hashlib.sha256(video.read_bytes()).hexdigest() != meta['video_sha256']
+                or not all(p['physical_replay_verified'] and p['max_q_difference_rad'] <= p['q_tolerance_rad'] for p in meta['panes'])):
+            raise ValueError('Video does not verify the selected case')
+        video_records.append({'path': str(metadata_path.relative_to(ROOT)), 'sha256': hashlib.sha256(metadata_path.read_bytes()).hexdigest()})
+    evidence_paths = [ROOT/idx['development_evidence']['stage1']/'summary.json',
+                      ROOT/idx['development_evidence']['stage1']/'jacobian_check.json',
+                      ROOT/idx['development_evidence']['reward_probe']/'summary.json',
+                      (ROOT/idx['trainval']).parent/'generation_summary.json']
+    stage1, jacobian, probe, generation = [read(path) for path in evidence_paths]
+    if (not np.isclose(stage1['max_position_error_m'], 0.00002359655, rtol=1e-5)
+            or not np.isclose(max(c['max_abs_error_m_per_rad'] for c in jacobian['cases']), 6.34601e-5, rtol=1e-5)
+            or probe['n_episodes'] != 24 or probe['n_successful_probe_episodes'] != 15
+            or generation['accepted'] != 88 or generation['candidate_records'] != 182):
+        raise ValueError('Development evidence differs from this study report; update narrative explicitly')
     figure_cases(cases, evaluation, figs/'cases.png')
     write_json(args.out/'example_selection.json', {'rule': 'First lexicographic scene in each prespecified outcome category; seed 144 fixed, not best-test-seed selection', 'cases': cases})
     report = Report(args.out/'final_report_en.pdf')
@@ -277,12 +302,12 @@ def main():
     report.table(['Observation block', 'Dimensions and fixed normalization'], [
         ['Joint state', 'q: 7, centered/scaled by URDF limits; qdot: 7, divided by shared speed bounds.'],
         ['Current task / clock', 'Position error: 3 / 0.02 m; v_ref: 3 / 0.2 m/s; progress: 1, t/4.'],
-        ['Future reference', 'Three world-frame future tool displacements at +0.25, +0.5, +1.0 s: 9 / 0.25 m; endpoint clamped.'],
+        ['Future reference', 'xref(t+h)-x(t) at h = 0.25, 0.5, 1.0 s in world frame: 9 / 0.25 m; endpoint clamped.'],
         ['Sphere and command memory', 'Center: 3 / 1 m; radius: 1 / 0.2 m; presence: 1; last applied motor target: 7 / speed bounds.'],
         ['Geometry', 'Minimum self and sphere clearance: 2 / 0.1 and 0.2 m; eleven per-link sphere clearances: 11 / 0.2 m.'],
     ], [50,124])
-    report.p('The resulting 55-vector is float32 with fixed clipping, not running normalization. World coordinates are used consistently; joint features use joint coordinates. Witnesses, controller labels and expert actions are absent. Geometry is available to both APF and PPO, although each computes a different deterministic feature representation. The learned action is a bounded seven-vector; no orientation or clock action exists. This observation approximates the simulation state: fixed finger servos and unobserved solver state preclude a claim of an exact minimal Markov state.', 'small')
-    report.p('PPO uses the SB3 implementation [2,3], separate two-layer 64-unit tanh actor/value MLPs and a diagonal Gaussian policy during training. Deterministic evaluation uses its mean action, clipped to the environment bounds. It optimizes a clipped policy-ratio surrogate with value and entropy terms; clipping is an optimization device, not a robot-safety constraint.')
+    report.p('The resulting 55-vector is float32: normalized clearance features clip to [-1,1], and the final vector clips to [-10,10], with no running normalization. World coordinates are used for spatial features, joint coordinates for joint features. Witnesses, controller labels and expert actions are absent. Geometry is available to APF and PPO through different deterministic representations. The action is a bounded seven-vector; no orientation or clock action exists. Fixed finger servos and unobserved solver state make the observation an engineering approximation to the simulator state.', 'small')
+    report.p('PPO uses SB3 [2,3]: separate tanh actor 55-64-64-7 and critic 55-64-64-1 MLPs, and a diagonal Gaussian with learned log standard deviations during training. Deterministic evaluation clips the mean action to the bounds. The clipped policy-ratio surrogate has value and entropy terms; clipping controls optimization, not robot safety. Gamma is applied per 60 Hz policy step, not per physics step.')
 
     report.page('4. Reward, training and task semantics')
     report.p('Reward is integrated over every physical step, including the four steps between policy decisions. With e = ||x_ref - x||_2 the scalar tool error, epsilon = 0.02 m, d the smaller self/obstacle clearance, m = 0.05 m and v_k the motor target, the rate is:', 'body')
@@ -355,7 +380,7 @@ def main():
 
     report.page('8. Failure cases and interpretation')
     report.image(figs/'cases.png')
-    report.p('Figure 3. Two deterministic outcome examples from the fixed test batch. Lines end at actual termination; a missing suffix is not zero error. Dashed lines indicate the 0.01 mm conservative obstacle-contact band and 20 mm tracking tolerance. The displayed geometry is obstacle clearance; all safety checks also include self-collision and limits.', 'small')
+    report.p('Figure 3. Two fixed-test examples. Lines end at actual termination; a missing suffix is not zero error. Dashed lines mark the 0.01 mm obstacle-contact band. The 20 mm tracking tolerance is off the error-plot scale. Geometry curves show sphere clearance; safety checks also include self-collision and limits.', 'small')
     for case in cases:
         sid=case['scenario_id']
         descriptions=[]
@@ -363,10 +388,11 @@ def main():
             row=next(r for r in rows if r['scenario_id']==sid and key(r)==k)
             descriptions.append(f"{label(k)}: {'success' if row['success'] else 'latched '+', '.join(row['failure_reasons'])}; executed {row['completed_duration_s']:.3f} s")
         report.p(f'<b>{sid}</b> - {escape(case["category"])}. '+escape('; '.join(descriptions))+'.', 'small')
-    report.p('Selection uses the first lexicographic scene in prespecified outcome categories and fixes PPO seed 144, rather than choosing the best test seed. These examples illustrate observed disagreement; they do not estimate its frequency. The accompanying videos physically replay the recorded motor commands and verify the complete joint trajectory. Early failures freeze visibly at their failure time while other panes continue.')
+    report.p('Selection uses the first lexicographic scene in prespecified outcome categories and fixes PPO seed 144, rather than choosing the best test seed. These examples illustrate selected behavior; they do not estimate its frequency. The accompanying videos physically replay the recorded motor commands and verify the complete joint trajectory. Early failures freeze visibly at their failure time while other panes continue.')
     report.p('Mechanism versus hypothesis', 'h2')
-    report.p('APF behavior is explained locally by geometric distance gradients, their projection into available redundant directions, and command limits. PPO can learn state-dependent posture changes but is trained on only 64 distinct scene configurations. When a learned policy collides despite a valid witness, the task was dynamically feasible under the shared contract; the observed policy simply did not realize a safe motion. A witness does not reveal whether PPO should have discovered it within this budget.')
-    report.p('Poor alignment of the projected repulsion direction, abrupt closest-feature changes, limited experience near rare tight layouts and reward competition from self-clearance are plausible failure mechanisms. The stored trajectories permit inspection, but the current study does not isolate their causal contributions. There is no separately trained no-future-reference policy and no longer-budget learning curve on a new held-out set, so neither anticipation nor insufficient training can be claimed as the sole cause of a result.')
+    report.p('PPO tight-layout success is 74%, 74% and 60%, above tracker-only at 42% but below APF at 84%. On simple layouts it achieves 86%, 88% and 70%, versus tracker 98% and APF 100%. Posture changes help some tight cases but introduce easy-case failures. Seed 146 has 32 collisions and three limit failures: all reach panda_joint6\'s 3.8223 rad upper bound while the unprojected secondary term remains +0.5 rad/s inside the final 0.3 rad margin.')
+    report.p('Across the 500 executed prefixes, the largest checked position error is 0.498 mm, below the 20 mm criterion; maximum projection leakage is 2.69e-16 m/s and final joint-target saturation is zero. No tracking-tolerance failure occurs. These diagnostics narrow the observed problem to collision/limit handling, rather than measured primary-task leakage or final velocity clipping. They do not describe the unexecuted suffixes of early failures.', 'small')
+    report.p('Failure in a witnessed scene means this policy did not realize a known feasible motion; it does not establish what PPO should learn within this budget. Projected repulsion alignment, closest-feature changes, limited scene diversity and competing clearance rewards are hypotheses for further study. No causal ablation, independently trained no-future-reference policy or longer-budget study on new held-out data isolates those explanations. Neither anticipation nor insufficient training is established as the sole cause.')
 
     report.page('9. Lessons, limitations and reproducibility')
     report.p('The engineering process changed the quality of the evidence more than adding model complexity. Name-based DOF mapping and finite differences prevented a tool/Jacobian mismatch. Explicit collision-pair handling was necessary because closest-point queries do not automatically inherit every filter choice. NaN failures needed explicit latching. The final-update callback boundary required an additional validation pass; a previous pilot was audited separately rather than silently rewriting history. These are concrete implementation lessons, not claims about unrecorded personal learning or other members\' contributions.')
@@ -386,12 +412,15 @@ def main():
     for ref in refs:
         report.p(ref,'small')
     n=report.build()
+    (args.out/'input_study_index.json').write_bytes(args.index.read_bytes())
     (args.out/'report_text_en.txt').write_text('\n\n'.join(report.text_pages)+'\n')
     write_json(args.out/'report_provenance.json',{'pages':n,'study_index':str(args.index.resolve()),
         'index_sha256':hashlib.sha256(args.index.read_bytes()).hexdigest(),
         'episodes_sha256':hashlib.sha256((evaluation/'episodes.json').read_bytes()).hexdigest(),
         'pdf_sha256':hashlib.sha256(report.output.read_bytes()).hexdigest(),
         'generator_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'development_evidence':[{'path':str(p.relative_to(ROOT)), 'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in evidence_paths],
+        'video_evidence':video_records,
         'visual_review':'pending; render and inspect every page before delivery'})
     print(report.output)
 

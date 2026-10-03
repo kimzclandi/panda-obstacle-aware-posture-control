@@ -1,0 +1,13 @@
+{
+  "rule": "First lexicographic scene in each prespecified outcome category; seed 144 fixed, not best-test-seed selection",
+  "cases": [
+    {
+      "scenario_id": "study-4490-0017",
+      "category": "APF succeeds; PPO 144 fails"
+    },
+    {
+      "scenario_id": "study-4490-0069",
+      "category": "PPO 144 succeeds; APF fails"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "status": "completed bounded frozen study; 500 held-out episodes",
+  "trainval": "experiments/20261003T194210.629028Z_study_scenes/scenes.json",
+  "test": "experiments/20261003T194217.720814Z_study_scenes/scenes.json",
+  "potential": "experiments/20261003T195747.519524Z_potential_validation_tuning/selected.json",
+  "training": {
+    "144": "experiments/20261003T195813.023303Z_ppo_study_seed144",
+    "145": "experiments/20261003T195813.017181Z_ppo_study_seed145",
+    "146": "experiments/20261003T195813.082516Z_ppo_study_seed146"
+  },
+  "freeze": "experiments/study_pretest_freeze.json",
+  "evaluation": "experiments/20261003T201319.444915Z_paired_evaluation",
+  "videos": [
+    "deliverables/videos/case_1.json",
+    "deliverables/videos/case_2.json"
+  ],
+  "development_evidence": {
+    "stage1": "experiments/20261003T191423.707824Z_stage1_tracker",
+    "reward_probe": "experiments/20261003T194031.739736Z_reward_probe"
+  },
+  "report": "deliverables/report_en",
+  "demo": "deliverables/videos/final_demo_en.mp4",
+  "interpretation": "deliverables/interpretation_zh.md",
+  "delivery_validation": "experiments/20261003T201415.503267Z_delivery_validation",
+  "relocation_verification": "experiments/20261003T202857.594683Z_relocation_verification"
+}

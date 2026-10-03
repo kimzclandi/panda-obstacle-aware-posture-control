@@ -1,0 +1,79 @@
+{
+  "reviewed_utc": "2026-10-03T20:28:01.800906+00:00",
+  "status": "passed",
+  "video": "deliverables/videos/final_demo_en.mp4",
+  "video_sha256": "b8296db3300d2dd984493af51e83fa11ea549d3784634d33245c6fe343d2f878",
+  "decoded_frame_count": 1140,
+  "fps": 30,
+  "duration_s": 38.0,
+  "resolution": [
+    1536,
+    722
+  ],
+  "review_scope": "All eight segments sampled from the decoded final MP4; all 1140 frames decoded and counted. This is sampled visual QA, not a claim of watching every frame.",
+  "checks": {
+    "text_readable_without_overlap_or_clipping": true,
+    "all_three_seed_results_and_failure_denominators_visible": true,
+    "case_labels_match_physical_replay_outcomes": true,
+    "failed_panes_show_first_failure_time_and_frozen_status": true,
+    "complete_panes_end_at_reference_time_4_seconds": true,
+    "original_clip_frame_count_and_native_fps_preserved": true,
+    "six_physical_replay_panes_verified": true,
+    "maximum_joint_replay_difference_rad": 0.0
+  },
+  "visual_notes": [
+    "Title, method, results and limitations cards are readable and uncropped.",
+    "Case 1 sphere is partly occluded by arm geometry from the fixed camera in some panes; outcomes are explicitly labeled and the camera/scene are not altered.",
+    "Both case end frames visibly distinguish frozen collision failures from completed safe trajectories."
+  ],
+  "reviewed_samples": [
+    {
+      "name": "title",
+      "frame_index": 30,
+      "time_s": 1.0,
+      "png_sha256": "56140138691e1c1965580afca9ef9761c08a8aeac7803d356898b0e3e91604f6"
+    },
+    {
+      "name": "method",
+      "frame_index": 150,
+      "time_s": 5.0,
+      "png_sha256": "4eea082614195f50626f3ad951b82e170ef0e6c9aafe2f7a10f713d8b92004c7"
+    },
+    {
+      "name": "case_1_title",
+      "frame_index": 330,
+      "time_s": 11.0,
+      "png_sha256": "86bc69ac3ebc583cb24c714be4a6379ac882f6c6b912eacac344f2c6820d1b1d"
+    },
+    {
+      "name": "case_1_last_frame",
+      "frame_index": 479,
+      "time_s": 15.966666666666667,
+      "png_sha256": "dba79ea7a2b11141d023391ee913da3cc7b6972ad050fa6aa1a333fcf817f51a"
+    },
+    {
+      "name": "case_2_title",
+      "frame_index": 510,
+      "time_s": 17.0,
+      "png_sha256": "262664d05678acab7d128c63de785a1401480561701dea4a48f656768a5f59dc"
+    },
+    {
+      "name": "case_2_last_frame",
+      "frame_index": 659,
+      "time_s": 21.966666666666665,
+      "png_sha256": "5931a35975f6ba930ee763020ba4ad65cccc5ae04df1cbe54290b670a9568382"
+    },
+    {
+      "name": "results",
+      "frame_index": 720,
+      "time_s": 24.0,
+      "png_sha256": "e71c9892eb0e96ee525d3fe43e2ca0e729f16a28e973006b4d4e3f25ef040240"
+    },
+    {
+      "name": "limitations",
+      "frame_index": 1050,
+      "time_s": 35.0,
+      "png_sha256": "26fc2cb1327bee55e56568bda4c72a18cae407d30aea651852c0efaa9f6f87ba"
+    }
+  ]
+}
