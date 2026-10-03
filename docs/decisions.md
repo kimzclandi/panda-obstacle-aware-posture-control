@@ -133,3 +133,8 @@ History 同时记录阶段与 optimizer epochs；最终模型保存/加载检查
 本研究的场景分布、三类数量、物理步长/时域/容差、PPO observation/reward/网络与训练预算已预先声明；APF 已由 validation 选定。它们不能依据 test 表现再调整后继续沿用同一 held-out 声称。阶段 1–4 的有界研究与交付材料已完成；弧线、无未来参考独立训练消融、更长训练和跨机器复现未执行。
 
 已完成：三个 study run、最终选模/独立验证、正式 pretest freeze、500 回合 test、分析、9 页英文报告、中文解读、38 秒视频、失败分析、答辩材料与新环境搬迁验证。最终 ZIP 的实际发布以压缩包和 receipt 为准；未自动上传 Canvas。课程要求见 [course_requirements.md](course_requirements.md)：用户确认截止 2026-11-20 23:59（Canvas 显示时区未核验），完整 rubric、视频细节和原创比例口径仍待材料确认，不以工程选择替代。
+
+
+## D019：Git 源码与完整实验 Release 分开发布
+
+用户要求上传到 GitHub；账号经 GitHub 连接器核验为 `kimzclandi`。新建 `panda-obstacle-aware-posture-control` 私有仓库，保留现有 Git 历史，不自动授权外部协作者。Git 保存源码、配置、文档和现有报告/视频；忽略环境及大体积原始实验。完整 716,482,807 字节 ZIP 用作 Release 附件，SHA-256 为 `52c9a77d28a992bc1e03ba0465d47bcce1f4d3a55c7ff8e63c7af3e14b85958b`，其内容与提交 `62d74a5` 对应，保留模型、全部失败与冻结元数据。README 明确 clone 与完整复现包的区别；不把只有代码的 checkout 宣称为具备冻结复评所需数据。发布文档变化不修改已冻结源码、配置、权重或原始 ZIP。实际上传成功与远程核验结果另记发布 receipt。

@@ -1,5 +1,9 @@
 # Learning Obstacle-Aware Posture Control for a Redundant Robotic Arm
 
+> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.0.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 下载完整 `ME5418_Group44_submission_20261004.zip`，核对 `SHA256SUMS`，解压后按 [搬迁复现流程](docs/reproduction.md) 建环境并重绑 freeze 路径。以下指向 `experiments/` 的链接在完整 ZIP 内有效，在 GitHub 代码浏览页中不可用。
+>
+> The Git repository contains source code and presentation deliverables. **Pretrained checkpoints and the immutable experimental evidence are in the full Release ZIP.** A source-only clone can run the basic diagnostics/tests after bootstrap; frozen model validation requires the complete archive and the relocation procedure. The archive records code commit `62d74a5`; subsequent publication documentation does not change the frozen scientific inputs.
+
 NUS ME5418 Group 44。**工程、三 seed 研究训练、固定 500 回合 test、报告、视频及搬迁验证均已完成。** 三个 PPO seed 各训练 98,304 policy steps；train 64、validation 24、test 100 场景全部有物理 witness。调优 APF 在相同 100 个 test 场景成功 92 次，高于 PPO 的 80、81、65 次；本次实验没有支持 RL 超过 APF。更新于 2026-10-04。
 
 ## Start here
