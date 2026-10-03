@@ -1,0 +1,19 @@
+{
+  "seed": 44,
+  "scenario_id": "development-line-000",
+  "dt": 0.004166666666666667,
+  "duration": 4.0,
+  "q_initial": [0.0, -0.45, 0.0, -2.25, 0.0, 1.85, 0.75],
+  "finger_position": 0.02,
+  "displacement": [0.06, 0.045, 0.025],
+  "kp": 8.0,
+  "damping": 0.01,
+  "svd_rcond": 0.000001,
+  "secondary_speed_limit": 0.5,
+  "arm_speed_limit": 1.0,
+  "tracking_tolerance": 0.02,
+  "joint_limit_tolerance": 0.0001,
+  "collision_distance_threshold": 0.00001,
+  "solver_iterations": 100,
+  "gravity": [0.0, 0.0, -9.81]
+}

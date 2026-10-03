@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "panda-posture"
+version = "0.1.0"
+description = "ME5418 reproducible obstacle-aware posture-control experiments"
+requires-python = ">=3.11,<3.12"
+dependencies = ["pybullet", "numpy", "scipy", "matplotlib", "gymnasium"]
+
+[project.optional-dependencies]
+rl = ["stable-baselines3", "torch"]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "pybullet_version": "3.2.7",
+  "collision_links_include_base": true,
+  "exclusions": [
+    {
+      "links": [
+        "panda_link0",
+        "panda_link1"
+      ],
+      "reason": "Direct kinematic neighbors: connected joint volumes intentionally overlap; verified at home."
+    },
+    {
+      "links": [
+        "panda_link1",
+        "panda_link2"
+      ],
+      "reason": "Direct kinematic neighbors: connected joint volumes intentionally overlap; verified at home."
+    },
+    {
+      "links": [
+        "panda_link2",
+        "panda_link3"
+      ],
+      "reason": "Direct kinematic neighbors: connected joint volumes intentionally overlap; verified at home."
+    },
+    {
+      "links": [
+        "panda_link3",
+        "panda_link4"
+      ],
+      "reason": "Direct kinematic neighbors: connected joint volumes intentionally overlap; verified at home."
+    },
+    {
+      "links": [
+        "panda_link4",
+        "panda_link5"
+      ],
+      "reason": "Direct kinematic neighbors: connected joint volumes intentionally overlap; verified at home."
+    },
+    {
+      "links": [
+        "panda_link5",
+        "panda_link6"
+      ],
+      "reason": "Direct kinematic neighbors: connected joint volumes intentionally overlap; verified at home."
+    },
+    {
+      "links": [
+        "panda_link6",
+        "panda_link7"
+      ],
+      "reason": "Direct kinematic neighbors: connected joint volumes intentionally overlap; verified at home."
+    },
+    {
+      "links": [
+        "panda_link7",
+        "panda_hand"
+      ],
+      "reason": "One rigid assembly across collisionless panda_link8 and two fixed joints; mesh overlap is structural."
+    },
+    {
+      "links": [
+        "panda_hand",
+        "panda_leftfinger"
+      ],
+      "reason": "Direct parent-child prismatic guide attachment; intentional structural overlap."
+    },
+    {
+      "links": [
+        "panda_hand",
+        "panda_rightfinger"
+      ],
+      "reason": "Direct parent-child prismatic guide attachment; intentional structural overlap."
+    }
+  ],
+  "no_geometry_links": [
+    "panda_link8",
+    "panda_grasptarget"
+  ],
+  "left_right_fingers_checked": true,
+  "retain_all_other_pairs": true,
+  "expected_geometry_link_count": 11,
+  "expected_candidate_pair_count": 55,
+  "expected_excluded_pair_count": 10,
+  "expected_checked_pair_count": 45
+}
