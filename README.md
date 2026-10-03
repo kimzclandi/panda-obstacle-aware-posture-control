@@ -1,10 +1,10 @@
 # Learning Obstacle-Aware Posture Control for a Redundant Robotic Arm
 
-> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.0.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 下载完整 `ME5418_Group44_submission_20261004.zip`，核对 `SHA256SUMS`，解压后按 [搬迁复现流程](docs/reproduction.md) 建环境并重绑 freeze 路径。以下指向 `experiments/` 的链接在完整 ZIP 内有效，在 GitHub 代码浏览页中不可用。
+> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.0.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 下载完整复现 ZIP，核对 `SHA256SUMS`，解压后按 [搬迁复现流程](docs/reproduction.md) 建环境并重绑 freeze 路径。以下指向 `experiments/` 的链接在完整 ZIP 内有效，在 GitHub 代码浏览页中不可用。
 >
 > The Git repository contains source code and presentation deliverables. **Pretrained checkpoints and the immutable experimental evidence are in the full Release ZIP.** A source-only clone can run the basic diagnostics/tests after bootstrap; frozen model validation requires the complete archive and the relocation procedure. The archive records code commit `62d74a5`; subsequent publication documentation does not change the frozen scientific inputs.
 
-NUS ME5418 Group 44。**工程、三 seed 研究训练、固定 500 回合 test、报告、视频及搬迁验证均已完成。** 三个 PPO seed 各训练 98,304 policy steps；train 64、validation 24、test 100 场景全部有物理 witness。调优 APF 在相同 100 个 test 场景成功 92 次，高于 PPO 的 80、81、65 次；本次实验没有支持 RL 超过 APF。更新于 2026-10-04。
+**工程、三 seed 研究训练、固定 500 回合 test、报告、视频及搬迁验证均已完成。** 三个 PPO seed 各训练 98,304 policy steps；train 64、validation 24、test 100 场景全部有物理 witness。调优 APF 在相同 100 个 test 场景成功 92 次，高于 PPO 的 80、81、65 次；本次实验没有支持 RL 超过 APF。更新于 2026-10-04。
 
 ## Start here
 
@@ -25,7 +25,7 @@ NUS ME5418 Group 44。**工程、三 seed 研究训练、固定 500 回合 test�
 
 完整成功要求：初始态和每个物理步后均满足位置误差容差、无禁止碰撞、无关节限位违反。超差永久锁存；后来恢复不能重新成功。碰撞、限位和数值失效终止任务；跟踪超差不暂停参考时钟。失败保留在分母；连续指标的共同完成场景比较另报条件样本数。240 Hz 离散检查不证明步间连续安全。
 
-[项目规格](docs/project_spec.md)、[课程要求](docs/course_requirements.md)、[实验进度](docs/progress.md)、[决策记录](docs/decisions.md)、[学习笔记](docs/learning_notes.md)。用户确认截止 **2026-11-20 23:59**，目前独自推进，老师允许完整 AI 辅助；Canvas 时区、完整 rubric 与原创比例计量口径仍需课程材料确认。
+[项目规格](docs/project_spec.md)、[实验进度](docs/progress.md)、[决策记录](docs/decisions.md)、[学习笔记](docs/learning_notes.md)。
 
 ## 环境与基础验收
 
@@ -198,4 +198,4 @@ Study 物理/主跟踪为 **240 Hz**，三组次级控制统一 **60 Hz**（`act
 
 Witness 筛选是 tracker、默认 APF 与一个随机常量次级候选的有限并集；它证明接受场景存在一条在本契约下成功的实际运动，但存在筛选偏差，也不证明搜索失败场景不可行。最终结论只针对这种已冻结的 witness-filtered 分布与有限训练预算。失败短前缀与完整轨迹不混合宣称更小误差或更平滑；三训练 seed 波动和配对测试场景采样不确定性分别报告。
 
-复用库、Panda 资产和许可证见 [attribution.md](docs/attribution.md) 与 `docs/third_party/`。允许 AI 辅助不等于已证实“至少 50% 原创代码”计量要求；不靠代码行数或 AI 生成比例宣称满足，也不虚构成员贡献。
+复用库、Panda 资产和许可证见 [attribution.md](docs/attribution.md) 与 `docs/third_party/`。
