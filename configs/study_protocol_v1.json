@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "status": "predeclared_before_study_generation_training_and_test",
+  "reason": "Bounded empirical study following engineering pilot; no claim of PPO optimality or convergence.",
+  "scene_generation": {
+    "train": 64,
+    "validation": 24,
+    "test": 100,
+    "train_validation_generator_seed": 4410,
+    "test_generator_seed": 4490,
+    "initial_clearance_floor_m": 0.001,
+    "candidate_budget_per_job": 800,
+    "witness_methods": [
+      "tracker",
+      "default_potential",
+      "seeded_constant_secondary"
+    ],
+    "difficulty": "prespecified sampled-motion surface-gap strata; not empirical controller success",
+    "trajectory": "4s quintic line",
+    "physics_hz": 240,
+    "policy_hz": 60
+  },
+  "training": {
+    "seeds": [
+      144,
+      145,
+      146
+    ],
+    "policy_steps_each": 98304,
+    "validation_every_steps": 12288,
+    "ppo_config": "same architecture, hyperparameters and reward as validated pilot"
+  },
+  "potential_tuning": {
+    "grid": "same 12 combinations as pilot, evaluated only on new validation",
+    "selection": "max full-trajectory success count, earliest prespecified grid index tie"
+  },
+  "model_selection": "max validation success, min collision, max full completion, earliest checkpoint tie; trained checkpoints only; final optimizer update evaluated",
+  "freeze_before_test": [
+    "scene manifests and hashes",
+    "physics and numerical thresholds",
+    "baseline parameters",
+    "selected model file hashes",
+    "model-selection rule",
+    "metrics and analysis code version"
+  ],
+  "test": "100 identical fixed scenes for tracker, tuned potential and each of 3 independently trained PPO seeds; no normalization updates or tuning",
+  "budget_estimate": {
+    "pilot_policy_steps_per_s": 187.4,
+    "pure_training_minutes_3seeds": 26.23,
+    "validation_and_load_minutes_estimate": 12,
+    "note": "This is a bounded roughly 40-minute training+validation study, not three million-step several-hour training; generation/test/report are separate. No convergence guarantee."
+  },
+  "claim_limits": [
+    "Results conditional on witness-filtered generator",
+    "No isolated future-reference attribution",
+    "Negative RL result acceptable",
+    "All failures remain in denominator"
+  ]
+}

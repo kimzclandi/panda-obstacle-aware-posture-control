@@ -101,6 +101,83 @@ class Panda:
         self.hold_fingers()
         p.stepSimulation(physicsClientId=self.client)
 
+    def link_frame(self, link):
+        """Return URDF link origin and rotation in world coordinates.
+
+        Reconstruct from Bullet's double-precision COM pose instead of the
+        float32 world-link pose. This matters for diagnostic finite differences.
+        """
+        if link == -1:
+            position, rotation = p.getBasePositionAndOrientation(
+                self.body, physicsClientId=self.client)
+            inertial = p.getDynamicsInfo(self.body, -1, physicsClientId=self.client)
+            local_position, local_rotation = inertial[3:5]
+        else:
+            state = p.getLinkState(self.body, link, computeForwardKinematics=True,
+                                   physicsClientId=self.client)
+            position, rotation, local_position, local_rotation = state[:4]
+        world_com_rotation = np.asarray(p.getMatrixFromQuaternion(rotation)).reshape(3, 3)
+        local_com_rotation = np.asarray(p.getMatrixFromQuaternion(local_rotation)).reshape(3, 3)
+        world_link_rotation = world_com_rotation @ local_com_rotation.T
+        world_link_position = np.asarray(position) - world_link_rotation @ local_position
+        return world_link_position, world_link_rotation
+
+    def point_jacobian(self, link, world_point):
+        """World linear Jacobian (3,7) [m/rad] for a material point on link.
+
+        calculateJacobian's point is measured from the URDF link origin, not
+        from its COM. The bundled Panda has identity local inertial rotations;
+        inertial orientation is handled explicitly as in Bullet's example.
+        The fixed base has zero arm-joint Jacobian. No state resets are used.
+        """
+        point = np.asarray(world_point, dtype=float)
+        if point.shape != (3,) or not np.all(np.isfinite(point)):
+            raise ValueError('World point must be finite with shape (3,)')
+        if link not in self.link_names:
+            raise ValueError('Unknown link')
+        if link == -1:
+            return np.zeros((3, 7))
+        origin, rotation = self.link_frame(link)
+        local = rotation.T @ (point - origin)
+        inertial_rotation = p.getDynamicsInfo(
+            self.body, link, physicsClientId=self.client)[4]
+        inertial_matrix = np.asarray(p.getMatrixFromQuaternion(inertial_rotation)).reshape(3, 3)
+        return self.jacobian(link, inertial_matrix.T @ local)
+
+    def obstacle_closest_points(self, query_distance=0.5):
+        """One closest Bullet contact tuple per collision-bearing link.
+
+        Tuple entries: [5]/[6] world points A/B, [7] world normal B toward A,
+        [8] signed separation [m]. Missing links are outside the query radius.
+        """
+        if not np.isfinite(query_distance) or query_distance <= 0:
+            raise ValueError('Query distance must be finite and positive')
+        if self.obstacle is None:
+            return {}
+        closest = {}
+        for point in p.getClosestPoints(self.body, self.obstacle, query_distance,
+                                       physicsClientId=self.client):
+            link = point[3]
+            if link not in closest or point[8] < closest[link][8]:
+                closest[link] = point
+        return closest
+
+    def self_closest_points(self, query_distance=0.06):
+        """Closest point of each permitted self pair inside query_distance.
+
+        Explicit self_pairs preserve the reviewed collision exclusion policy.
+        Jacobians need only be calculated for pairs returned by this query.
+        """
+        if not np.isfinite(query_distance) or query_distance <= 0:
+            raise ValueError('Query distance must be finite and positive')
+        closest = {}
+        for a, b in self.self_pairs:
+            points = p.getClosestPoints(self.body, self.body, query_distance,
+                linkIndexA=a, linkIndexB=b, physicsClientId=self.client)
+            if points:
+                closest[(a, b)] = min(points, key=lambda point: point[8])
+        return closest
+
     def joint_limit_violation(self, q):
         q = np.asarray(q)
         if q.shape != (7,):

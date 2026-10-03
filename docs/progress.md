@@ -58,3 +58,28 @@
 ## 教学与待确认
 
 学习单元1的十道主动回忆题见learning_notes.md；**用户掌握尚未确认**。工程通过不等于用户已能推导或答辩。课程完整rubric权重、视频细节、报告参考文献是否计页、答辩形式和50%原创计量口径仍无完整材料；不阻塞下一阶段可逆工程。
+
+
+## 2026-10-04 继续执行：阶段 2 / 3 pilot 已验收
+
+用户表示已掌握第一单元，要求继续工程。记录为用户自述，不追加测验。
+
+- 共享物理内核迁移至 `ControlTask`，阶段1轨迹与历史记录关节差为0；所有控制器重用同一每240Hz检查/电机执行，次级动作60Hz更新。
+- 新增全臂、手、指和自碰几何势场、关节限位项；最近点Jacobians与距离梯度有FD验证。
+- `experiments/20261003T192914.966719Z_scene_pilot/scenes.json`：train8、validation8，各简单/紧布局各4；25实际候选中16接受、9初始碰撞拒绝。每个接受场景独立物理重放通过；tracker/default-potential/fixed-random分别找到12/13/13个witness（有交集），不存在“只保留APF成功”条件。
+- 12组势场参数只在validation上调参；`experiments/20261003T193106.814027Z_potential_validation_tuning/selected.json`选中 obstacle_gain=.0001 / influence=.08 / self_gain=0，8/8成功。默认参数不是调优结果。
+- 55维固定观测Gym环境、terminated/truncated、逐物理步reward、失败锁存、SB3检查、保存/加载完成。
+- 三个8192步pilot seed44/45/46已训练；共享新环境validation对照：tracker5/8、tuned potential8/8、PPO分别7/8、6/8、6/8。仅validation开发结果，不是held-out结论。
+- 第一个pilot callback漏选最后一次optimizer更新的边界已修复；seed44在`experiments/20261003T193819.575957Z_final_checkpoint_audit/`追加独立验证，旧记录不回写，两候选同为7/8，沿用较早checkpoint。
+- 三控制器及三个PPO seed的40条完整validation记录：`experiments/20261003T194313.983182Z_paired_evaluation/`，分析仅完整批次，失败留分母。
+- 奖励诊断 `experiments/20261003T194031.739736Z_reward_probe/`：24回合、3类固定探针；失败无成功bonus，参考时钟正常，未折扣/折扣回报均无早失败高于成功；一个双方失败场景振荡未折扣回报略高0.00450，未彻底排除hacking。
+- 当前89项测试通过（7.84秒）；不以32步单测模型冒充训练模型。
+- 实测约187 policy steps/s；seed44训练43.71秒，含callback验证69.51秒。三seed百万步仅训练约4.45小时，尚未启动该规模。
+
+### 当前正在执行的预算受控研究
+
+预先声明 `configs/study_protocol_v1.json`：64 train、24 validation、100 test；3独立seed144/145/146各98,304步、每12,288步全量validation，包含训练后最后更新验证。纯训练约26分钟，加验证预计约40分钟；不声称达到收敛或PPO最优。
+
+生成器规则已固定：train/validation seed4410、独立test seed4490；candidate序号轮转分割/难度，test单独seed；初始障碍净空至少1mm，全部接受场景保存原时长/限制下通过的witness。**不是hash分配split**；physical hash用于去重/防泄漏。test生成阶段只审计witness与文件完整性，不能反馈控制器成绩用于调参。两项生成当前运行中，尚未完成目标计数。
+
+正式test评估前将冻结场景hash、源代码、势场参数与三个已选模型的hash；model/params在读取test内容前固定。最终报告/完整对照视频和答辩材料仍待实际测试后生成，不能把预定规模写成完成。

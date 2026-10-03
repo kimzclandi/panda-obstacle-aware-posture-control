@@ -41,6 +41,8 @@
 | [torch](https://github.com/pytorch/pytorch) | `2.14.1+cpu` | Apache-2.0 AND Apache-2.0 WITH LLVM-exception AND BSD-2-Clause AND BSD-3-Clause AND BSL-1.0 AND MIT | 已安装 CPU 深度学习后端；不等于模型已训练 | [本地许可](third_party/notices/torch-2.14.1+cpu.dist-info/licenses/LICENSE) |
 | [typing_extensions](https://github.com/python/typing_extensions) | `4.16.0` | PSF-2.0 | 已安装间接或构建/测试依赖 | [本地许可](third_party/notices/typing_extensions-4.16.0.dist-info/licenses/LICENSE) |
 | [Stable-Baselines3](https://github.com/DLR-RM/stable-baselines3) | `2.9.0` | MIT | PPO 框架已安装；不等于模型已训练 | [本地许可](third_party/notices/stable_baselines3-2.9.0.dist-info/licenses/LICENSE) |
+| [imageio-ffmpeg](https://github.com/imageio/imageio-ffmpeg) | `0.6.0` | Python 包装层 BSD-2-Clause；随包 FFmpeg 二进制另见下项 | 新增视频编码依赖；未复制包装代码到项目源码 | [包装层许可](third_party/notices/imageio_ffmpeg-0.6.0.dist-info/LICENSE) |
+| FFmpeg（由 imageio-ffmpeg wheel 提供） | `7.0.2-static` | 实际二进制 `-L` 声明 GPL-3.0-or-later；构建开启 GPL/version3 | 视频编码外部可执行程序；项目归档许可/构建证据，不归档二进制 | [许可声明](third_party/notices/imageio_ffmpeg/binaries/ffmpeg-7.0.2-license-declaration.txt)、[版本与构建参数](third_party/notices/imageio_ffmpeg/binaries/ffmpeg-7.0.2-version-build.txt) |
 
 ## Panda 模型资产：与 PyBullet 本体许可分开
 

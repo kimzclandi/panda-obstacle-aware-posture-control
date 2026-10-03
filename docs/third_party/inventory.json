@@ -1324,6 +1324,47 @@
           "sha256": "3b2f81fe21d181c499c59a256c8e1968455d6689d269aa85373bfb6af41da3bf"
         }
       ]
+    },
+    {
+      "name": "imageio-ffmpeg",
+      "version": "0.6.0",
+      "license_expression": null,
+      "license_metadata": "BSD-2-Clause",
+      "project_urls": [],
+      "home_page": "https://github.com/imageio/imageio-ffmpeg",
+      "files": [
+        {
+          "installed_path": ".venv/lib/python3.11/site-packages/imageio_ffmpeg-0.6.0.dist-info/LICENSE",
+          "archived_path": "third_party/notices/imageio_ffmpeg-0.6.0.dist-info/LICENSE",
+          "sha256": "eca73421d0c905a92e952a553d4d58919c5a507c2c2c76e3c0cf9ba408c299e4"
+        }
+      ],
+      "bundled_binary": {
+        "path": ".venv/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2",
+        "sha256": "e7e7fb30477f717e6f55f9180a70386c62677ef8a4d4d1a5d948f4098aa3eb99",
+        "version": "7.0.2-static",
+        "license_declaration": "GPL-3.0-or-later; actual binary -L output",
+        "build_origin_reported_by_binary": "https://johnvansickle.com/ffmpeg/",
+        "evidence": [
+          {
+            "command": [
+              ".venv/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2",
+              "-L"
+            ],
+            "archived_path": "third_party/notices/imageio_ffmpeg/binaries/ffmpeg-7.0.2-license-declaration.txt",
+            "sha256": "b961ce681424f4d2a6664c5746e3f1ced3a07194706891e55dca046b6f6e8da5"
+          },
+          {
+            "command": [
+              ".venv/lib/python3.11/site-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2",
+              "-version"
+            ],
+            "archived_path": "third_party/notices/imageio_ffmpeg/binaries/ffmpeg-7.0.2-version-build.txt",
+            "sha256": "7cc050d9d92673dcbcad4704be00c011f22dbaaf8ce23896f9f9693f985e4a38"
+          }
+        ],
+        "binary_redistributed_in_project": false
+      }
     }
   ]
 }
