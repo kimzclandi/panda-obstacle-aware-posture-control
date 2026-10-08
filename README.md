@@ -1,10 +1,34 @@
-# Learning Obstacle-Aware Posture Control for a Redundant Robotic Arm
+# Panda 避障姿态控制
 
-> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.0.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 下载完整复现 ZIP，核对 `SHA256SUMS`，解压后按 [搬迁复现流程](docs/reproduction.md) 建环境并重绑 freeze 路径。以下指向 `experiments/` 的链接在完整 ZIP 内有效，在 GitHub 代码浏览页中不可用。
+**简体中文** | [English](README.en.md)
+
+Learning Obstacle-Aware Posture Control for a Redundant Robotic Arm
+
+> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.0.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 下载完整复现 ZIP，核对 `SHA256SUMS`，解压后按 [搬迁复现流程](docs/reproduction.md) 建环境并重绑 freeze 路径。下文将 ZIP 内专用证据写为代码路径，避免生成 GitHub 无法打开的链接；路径均相对于解压后的 `panda-posture/`。
 >
 > The Git repository contains source code and presentation deliverables. **Pretrained checkpoints and the immutable experimental evidence are in the full Release ZIP.** A source-only clone can run the basic diagnostics/tests after bootstrap; frozen model validation requires the complete archive and the relocation procedure. The archive records code commit `62d74a5`; subsequent publication documentation does not change the frozen scientific inputs.
 
 **工程、三 seed 研究训练、固定 500 回合 test、报告、视频及搬迁验证均已完成。** 三个 PPO seed 各训练 98,304 policy steps；train 64、validation 24、test 100 场景全部有物理 witness。调优 APF 在相同 100 个 test 场景成功 92 次，高于 PPO 的 80、81、65 次；本次实验没有支持 RL 超过 APF。更新于 2026-10-04。
+
+## 在线阅读与完整包复现
+
+| 目的 | 入口 | 需要完整 ZIP |
+| --- | --- | --- |
+| 了解方法、结果与失败 | [英文 PDF](deliverables/report_en/final_report_en.pdf)、[中文解读](deliverables/interpretation_zh.md)、[失败分析](docs/failure_analysis.md) | 否 |
+| 审阅实现和测试 | [控制实现](src/panda_posture/control.py)、[全臂势场](src/panda_posture/secondary.py)、[环境](src/panda_posture/env.py)、[测试](tests/) | 否 |
+| 查看全部轨迹、witness、模型与原始结果 | [v1.0.0 完整资产](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) | 是 |
+| 验证已训练模型或固定 500 回合 | [搬迁与复现流程](docs/reproduction.md) | 是，先核对 SHA256SUMS 并重绑路径 |
+
+GitHub 自动生成的 **Source code (zip/tar.gz)** 与普通 clone 都不包含 `experiments/`，不能代替名为 `ME5418_Group44_submission_20261004.zip` 的完整附件。完整包为 **716,482,807 字节**，记录代码提交 `62d74a5eca02554596c64979dd2a47559b8850eb`；后续 README 改进不改变该冻结研究。
+
+仅审阅源码和运行无需冻结资产的基础测试，可克隆当前代码：
+
+```bash
+git clone https://github.com/kimzclandi/panda-obstacle-aware-posture-control.git
+cd panda-obstacle-aware-posture-control
+```
+
+项目层工作覆盖任务环境、共享控制接口、全臂势场、witness 管线与公平评估；PPO 复用 Stable-Baselines3。成员分工、AI 辅助与上游来源见[贡献与归属台账](docs/attribution.md)，不能据项目实现推定个人独立编写或掌握全部内容。
 
 ## Start here
 
@@ -17,7 +41,7 @@
 | --- | ---: | ---: | ---: | ---: | ---: |
 | 完整成功数 / 100 | 70 | **92** | 80 | 81 | 65 |
 
-完整分层、配对区间、共同完成条件指标与 seed 波动见[机器可读分析](experiments/20261003T201319.444915Z_paired_evaluation/analysis/summary.json)。视频六个 pane 的物理重放关节差全部为 0；影片共 1140 帧、30 fps，已完整解码并抽帧视觉检查。视频不替代这 500 回合批量证据。归档发布状态及哈希见 ZIP 旁的 receipt。
+完整分层、配对区间、共同完成条件指标与 seed 波动见机器可读分析（完整 ZIP 内：`experiments/20261003T201319.444915Z_paired_evaluation/analysis/summary.json`）。视频六个 pane 的物理重放关节差全部为 0；影片共 1140 帧、30 fps，已完整解码并抽帧视觉检查。视频不替代这 500 回合批量证据。归档发布状态及哈希见 ZIP 旁的 receipt。
 
 ## 范围与成功定义
 
@@ -38,6 +62,7 @@ bash scripts/bootstrap.sh
 [requirements.lock.txt](requirements.lock.txt) 锁定 **35 个外部包**。Bootstrap 使用公开 PyPI 获取普通依赖、Torch CPU 专属 `find-links` 获取 CPU wheel，已在全新项目环境安装通过；自动保留原冻结的五个 `src/panda_posture.egg-info/` 文件并审计 editable 安装产生的变化。不要从交付包删除这些元数据。GPU 驱动存在不代表 PyBullet 或本 PPO 使用 CUDA；系统 ROS 的 `PYTHONPATH` 在运行时明确清除。
 
 ```bash
+# 以下涉及 experiments 的命令仅在完整 ZIP 中执行；新路径先按 docs/reproduction.md 重绑 freeze
 # 三个已训练模型的固定 validation 功能验收；不重训练、不改选模
  env -u PYTHONPATH .venv/bin/python scripts/validate_delivery.py --index study_index.json
 
@@ -58,9 +83,9 @@ bash scripts/bootstrap.sh
    --replay experiments/20261003T191423.707824Z_stage1_tracker
 ```
 
-[阶段 1 验收索引](experiments/gate_20261003T191419.044956Z/index.json)记录当时 32 项测试、完整跟踪、命令重放、半步长检查与预期碰撞失败。该单一无障碍开发轨迹最大位置误差约 0.0236 mm，物理重放关节差为零；这些结果不能替代球障碍成功率或证明 RL 优势。当前新增风险测试以最新测试运行证据为准，不能把历史的 32 项写成当前全部测试数量。
+阶段 1 验收索引（完整 ZIP 内：`experiments/gate_20261003T191419.044956Z/index.json`）记录当时 32 项测试、完整跟踪、命令重放、半步长检查与预期碰撞失败。该单一无障碍开发轨迹最大位置误差约 0.0236 mm，物理重放关节差为零；这些结果不能替代球障碍成功率或证明 RL 优势。当前新增风险测试以最新测试运行证据为准，不能把历史的 32 项写成当前全部测试数量。
 
-可选 `--gui` 接口保留；主要验证 DIRECT/TinyRenderer。原目录[交付验收](experiments/20261003T201415.503267Z_delivery_validation/status.json)与[独立搬迁验收](experiments/20261003T202857.594683Z_relocation_verification/summary.json)均通过：全新环境中三个模型在固定 validation 场景各完成 960 个物理步，保存/加载动作一致；搬迁前后物理状态和命令数组逐位一致，q/command 最大差均为 0。此证据限于本机 Linux 新目录/新环境，不保证不同硬件或操作系统逐位重现；计时数组不纳入一致性声明。
+可选 `--gui` 接口保留；主要验证 DIRECT/TinyRenderer。原目录交付验收（完整 ZIP 内：`experiments/20261003T201415.503267Z_delivery_validation/status.json`）与独立搬迁验收（完整 ZIP 内：`experiments/20261003T202857.594683Z_relocation_verification/summary.json`）均通过：全新环境中三个模型在固定 validation 场景各完成 960 个物理步，保存/加载动作一致；搬迁前后物理状态和命令数组逐位一致，q/command 最大差均为 0。此证据限于本机 Linux 新目录/新环境，不保证不同硬件或操作系统逐位重现；计时数组不纳入一致性声明。
 
 ## 当前研究输入与状态
 
@@ -68,12 +93,12 @@ bash scripts/bootstrap.sh
 
 | 输入或步骤 | 实际证据与当前状态 |
 | --- | --- |
-| Train 64 / validation 24 | [固定场景清单](experiments/20261003T194210.629028Z_study_scenes/scenes.json)；每个 split 的 simple/tight 各半；[完整审计](experiments/20261003T194210.629028Z_study_scenes/post_generation_audit.json) |
-| Test 100 | [独立 seed 4490 场景清单](experiments/20261003T194217.720814Z_study_scenes/scenes.json)；witness 完整性证据与模型/输入 [pretest freeze](experiments/study_pretest_freeze.json) 已通过；未用于调参或训练 |
-| APF validation 选择 | [selected.json](experiments/20261003T195747.519524Z_potential_validation_tuning/selected.json)；12 组 × 24 回合，选中 23/24，simple 12/12、tight 11/12；这是选参结果 |
-| PPO seed 144 | [训练证据](experiments/20261003T195813.023303Z_ppo_study_seed144/training_summary.json)；98,304 步完成，选中 61,440 步模型；独立 validation 19/24 |
-| PPO seed 145 | [训练证据](experiments/20261003T195813.017181Z_ppo_study_seed145/training_summary.json)；98,304 步完成，选中 12,288 步模型；独立 validation 17/24 |
-| PPO seed 146 | [训练证据](experiments/20261003T195813.082516Z_ppo_study_seed146/training_summary.json)；98,304 步完成，选中 49,152 步模型；独立 validation 18/24 |
+| Train 64 / validation 24 | 固定场景清单（完整 ZIP 内：`experiments/20261003T194210.629028Z_study_scenes/scenes.json`）；每个 split 的 simple/tight 各半；完整审计（完整 ZIP 内：`experiments/20261003T194210.629028Z_study_scenes/post_generation_audit.json`） |
+| Test 100 | 独立 seed 4490 场景清单（完整 ZIP 内：`experiments/20261003T194217.720814Z_study_scenes/scenes.json`）；witness 完整性证据与模型/输入 pretest freeze（完整 ZIP 内：`experiments/study_pretest_freeze.json`） 已通过；未用于调参或训练 |
+| APF validation 选择 | selected.json（完整 ZIP 内：`experiments/20261003T195747.519524Z_potential_validation_tuning/selected.json`）；12 组 × 24 回合，选中 23/24，simple 12/12、tight 11/12；这是选参结果 |
+| PPO seed 144 | 训练证据（完整 ZIP 内：`experiments/20261003T195813.023303Z_ppo_study_seed144/training_summary.json`）；98,304 步完成，选中 61,440 步模型；独立 validation 19/24 |
+| PPO seed 145 | 训练证据（完整 ZIP 内：`experiments/20261003T195813.017181Z_ppo_study_seed145/training_summary.json`）；98,304 步完成，选中 12,288 步模型；独立 validation 17/24 |
+| PPO seed 146 | 训练证据（完整 ZIP 内：`experiments/20261003T195813.082516Z_ppo_study_seed146/training_summary.json`）；98,304 步完成，选中 49,152 步模型；独立 validation 18/24 |
 | 最终交付 | [study_index.json](study_index.json) 已完整填写 evaluation/report/demo；固定 500 回合、分析、9 页报告、38 秒视频、失败分析和答辩材料均完成 |
 
 APF 选中 `obstacle_gain=.0001`、`influence_distance=.08 m`、`self_gain=0`；其余固定参数和完整候选结果见 [potential_field.md](docs/potential_field.md)。关闭选中候选的自碰势场项并不关闭自碰检测。该有限 validation 网格是本项目的调参范围，不声称传统方法已达到全局最优。
@@ -81,6 +106,8 @@ APF 选中 `obstacle_gain=.0001`、`influence_distance=.08 m`、`self_gain=0`；
 三个训练进程在同一 CPU 上并发，每个 Torch/BLAS 线程数为 1。它们是三个独立 learner，各有自己的随机种子、模型和日志，不是分布式 PPO。每个 seed 的学习墙钟含 callback validation 分别为 808.387、780.717、807.257 秒；扣除该验证后的吞吐约 176–177 policy steps/s。并发实际墙钟约 14 分钟，不能把三段时间相加当作项目 elapsed time。未测量 CUDA 收益，不声称收敛；训练只读取 train/validation，固定 observation 归一化不从 test 更新统计。
 
 ## 可复现研究命令
+
+本节是完整研究的历史复现入口，包含重新训练及评估，会创建新实验。只阅读现有结果不需要执行；当前源代码 clone 缺少这些命令依赖的冻结资产。
 
 以下前两条重新生成新的独立场景目录，仅用于复现生成方法。不要将新生成的清单混入当前已声明研究；后续命令使用上表的固定清单。每个接受场景都要通过相同时长、执行器限制和跟踪容差下的物理 witness 与命令重放；未找到 witness 只记为“尚未验证可行”。
 

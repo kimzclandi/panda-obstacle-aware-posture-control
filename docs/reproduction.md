@@ -1,5 +1,18 @@
 # 交付包复现、搬迁与原始证据
 
+[中文入口](../README.md) | [English overview](../README.en.md)
+
+**本页用于完整 Release 附件。** 请从 [v1.0.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 下载 `ME5418_Group44_submission_20261004.zip` 与 `SHA256SUMS`。普通 clone 和 GitHub 自动生成的 Source code 压缩包不含模型、witness 和 `experiments/`，不能运行本页冻结验证。
+
+```bash
+# 将 ZIP、PDF、MP4、receipt 与 SHA256SUMS 下载到同一目录后核验全部附件
+shasum -a 256 -c SHA256SUMS
+unzip ME5418_Group44_submission_20261004.zip
+cd panda-posture
+```
+
+未下载某个附件时，校验命令会报告它缺失；不要将缺失项当作校验通过。原始包为 716,482,807 字节，发布对应代码提交 `62d74a5eca02554596c64979dd2a47559b8850eb`。
+
 冻结清单记录了最初实验所在 Linux 项目的绝对路径。把工程解压到另一目录后，不能直接把旧路径当作新环境，也不能修改原始配置文件来“修复路径”：这些文件本身属于已哈希的证据。`scripts/relocate_freeze.py` 仅为相同文件创建新的位置映射，保留原始清单和训练选择，随后仍经过同一个 `verify_frozen_inputs` 入口检查。
 
 本页描述可执行复跑流程。尚未完成的训练、冻结、批量测试不因有复跑命令而视作已完成；实际运行目录及结果以 `progress.md` 和交付清单为准。路径中的 `<...>` 必须替换为包内实际目录。
@@ -111,7 +124,7 @@ env -u PYTHONPATH .venv/bin/python -m panda_posture.analysis \
 
 ## 6. 已实际执行的搬迁验收
 
-原目录快速验收保存在 `experiments/20261003T201415.503267Z_delivery_validation/`。随后复制冻结证据到全新的项目目录，独立安装 Python 3.11.17 与锁定依赖，完成 bootstrap、路径重绑和同一个快速验收入口；完整证据归档在 [relocation_verification](../experiments/20261003T202857.594683Z_relocation_verification/summary.json)。
+原目录快速验收保存在 `experiments/20261003T201415.503267Z_delivery_validation/`。随后复制冻结证据到全新的项目目录，独立安装 Python 3.11.17 与锁定依赖，完成 bootstrap、路径重绑和同一个快速验收入口；完整证据归档在完整 ZIP 内的 `experiments/20261003T202857.594683Z_relocation_verification/summary.json`。
 
 固定 validation 场景 `study-4410-0005` 上，seed 144、145、146 均完成 960 个物理步，每个模型的 240 次访问 observation 上保存前后确定性 action 完全一致。搬迁前后的全部物理状态与命令数组也逐位一致，最大关节差和命令差均为 0；耗时数组不纳入一致性声明。26 个冻结源码文件全部保持原 hash，三模型均通过原冻结输入核验。
 
