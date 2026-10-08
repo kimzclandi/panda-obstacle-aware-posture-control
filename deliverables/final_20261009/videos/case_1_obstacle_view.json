@@ -1,0 +1,80 @@
+{
+  "created_utc": "2026-10-08T22:21:06.761041+00:00",
+  "source_evaluation": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/experiments/20261003T201319.444915Z_paired_evaluation",
+  "scenario_id": "study-4490-0017",
+  "renderer_script_sha256": "c8edc6e10678f9159720266cd9ce7f6c8066bc24d8cf9aa5dbafa02f8dc5606d",
+  "ppo_seed": 144,
+  "video_file": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/deliverables/final_20261009/videos/case_1_obstacle_view.mp4",
+  "fps": 30,
+  "frame_count": 120,
+  "reference_duration_s": 4.0,
+  "video_duration_s": 4.0,
+  "physics_dt_s": 0.004166666666666667,
+  "resolution": [
+    1536,
+    722
+  ],
+  "physical_replay": "Initial ControlTask reset only; saved per-step motor velocity commands through advance and stepSimulation.",
+  "temporal_sampling": "Frame k samples (k+1)/fps; nearest physics time, ending at reference duration.",
+  "failure_display": "Freeze first failed checked state; show failure time. If source continued after tracking failure, hidden physical replay continues for q verification.",
+  "replay_grouping": "Original action-repeat groups split into individual steps for video sampling; dt, commands, motor limits and collision checks unchanged.",
+  "evidence_scope": "Illustration of one selected scenario. Does not replace paired batch success metrics.",
+  "panes": [
+    {
+      "controller": "Tracker only",
+      "source": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/experiments/20261003T201319.444915Z_paired_evaluation/rollouts/tracker/study-4490-0017",
+      "source_config_sha256": "f9dddddc3a81a523be18cf6c64398710b894c78e8bfca8ca3ca1609fe9060196",
+      "source_trajectory_sha256": "e1e107bd1f4c6003da02f9476e537a4ce70205ed3fcccdeab6ed32e5e26a3e8b",
+      "source_summary_sha256": "0075ccad3d70a49235be753b280bc53551ee87ab5c9a1a492f7666a570e8a201",
+      "source_success": false,
+      "physics_steps": 457,
+      "max_q_difference_rad": 0.0,
+      "q_tolerance_rad": 1e-07,
+      "first_failure_time_s": 1.9041666666666666,
+      "failure_reasons": [
+        "collision"
+      ],
+      "physical_stop_time_s": 1.9041666666666666,
+      "visual_freeze_time_s": 1.9041666666666666,
+      "replay_success": false,
+      "physical_replay_verified": true
+    },
+    {
+      "controller": "Potential field",
+      "source": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/experiments/20261003T201319.444915Z_paired_evaluation/rollouts/potential/study-4490-0017",
+      "source_config_sha256": "f9dddddc3a81a523be18cf6c64398710b894c78e8bfca8ca3ca1609fe9060196",
+      "source_trajectory_sha256": "d944e2e6b0758b240cd9f55387b25857c365e171dd7469e94e36911260a26794",
+      "source_summary_sha256": "eb90bec34025d159390e73cf6ad5b929b8af3a487422b2034fc6b14b0c0bd9df",
+      "source_success": true,
+      "physics_steps": 960,
+      "max_q_difference_rad": 0.0,
+      "q_tolerance_rad": 1e-07,
+      "first_failure_time_s": null,
+      "failure_reasons": [],
+      "physical_stop_time_s": 4.0,
+      "visual_freeze_time_s": null,
+      "replay_success": true,
+      "physical_replay_verified": true
+    },
+    {
+      "controller": "PPO seed 144",
+      "source": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/experiments/20261003T201319.444915Z_paired_evaluation/rollouts/ppo-seed144/study-4490-0017",
+      "source_config_sha256": "f9dddddc3a81a523be18cf6c64398710b894c78e8bfca8ca3ca1609fe9060196",
+      "source_trajectory_sha256": "35e9d7f482943eda549602be1776a60e49215a2651c41aabfa8a44ea51e8d68b",
+      "source_summary_sha256": "40d4f556da3900b829a3ba0880d2dc72ffcc8194f0aaaf9d513f3c764910663f",
+      "source_success": false,
+      "physics_steps": 379,
+      "max_q_difference_rad": 0.0,
+      "q_tolerance_rad": 1e-07,
+      "first_failure_time_s": 1.5791666666666666,
+      "failure_reasons": [
+        "collision"
+      ],
+      "physical_stop_time_s": 1.5791666666666666,
+      "visual_freeze_time_s": 1.5791666666666666,
+      "replay_success": false,
+      "physical_replay_verified": true
+    }
+  ],
+  "video_sha256": "f817ba123acbc47e5c2dfb8122c36f4dc4245ac5a762387fa8f2aa91e33122b3"
+}

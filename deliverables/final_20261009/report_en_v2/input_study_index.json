@@ -24,7 +24,5 @@
   "interpretation": "deliverables/final_20261009/interpretation_zh.md",
   "delivery_validation": "experiments/20261008T221557.513252Z_delivery_validation",
   "relocation_verification": "experiments/20261003T202857.594683Z_relocation_verification",
-  "learning_stability_review": "experiments/20261008T215230.514261Z_learning_stability_review",
-  "final_delivery_review": "experiments/20261008T222511.498438Z_final_delivery_review",
-  "final_revision": "2026-10-09 local technical deliverables; individual review pending"
+  "learning_stability_review": "experiments/20261008T215230.514261Z_learning_stability_review"
 }

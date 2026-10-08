@@ -1,0 +1,35 @@
+{
+  "pdf_sha256": "3a0102f86d5b6a975ba3a599b5740b0df1a6477740a8a151e63e5a4abaebe7c6",
+  "all_10_pages_visually_reviewed": true,
+  "final_render_identical_to_reviewed_pages": true,
+  "rendered_page_sha256": {
+    "report-01.png": "22f8fb8f7f7e57127b8b916b376fb1bf6610f6fc3c2ddedddd9349acffd97382",
+    "report-02.png": "6d0b895835e7d9a622011ac1e8157da769b12e26736c1efed9e7de182ffea89d",
+    "report-03.png": "9c07e359b8635bcf4e937df7ca5553c7834052f405d7454044ef98049d5e4006",
+    "report-04.png": "607e01725a8d5ec6c3e4005ac14d6cbd4e6b0072d8fb5a35474f80a20382b89f",
+    "report-05.png": "df53520ed19609b6aa78d2b31aa74cadb0389f3fcbedc6955a06fe42c5dff060",
+    "report-06.png": "2ecee1a43168b78b251db389817fad9c57b468bf70c102c0f23c5931ec401f54",
+    "report-07.png": "b12a1c020618b06f02b2b1b67fe1d87dd892b0a4b57aca0d21fbaeedb201e75d",
+    "report-08.png": "e8919234b8ab0374b58a317c845a173bf68928d9fe861c9cae51fc81b5063ca1",
+    "report-09.png": "2c6053a01a1d25cc1cdc595e9427ab389d82f05467ec1e582fcd34cd82cb0ded",
+    "report-10.png": "8237a71bd297f4377a0e3c67bcffd96c9816ef45f94476d9e9a14a793e579d32"
+  },
+  "video_sha256": "ffcca67a6027c134b1176c82f8573edc97b04a7357a4818df0d118884a7bfce9",
+  "all_frames_decoded": 1560,
+  "fps": 30,
+  "duration_s": 52,
+  "visual_review": "All eight text cards and first/mid/last frames of both physical clips checked; readable obstacle arrow, path legend and failure time. First-case camera yaw 150 exposes the sphere; second case yaw 48. Display change only.",
+  "camera_changes_do_not_change_physics": true,
+  "physical_replay_max_q_differences_rad": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ]
+  ]
+}

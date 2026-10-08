@@ -4,6 +4,10 @@
 
 本页描述可执行复跑流程。尚未完成的训练、冻结、批量测试不因有复跑命令而视作已完成；实际运行目录及结果以 `progress.md` 和交付清单为准。路径中的 `<...>` 必须替换为包内实际目录。
 
+## 本地 final 修订的自动入口
+
+2026-10-09 完整 ZIP 包含 `scripts/quickstart.py`。解压后先 `bash scripts/bootstrap.sh`，再运行 `env -u PYTHONPATH .venv/bin/python scripts/quickstart.py`。它从冻结 protocol 的明确路径结构识别原位置，核对全部受保护证据，必要时创建新的 relocated freeze，再验证三个模型。原清单与模型保持不变。它打印的 `freeze_for_other_commands` 可用于 GUI 或完整复评的 `--freeze`。下方显式流程仍保留用于诊断。
+
 ## 1. 交付包必须带哪些文件
 
 - 完整 `src/`、`scripts/`、`configs/`、`requirements.lock.txt`、`pyproject.toml`，以及使用说明。

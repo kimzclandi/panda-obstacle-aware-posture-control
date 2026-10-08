@@ -1,23 +1,66 @@
 # Learning Obstacle-Aware Posture Control for a Redundant Robotic Arm
 
-> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.0.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 下载完整复现 ZIP，核对 `SHA256SUMS`，解压后按 [搬迁复现流程](docs/reproduction.md) 建环境并重绑 freeze 路径。以下指向 `experiments/` 的链接在完整 ZIP 内有效，在 GitHub 代码浏览页中不可用。
+> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.1.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) 下载完整复现 ZIP，核对 `SHA256SUMS`，解压后按下方 Quick verification 建环境并自动核验搬迁路径。下文 `experiments/` 路径仅在完整 ZIP 内有效。
 >
-> The Git repository contains source code and presentation deliverables. **Pretrained checkpoints and the immutable experimental evidence are in the full Release ZIP.** A source-only clone can run the basic diagnostics/tests after bootstrap; frozen model validation requires the complete archive and the relocation procedure. The archive records code commit `62d74a5`; subsequent publication documentation does not change the frozen scientific inputs.
+> The Git repository contains source code and presentation deliverables. **Pretrained checkpoints and the immutable experimental evidence are in the full Release ZIP.** A source-only clone can run the basic diagnostics/tests after bootstrap; frozen model validation requires the complete archive and the relocation procedure. The v1.1.0 full archive preserves the verified local revision byte-for-byte: its receipt records base commit `4b003c5` plus the then-uncommitted files, and its manifest hashes bind the actual contents. The release tag identifies the subsequent publication commit. Distribution documentation has changed; the frozen scientific inputs have not.
 
-**工程、三 seed 研究训练、固定 500 回合 test、报告、视频及搬迁验证均已完成。** 三个 PPO seed 各训练 98,304 policy steps；train 64、validation 24、test 100 场景全部有物理 witness。调优 APF 在相同 100 个 test 场景成功 92 次，高于 PPO 的 80、81、65 次；本次实验没有支持 RL 超过 APF。更新于 2026-10-04。
+**核心工程和首轮冻结研究已完成；当前版本为 2026-10-09 技术交付修订（v1.1.0）。** 新增训练退化分析、十页英文报告、障碍物标注视频和自动搬迁验证入口。个人署名/真实反思与其他实际组员的独立报告仍待本人确认。本版本通过 GitHub 分发，未提交任何课程平台；旧 v1.0.0 Release 保留。
+
+本次结论：相同 100 个测试场景，APF 成功 92 次，高于 PPO 的 80、81、65 次；没有支持 RL 超过 APF。三个 PPO seed 各训练 98,304 policy steps，全部 188 个 train/validation/test 场景具有物理 witness；不声称 PPO 已收敛。
 
 ## Start here
 
-- [英文报告，9 页](deliverables/report_en/final_report_en.pdf)：完整方法、结果、讨论与证据，已逐页视觉检查。
-- [中文结果解读](deliverables/interpretation_zh.md)与[成功率图](deliverables/report_en/figures/success.png)：先理解研究结论和限制。
-- [38 秒演示视频](deliverables/videos/final_demo_en.mp4)：方法、两例真实物理重放、全部五策略结果和限制。
+- [英文技术报告，10 页](deliverables/final_20261009/report_en_v2/final_report_en.pdf)：完整方法、结果、讨论与证据，已逐页视觉检查。
+- [中文结果解读](deliverables/final_20261009/interpretation_zh.md)与[成功率图](deliverables/final_20261009/report_en_v2/figures/success.png)：先理解研究结论和限制。
+- [52 秒演示视频](deliverables/final_20261009/videos/final_demo_en_v2.mp4)：方法、两例真实物理重放、全部五策略结果和限制。
 - [失败分析](docs/failure_analysis.md)、[中文答辩准备](docs/viva_guide_zh.md)、[完整复现与解压搬迁流程](docs/reproduction.md)。
 
 | 同一固定 test 集 | Tracker | 调优 APF | PPO 144 | PPO 145 | PPO 146 |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | 完整成功数 / 100 | 70 | **92** | 80 | 81 | 65 |
 
-完整分层、配对区间、共同完成条件指标与 seed 波动见[机器可读分析](experiments/20261003T201319.444915Z_paired_evaluation/analysis/summary.json)。视频六个 pane 的物理重放关节差全部为 0；影片共 1140 帧、30 fps，已完整解码并抽帧视觉检查。视频不替代这 500 回合批量证据。归档发布状态及哈希见 ZIP 旁的 receipt。
+完整分层、配对区间、共同完成条件指标与 seed 波动见`experiments/20261003T201319.444915Z_paired_evaluation/analysis/summary.json`（机器可读分析；完整 ZIP 内）。视频六个 pane 的物理重放关节差全部为 0；新版影片共 1560 帧、30 fps，已完整解码并抽帧视觉检查。视频不替代这 500 回合批量证据。归档发布状态及哈希见 ZIP 旁的 receipt。
+
+## 获取当前源码与附件
+
+```bash
+git clone https://github.com/kimzclandi/panda-obstacle-aware-posture-control.git
+cd panda-obstacle-aware-posture-control
+```
+
+源码 clone 适合阅读实现和运行不依赖冻结模型的基础检查。直接体验训练好的模型，请下载下面的完整 ZIP。仅需要轻量环境/demo 时，可选下载同一 Release 的 `Panda_Gym_Code_Report.zip`，按其独立 README 运行；它不是完整模型复现包。
+
+本轮验收：108 项关键测试通过；最终 ZIP 的 6,434 个清单文件已核验，实际解压到本机新目录并建立项目独立环境后，三个模型各完成 960 物理步，状态和命令与原验证逐位一致。详见 [解压复跑记录](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.verification.json)。这是同一 Linux 主机上的验证，不宣称其他电脑或跨平台已验证。
+
+## 新电脑上的最短验证流程 / Quick verification
+
+从 [v1.1.0 Assets](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) 下载 **Panda_Final_Project_20261009.zip**（750,132,146 字节）及 `SHA256SUMS`。GitHub 自动生成的 **Source code (zip/tar.gz)** 不包含模型和实验数据。核对 SHA-256 后解压完整 ZIP，进入 `panda-posture/`，运行：
+
+```bash
+bash scripts/bootstrap.sh
+env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/quickstart.py
+```
+
+The first command creates a project-local Python 3.11.17 environment with all pinned dependencies. The second verifies the frozen evidence and runs the three selected models on the same fixed validation scene. It creates a new relocation manifest automatically when needed and prints its path. It does not retrain, change the original freeze, or select a model using test results. A successful run ends with `"passed": true`; each policy must complete 960 physics steps. This is a functionality check, not a replacement for the 500-episode research evaluation.
+
+Linux CPU / DIRECT is the verified target. Installation needs package access (or an existing package cache); no display or GPU is required. GUI is optional. Cross-platform or different-hardware bitwise identity is not claimed.
+
+[Final 交付核对](docs/final_delivery_checklist.md)与[英文口述稿](deliverables/final_20261009/oral_script_en.md)。
+
+## 交互运行：亲自看机械臂
+
+本机完整项目和环境已验证后，可以直接运行：
+
+```bash
+env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+  .venv/bin/python scripts/live_demo.py
+```
+
+点击 PyBullet 窗口后按 **SPACE** 开始，默认运行 PPO seed 144 在固定 validation 场景的四秒轨迹。开始前或结束后按 **1 / 2 / 3** 切换 tracker / 调优 APF / PPO；结束后 **R** 创建新回合，再按 SPACE；**Q / Esc** 关闭。运行中不能用这些控制暂停参考时钟。蓝线是参考路径，绿线是实际工具轨迹；场景很短，重点观察机械臂姿态与球障碍的关系。
+
+这是调用原控制器和 `stepSimulation` 的实际仿真，界面只添加显示与墙钟节奏。每次运行单独写入 `experiments/*_live_gui_demo/`；中断不记为成功，GUI 耗时不能当作正式性能计时。`--autostart --exit-after-run` 可完成一次自动 GUI smoke 后退出；`--scenario study-4490-0017` 或 `study-4490-0069` 可查看报告中已有的例子，个例不代替批量评估。
+
+交互入口已纳入当前源码和 v1.1.0 完整 ZIP。原 v1.0.0 ZIP 保持不变，因此旧版本用户需要更新文件。项目搬迁后，先运行 quickstart，再把其打印的 `freeze_for_other_commands` 路径通过 `--freeze` 传给 GUI。需要本地图形显示；无显示环境继续使用 DIRECT 验证。
 
 ## 范围与成功定义
 
@@ -39,7 +82,7 @@ bash scripts/bootstrap.sh
 
 ```bash
 # 三个已训练模型的固定 validation 功能验收；不重训练、不改选模
- env -u PYTHONPATH .venv/bin/python scripts/validate_delivery.py --index study_index.json
+ env -u PYTHONPATH .venv/bin/python scripts/quickstart.py
 
 # 阶段 1 完整可复现验收；每次创建独立 gate_<UTC>，不覆盖旧结果
  env -u PYTHONPATH .venv/bin/python scripts/validate_stage1.py
@@ -58,9 +101,9 @@ bash scripts/bootstrap.sh
    --replay experiments/20261003T191423.707824Z_stage1_tracker
 ```
 
-[阶段 1 验收索引](experiments/gate_20261003T191419.044956Z/index.json)记录当时 32 项测试、完整跟踪、命令重放、半步长检查与预期碰撞失败。该单一无障碍开发轨迹最大位置误差约 0.0236 mm，物理重放关节差为零；这些结果不能替代球障碍成功率或证明 RL 优势。当前新增风险测试以最新测试运行证据为准，不能把历史的 32 项写成当前全部测试数量。
+`experiments/gate_20261003T191419.044956Z/index.json`（阶段 1 验收索引；完整 ZIP 内）记录当时 32 项测试、完整跟踪、命令重放、半步长检查与预期碰撞失败。该单一无障碍开发轨迹最大位置误差约 0.0236 mm，物理重放关节差为零；这些结果不能替代球障碍成功率或证明 RL 优势。当前新增风险测试以最新测试运行证据为准，不能把历史的 32 项写成当前全部测试数量。
 
-可选 `--gui` 接口保留；主要验证 DIRECT/TinyRenderer。原目录[交付验收](experiments/20261003T201415.503267Z_delivery_validation/status.json)与[独立搬迁验收](experiments/20261003T202857.594683Z_relocation_verification/summary.json)均通过：全新环境中三个模型在固定 validation 场景各完成 960 个物理步，保存/加载动作一致；搬迁前后物理状态和命令数组逐位一致，q/command 最大差均为 0。此证据限于本机 Linux 新目录/新环境，不保证不同硬件或操作系统逐位重现；计时数组不纳入一致性声明。
+可选 `--gui` 接口保留；主要验证 DIRECT/TinyRenderer。原目录`experiments/20261003T201415.503267Z_delivery_validation/status.json`（交付验收；完整 ZIP 内）与`experiments/20261003T202857.594683Z_relocation_verification/summary.json`（独立搬迁验收；完整 ZIP 内）均通过：全新环境中三个模型在固定 validation 场景各完成 960 个物理步，保存/加载动作一致；搬迁前后物理状态和命令数组逐位一致，q/command 最大差均为 0。此证据限于本机 Linux 新目录/新环境，不保证不同硬件或操作系统逐位重现；计时数组不纳入一致性声明。
 
 ## 当前研究输入与状态
 
@@ -68,13 +111,13 @@ bash scripts/bootstrap.sh
 
 | 输入或步骤 | 实际证据与当前状态 |
 | --- | --- |
-| Train 64 / validation 24 | [固定场景清单](experiments/20261003T194210.629028Z_study_scenes/scenes.json)；每个 split 的 simple/tight 各半；[完整审计](experiments/20261003T194210.629028Z_study_scenes/post_generation_audit.json) |
-| Test 100 | [独立 seed 4490 场景清单](experiments/20261003T194217.720814Z_study_scenes/scenes.json)；witness 完整性证据与模型/输入 [pretest freeze](experiments/study_pretest_freeze.json) 已通过；未用于调参或训练 |
-| APF validation 选择 | [selected.json](experiments/20261003T195747.519524Z_potential_validation_tuning/selected.json)；12 组 × 24 回合，选中 23/24，simple 12/12、tight 11/12；这是选参结果 |
-| PPO seed 144 | [训练证据](experiments/20261003T195813.023303Z_ppo_study_seed144/training_summary.json)；98,304 步完成，选中 61,440 步模型；独立 validation 19/24 |
-| PPO seed 145 | [训练证据](experiments/20261003T195813.017181Z_ppo_study_seed145/training_summary.json)；98,304 步完成，选中 12,288 步模型；独立 validation 17/24 |
-| PPO seed 146 | [训练证据](experiments/20261003T195813.082516Z_ppo_study_seed146/training_summary.json)；98,304 步完成，选中 49,152 步模型；独立 validation 18/24 |
-| 最终交付 | [study_index.json](study_index.json) 已完整填写 evaluation/report/demo；固定 500 回合、分析、9 页报告、38 秒视频、失败分析和答辩材料均完成 |
+| Train 64 / validation 24 | `experiments/20261003T194210.629028Z_study_scenes/scenes.json`（固定场景清单；完整 ZIP 内）；每个 split 的 simple/tight 各半；`experiments/20261003T194210.629028Z_study_scenes/post_generation_audit.json`（完整审计；完整 ZIP 内） |
+| Test 100 | `experiments/20261003T194217.720814Z_study_scenes/scenes.json`（独立 seed 4490 场景清单；完整 ZIP 内）；witness 完整性证据与模型/输入 `experiments/study_pretest_freeze.json`（pretest freeze；完整 ZIP 内） 已通过；未用于调参或训练 |
+| APF validation 选择 | `experiments/20261003T195747.519524Z_potential_validation_tuning/selected.json`（selected.json；完整 ZIP 内）；12 组 × 24 回合，选中 23/24，simple 12/12、tight 11/12；这是选参结果 |
+| PPO seed 144 | `experiments/20261003T195813.023303Z_ppo_study_seed144/training_summary.json`（训练证据；完整 ZIP 内）；98,304 步完成，选中 61,440 步模型；独立 validation 19/24 |
+| PPO seed 145 | `experiments/20261003T195813.017181Z_ppo_study_seed145/training_summary.json`（训练证据；完整 ZIP 内）；98,304 步完成，选中 12,288 步模型；独立 validation 17/24 |
+| PPO seed 146 | `experiments/20261003T195813.082516Z_ppo_study_seed146/training_summary.json`（训练证据；完整 ZIP 内）；98,304 步完成，选中 49,152 步模型；独立 validation 18/24 |
+| 最终交付 | [study_index.json](study_index.json) 已完整填写 evaluation/report/demo；固定 500 回合与原始证据保留；本修订提供十页技术报告、52 秒视频和稳定性诊断；个人报告身份/反思待确认 |
 
 APF 选中 `obstacle_gain=.0001`、`influence_distance=.08 m`、`self_gain=0`；其余固定参数和完整候选结果见 [potential_field.md](docs/potential_field.md)。关闭选中候选的自碰势场项并不关闭自碰检测。该有限 validation 网格是本项目的调参范围，不声称传统方法已达到全局最优。
 
@@ -159,10 +202,10 @@ env -u PYTHONPATH .venv/bin/python scripts/render_comparison.py \
   --output "$STUDY_EVAL/videos/comparison.mp4"
 ```
 
-`study_index.json` 的报告依赖已齐全：完整 500 回合及分析、冻结模型、两段已验证的原速物理 case clips。现有报告为 `deliverables/report_en/final_report_en.pdf`，9 页全页视觉 QA 已通过。重建必须使用**不存在的新目录**，不会覆盖当前报告；新生成 PDF 仍需重新逐页检查。
+`study_index.json` 的报告依赖已齐全：完整 500 回合及分析、冻结模型、两段已验证的原速物理 case clips。当前报告位置由 study_index.json 指定，10 页逐页视觉 QA 已通过。重建必须使用**不存在的新目录**，不会覆盖当前报告；新生成 PDF 仍需重新逐页检查。
 
 ```bash
-env -u PYTHONPATH .venv/bin/python scripts/build_report.py \
+env -u PYTHONPATH .venv/bin/python scripts/build_final_report.py \
   --index study_index.json --out deliverables/NEW_DIRECTORY
 ```
 
