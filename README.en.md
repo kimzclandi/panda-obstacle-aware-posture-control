@@ -35,6 +35,27 @@ git clone https://github.com/kimzclandi/panda-obstacle-aware-posture-control.git
 cd panda-obstacle-aware-posture-control
 ```
 
+## Checks without training or scientific dependencies
+
+These checks use only Python's standard library. They require neither PyBullet/PyTorch nor training:
+
+```bash
+python3 .github/scripts/check_readmes.py
+python3 -m unittest discover -s tests -p test_release_archive.py -v
+```
+
+After downloading the full ZIP, run the [read-only archive checker](scripts/verify_release_archive.py) from a source checkout containing this script (the frozen ZIP predates it). Replace `/path/to/downloads/` with your download directory:
+
+```bash
+python3 scripts/verify_release_archive.py \
+  --archive /path/to/downloads/ME5418_Group44_submission_20261004.zip \
+  --receipt /path/to/downloads/ME5418_Group44_submission_20261004.receipt.json \
+  --checksums /path/to/downloads/SHA256SUMS \
+  --readme README.md --readme README.en.md
+```
+
+The checker does not access the network, extract files, execute archived code or load models. It checks download SHA-256, every member's CRC and manifest SHA-256, index/freeze/evaluation references and concrete README archive paths. The archive intentionally excludes `.venv/`: **30 PyBullet dependency assets remain unchecked** until installation of the locked environment and the original freeze validation. Archive integrity is not physical reproduction or model execution. The full `run_tests.sh` suite includes a small PPO learning smoke test and is separate from these no-training checks.
+
 ## Results and scope
 
 | Same 100 held-out scenarios | Tracker | Tuned APF | PPO 144 | PPO 145 | PPO 146 |

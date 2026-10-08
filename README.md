@@ -28,6 +28,25 @@ git clone https://github.com/kimzclandi/panda-obstacle-aware-posture-control.git
 cd panda-obstacle-aware-posture-control
 ```
 
+无需安装 PyBullet/PyTorch，也不启动训练的检查入口：
+
+```bash
+python3 .github/scripts/check_readmes.py
+python3 -m unittest discover -s tests -p test_release_archive.py -v
+```
+
+若已下载完整 ZIP，可在包含[归档检查器](scripts/verify_release_archive.py)的源码 checkout 中执行下列只读检查；将 `/path/to/downloads/` 换成下载目录。脚本只用 Python 标准库，不联网、不解压、不导入包内代码或加载模型；原始 ZIP 不变。
+
+```bash
+python3 scripts/verify_release_archive.py \
+  --archive /path/to/downloads/ME5418_Group44_submission_20261004.zip \
+  --receipt /path/to/downloads/ME5418_Group44_submission_20261004.receipt.json \
+  --checksums /path/to/downloads/SHA256SUMS \
+  --readme README.md --readme README.en.md
+```
+
+检查覆盖下载 SHA-256、逐成员 CRC、包内清单 SHA-256、study index 与冻结/评估引用和具体 README 包内路径。原 ZIP 按设计排除 `.venv/`：30 个 PyBullet 依赖资产须在安装锁定环境后由原冻结验收核验；脚本单列为未检查。**包完整性通过不代表物理复现或模型运行通过。** 完整 `run_tests.sh` 包含短 PPO 学习 smoke test，与上面的不训练检查分开。
+
 项目层工作覆盖任务环境、共享控制接口、全臂势场、witness 管线与公平评估；PPO 复用 Stable-Baselines3。成员分工、AI 辅助与上游来源见[贡献与归属台账](docs/attribution.md)，不能据项目实现推定个人独立编写或掌握全部内容。
 
 ## Start here

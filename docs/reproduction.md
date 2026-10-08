@@ -17,6 +17,12 @@ cd panda-posture
 
 本页描述可执行复跑流程。尚未完成的训练、冻结、批量测试不因有复跑命令而视作已完成；实际运行目录及结果以 `progress.md` 和交付清单为准。路径中的 `<...>` 必须替换为包内实际目录。
 
+## 0. 解压前做静态归档检查
+
+从包含新[归档检查器](../scripts/verify_release_archive.py)的源码 checkout 执行 [README 的只读命令](../README.md#在线阅读与完整包复现)。旧完整 ZIP 不包含此后新增的检查脚本；不要修改或重新打包原 ZIP。校验只读取本地 ZIP、receipt 和 SHA256SUMS，并向标准输出返回结果，不联网、不解压、不执行包内代码。
+
+逐成员 CRC/清单 SHA、冻结项目文件、26 份冻结源码、study index 与评估身份一致，才构成该入口的静态通过。冻结清单还引用 30 个原环境 PyBullet 资产，位于 `.venv/lib/python3.11/site-packages/pybullet_data/franka_panda/`，按打包规则不在 ZIP；它们单列为未核验，不能静默当作通过。继续执行下列锁定环境安装与原冻结验证时才能检查这些资产。校验和与 receipt 的相互一致也不能独立证明记录者或历史过程的真实性。
+
 ## 1. 交付包必须带哪些文件
 
 - 完整 `src/`、`scripts/`、`configs/`、`requirements.lock.txt`、`pyproject.toml`，以及使用说明。
