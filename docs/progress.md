@@ -105,3 +105,10 @@
 用户在技术交付验收后明确要求同步今天的完成内容，目标为既有公开仓库 kimzclandi/panda-obstacle-aware-posture-control。同步源码、十页英文报告、52秒标注视频、中文解读/英文口述稿、训练稳定性诊断和自动搬迁运行入口；完整ZIP及轻量环境阶段包经独立v1.1.0 Release分发。默认main在同步前与本地原HEAD一致；远程独立开发分支保留，不强制推送或改写历史。
 
 完整ZIP保持前次实际解压验证过的原字节，SHA256为`4e417e3ae147c51fc7bcd3b82d6aede94c6defe0391a7729362ac09d1be3e7ae`。源码commit与ZIP生成时的provenance区别在Release正文说明。附件核验以Release资产SHA256和旁置发布receipt为证；该分发授权不等于课程平台提交，也不补全尚待本人核对的个人报告内容。
+
+
+### GitHub 同步验收完成
+
+[v1.1.0](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) 已公开并设为latest，发布tag指向`d301cdb9661a85c9f2a440e4e82d5064f4735ea8`。完整复现ZIP、receipt、解压验证、英文PDF、MP4、中文解读、英文口述稿、轻量环境ZIP和SHA256SUMS共九个附件，GitHub服务器端大小与SHA256全部匹配。
+
+[发布核验记录](github_sync_20261009.json)：新克隆323个文件逐字节匹配、工作树干净；未登录API读取、校验和下载以及750,132,146字节完整ZIP下载入口HEAD均通过。README/About/Release介绍未检出学校、课程或组号标识；v1.0.0的所有附件ID、大小与digest保持不变。报告个人核对事项和不代提交课程平台的边界保持。此后仅增加这份发布记录，不改变release tag、模型或附件。
