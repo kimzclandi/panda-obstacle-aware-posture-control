@@ -1,5 +1,7 @@
 # Learning Obstacle-Aware Posture Control for a Redundant Robotic Arm
 
+**简体中文** | [English](README.en.md)
+
 > **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.2.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.2.0) 下载完整复现 ZIP，核对 `SHA256SUMS`，解压后按下方 Quick verification 建环境并自动核验搬迁路径。下文 `experiments/` 路径仅在完整 ZIP 内有效。
 >
 > The Git repository contains source code and presentation deliverables. **Pretrained checkpoints and immutable experimental evidence are in the full Release ZIP.** A source-only clone can run basic diagnostics/tests after bootstrap; frozen model validation requires the complete archive. Version 1.2.0 adds robust startup checks, an inspected native GUI and a bounded learning-rate diagnostic. The original models, 500-episode evaluation, report and video are unchanged. Archive manifests and receipts bind exact file contents and code provenance; earlier releases remain available.
@@ -20,6 +22,23 @@
 | 完整成功数 / 100 | 70 | **92** | 80 | 81 | 65 |
 
 完整分层、配对区间、共同完成条件指标与 seed 波动见`experiments/20261003T201319.444915Z_paired_evaluation/analysis/summary.json`（机器可读分析；完整 ZIP 内）。视频六个 pane 的物理重放关节差全部为 0；新版影片共 1560 帧、30 fps，已完整解码并抽帧视觉检查。视频不替代这 500 回合批量证据。归档发布状态及哈希见 ZIP 旁的 receipt。
+
+## 源码检查与历史归档核验
+
+普通 clone 不含冻结模型与实验资产。以下检查只依赖 Python 标准库，不安装 PyBullet/PyTorch、不训练、不下载附件：
+
+```bash
+python3 .github/scripts/check_readmes.py
+python3 -m unittest discover -s tests -p test_release_archive.py -v
+```
+
+<a id="archive-integrity"></a>
+
+[只读归档检查器](scripts/verify_release_archive.py)及[完整使用命令](docs/reproduction.md#legacy-archive-check)保留对 **v1.0.0 历史完整包**的静态验收：下载 SHA-256、逐成员 CRC/清单哈希、study index、冻结/评估身份和具体 README 包内路径。已验证该旧包；没有将此结果迁移为 后续版本的静态检查器验收。v1.1.0 历史解压复跑证据与 v1.2.0 当前工程更新见下方各自入口。
+
+原包按设计排除的 30 个 PyBullet 依赖资产仍须安装锁定环境后由原冻结入口核验。脚本不联网、不解包、不执行归档代码或加载模型；包完整性不等于物理复现。完整 `run_tests.sh` 包含短 PPO 学习 smoke test，与上述无训练检查分开。
+
+项目层工作覆盖任务环境、共享控制接口、全臂势场、witness 管线与公平评估；PPO 复用 Stable-Baselines3。[贡献与归属台账](docs/attribution.md)保留上游与 AI 辅助说明；项目实现不代表个人独立编写或掌握全部内容。
 
 ## 获取当前源码与附件
 

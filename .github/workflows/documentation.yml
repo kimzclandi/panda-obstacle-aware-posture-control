@@ -1,0 +1,21 @@
+name: Documentation and archive integrity
+on:
+  push:
+    paths: ['README*.md', 'docs/reproduction.md', 'scripts/verify_release_archive.py', 'tests/test_release_archive.py', '.github/scripts/check_readmes.py', '.github/workflows/documentation.yml']
+  pull_request:
+    paths: ['README*.md', 'docs/reproduction.md', 'scripts/verify_release_archive.py', 'tests/test_release_archive.py', '.github/scripts/check_readmes.py', '.github/workflows/documentation.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python .github/scripts/check_readmes.py
+      - name: Test archive integrity failures without training or downloads
+        run: python -m unittest discover -s tests -p test_release_archive.py -v
