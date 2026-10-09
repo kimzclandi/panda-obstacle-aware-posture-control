@@ -1,0 +1,170 @@
+{
+  "release": {
+    "release_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.2.0",
+    "release_id": 407387181,
+    "tag": "v1.2.0",
+    "published_at": "2026-10-09T00:55:42Z",
+    "is_latest": true,
+    "draft": false,
+    "anonymous_repository_and_readme_access": true,
+    "introduction_privacy_scan_passed": true,
+    "downloads": [
+      {
+        "name": "Panda_Posture_Control_v1.2.0.zip",
+        "public_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.2.0/Panda_Posture_Control_v1.2.0.zip",
+        "anonymous_status": 200,
+        "check": "HEAD",
+        "server_sha256": "sha256:573ca2440d7e80bef4ca464941a77a3124aca83d8512dd33e74e81de57f4ea1c"
+      },
+      {
+        "name": "Panda_Posture_Control_v1.2.0.receipt.json",
+        "public_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.2.0/Panda_Posture_Control_v1.2.0.receipt.json",
+        "anonymous_status": 200,
+        "check": "GET",
+        "server_sha256": "sha256:cf04382b020c15b5c4c2672fc0dd33625da4d8ef640684c04792b12d41e6be10"
+      },
+      {
+        "name": "Panda_Posture_Control_v1.2.0.verification.json",
+        "public_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.2.0/Panda_Posture_Control_v1.2.0.verification.json",
+        "anonymous_status": 200,
+        "check": "GET",
+        "server_sha256": "sha256:7ad13169383ce25c5eeb6d561814ff840dd751d70d258cabcd708266d5587d67"
+      },
+      {
+        "name": "SHA256SUMS",
+        "public_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.2.0/SHA256SUMS",
+        "anonymous_status": 200,
+        "check": "GET",
+        "server_sha256": "sha256:c36dbf95daad997f5fb8e344956ce9981f9183a256e883ec6b22ec1240ff4a85"
+      }
+    ]
+  },
+  "published_source_commit": "f2b8d66e6937c7765a71cb23c65fa19b646e1171",
+  "source_clone_verification": {
+    "source_commit": "f2b8d66e6937c7765a71cb23c65fa19b646e1171",
+    "tracked_file_count": 340,
+    "all_tracked_files_byte_identical": true,
+    "remote_clone_worktree_clean": true,
+    "changed_files": []
+  },
+  "server_asset_verification": {
+    "release_id": 407387181,
+    "release_tag": "v1.2.0",
+    "all_assets_verified": true,
+    "assets": [
+      {
+        "name": "Panda_Posture_Control_v1.2.0.zip",
+        "asset_id": 623451945,
+        "size": 813940182,
+        "sha256": "573ca2440d7e80bef4ca464941a77a3124aca83d8512dd33e74e81de57f4ea1c",
+        "server_digest_matches": true
+      },
+      {
+        "name": "Panda_Posture_Control_v1.2.0.receipt.json",
+        "asset_id": 623451949,
+        "size": 731,
+        "sha256": "cf04382b020c15b5c4c2672fc0dd33625da4d8ef640684c04792b12d41e6be10",
+        "server_digest_matches": true
+      },
+      {
+        "name": "Panda_Posture_Control_v1.2.0.verification.json",
+        "asset_id": 623451948,
+        "size": 2706,
+        "sha256": "7ad13169383ce25c5eeb6d561814ff840dd751d70d258cabcd708266d5587d67",
+        "server_digest_matches": true
+      },
+      {
+        "name": "SHA256SUMS",
+        "asset_id": 623451947,
+        "size": 320,
+        "sha256": "c36dbf95daad997f5fb8e344956ce9981f9183a256e883ec6b22ec1240ff4a85",
+        "server_digest_matches": true
+      }
+    ],
+    "older_release_assets_unchanged": true
+  },
+  "archive_validation": {
+    "release": "v1.2.0",
+    "archive_name": "Panda_Posture_Control_v1.2.0.zip",
+    "zip_size_bytes": 813940182,
+    "zip_sha256": "573ca2440d7e80bef4ca464941a77a3124aca83d8512dd33e74e81de57f4ea1c",
+    "source_commit": "f2b8d66e6937c7765a71cb23c65fa19b646e1171",
+    "source_worktree_clean_at_packaging": true,
+    "manifest_file_count": 6728,
+    "manifest_all_files_sha256_verified": true,
+    "actual_zip_extracted_to_new_directory": true,
+    "new_project_local_environment_created": true,
+    "dependencies_installed_from_local_cache": 35,
+    "python_runtime": "3.11.17; shared installed base interpreter on the same Linux host",
+    "editable_install_frozen_metadata_restored": true,
+    "tests_passed": 128,
+    "extracted_tests_wall_s": 12.68,
+    "automatic_relocation_and_freeze_gate_passed": true,
+    "models": [
+      {
+        "seed": 144,
+        "success": true,
+        "physics_steps": 960,
+        "arrays_equal_to_original_reference": {
+          "time": true,
+          "q": true,
+          "qd": true,
+          "x": true,
+          "xref": true,
+          "error": true,
+          "command": true,
+          "raw_command": true,
+          "saturated": true,
+          "projection_leakage": true
+        },
+        "save_load_check_passed": true
+      },
+      {
+        "seed": 145,
+        "success": true,
+        "physics_steps": 960,
+        "arrays_equal_to_original_reference": {
+          "time": true,
+          "q": true,
+          "qd": true,
+          "x": true,
+          "xref": true,
+          "error": true,
+          "command": true,
+          "raw_command": true,
+          "saturated": true,
+          "projection_leakage": true
+        },
+        "save_load_check_passed": true
+      },
+      {
+        "seed": 146,
+        "success": true,
+        "physics_steps": 960,
+        "arrays_equal_to_original_reference": {
+          "time": true,
+          "q": true,
+          "qd": true,
+          "x": true,
+          "xref": true,
+          "error": true,
+          "command": true,
+          "raw_command": true,
+          "saturated": true,
+          "projection_leakage": true
+        },
+        "save_load_check_passed": true
+      }
+    ],
+    "original_validation_reference_in_archive": "experiments/20261008T221557.513252Z_delivery_validation",
+    "v1_1_0_local_zip_sha256_unchanged": "4e417e3ae147c51fc7bcd3b82d6aede94c6defe0391a7729362ac09d1be3e7ae",
+    "scientific_scope": "Original selected models and test results unchanged; new diagnostic is single-seed train/validation only",
+    "limits": [
+      "Same Linux host; no cross-platform or cross-machine bitwise guarantee",
+      "Package installation used an existing offline cache; online bootstrap was not repeated",
+      "First environment attempt hit read-only default uv cache; retained failure log, then used workspace cache successfully"
+    ]
+  },
+  "scope": "Publication of tested engineering and exploratory diagnostic updates; official selected models and prior evaluation unchanged",
+  "course_platform_submission": false
+}
