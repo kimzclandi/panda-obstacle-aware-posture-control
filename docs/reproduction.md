@@ -2,13 +2,15 @@
 
 [中文入口](../README.md) | [English overview](../README.en.md)
 
-**当前完整包是 [v1.1.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) 的 `Panda_Final_Project_20261009.zip`**（750,132,146 字节）。下载该版本 `SHA256SUMS` 与所列附件后，在同一目录运行 `shasum -a 256 -c SHA256SUMS`，再解压并进入 `panda-posture/`。缺失附件会导致校验失败，不可当作通过。普通 clone 和 GitHub 自动生成的 Source code 包不含模型、witness 与 `experiments/`。
+**当前分发入口为 [v1.2.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.2.0) 的 `Panda_Posture_Control_v1.2.0.zip`**。下载该版本 `SHA256SUMS` 与所列附件后，在同一目录运行 `shasum -a 256 -c SHA256SUMS`，再解压并进入 `panda-posture/`。缺失附件会导致校验失败，不可当作通过。普通 clone 和 GitHub 自动生成的 Source code 包不含模型、witness 与 `experiments/`。
 
-该完整包的 receipt 记录基准 commit `4b003c5` 与打包时未提交文件，清单哈希绑定实际内容；release tag 对应之后的发布提交。不要反填新提交到旧 provenance。v1.0.0 保留供历史复核，不作为最新运行入口。
+每个版本以对应 receipt 和清单绑定实际内容，不反填新提交到旧 provenance。历史 v1.1.0 包为 `Panda_Final_Project_20261009.zip`（750,132,146 字节），记录基准 commit `4b003c5` 与打包时未提交文件；它和 v1.0.0 均保留供历史复核，不作为最新入口。
 
 冻结清单记录了最初实验所在 Linux 项目的绝对路径。把工程解压到另一目录后，不能直接把旧路径当作新环境，也不能修改原始配置文件来“修复路径”：这些文件本身属于已哈希的证据。`scripts/relocate_freeze.py` 仅为相同文件创建新的位置映射，保留原始清单和训练选择，随后仍经过同一个 `verify_frozen_inputs` 入口检查。
 
 本页描述可执行复跑流程。尚未完成的训练、冻结、批量测试不因有复跑命令而视作已完成；实际运行目录及结果以 `progress.md` 和交付清单为准。路径中的 `<...>` 必须替换为包内实际目录。
+
+> v1.2.0 更新：统一启动检查和自动搬迁已接入 quickstart、GUI 与固定测试入口。`quickstart.py --check-only` 仅检查安装/文件；正常执行仍必须通过冻结哈希校验。新入口随 v1.2.0 源码与完整包分发；v1.1.0 原包保留，下面的显式搬迁流程仍有效。本轮搬迁检查复用已验证依赖的副本，没有再次执行全新安装。
 
 ## 本地 final 修订的自动入口
 

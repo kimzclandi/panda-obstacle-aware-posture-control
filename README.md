@@ -2,11 +2,11 @@
 
 **简体中文** | [English](README.en.md)
 
-> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.1.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) 下载完整复现 ZIP，核对 `SHA256SUMS`，解压后按下方 Quick verification 建环境并自动核验搬迁路径。下文 `experiments/` 路径仅在完整 ZIP 内有效。
+> **GitHub checkout 与完整复现包不同。** 本仓库保存源码、配置、文档、报告、视频与 Git 历史；`experiments/`、虚拟环境和冻结的安装元数据不随 Git 上传。运行三个已训练模型、核验 witness 或重跑固定 500 回合，请从 [v1.2.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.2.0) 下载完整复现 ZIP，核对 `SHA256SUMS`，解压后按下方 Quick verification 建环境并自动核验搬迁路径。下文 `experiments/` 路径仅在完整 ZIP 内有效。
 >
-> The Git repository contains source code and presentation deliverables. **Pretrained checkpoints and the immutable experimental evidence are in the full Release ZIP.** A source-only clone can run the basic diagnostics/tests after bootstrap; frozen model validation requires the complete archive and the relocation procedure. The v1.1.0 full archive preserves the verified local revision byte-for-byte: its receipt records base commit `4b003c5` plus the then-uncommitted files, and its manifest hashes bind the actual contents. The release tag identifies the subsequent publication commit. Distribution documentation has changed; the frozen scientific inputs have not.
+> The Git repository contains source code and presentation deliverables. **Pretrained checkpoints and immutable experimental evidence are in the full Release ZIP.** A source-only clone can run basic diagnostics/tests after bootstrap; frozen model validation requires the complete archive. Version 1.2.0 adds robust startup checks, an inspected native GUI and a bounded learning-rate diagnostic. The original models, 500-episode evaluation, report and video are unchanged. Archive manifests and receipts bind exact file contents and code provenance; earlier releases remain available.
 
-**核心工程和首轮冻结研究已完成；当前版本为 2026-10-09 技术交付修订（v1.1.0）。** 新增训练退化分析、十页英文报告、障碍物标注视频和自动搬迁验证入口。个人署名/真实反思与其他实际组员的独立报告仍待本人确认。本版本通过 GitHub 分发，未提交任何课程平台；旧 v1.0.0 Release 保留。
+**核心工程和首轮冻结研究已完成；当前分发版本为 v1.2.0。** 新增启动预检、自动搬迁入口、实际检查过的障碍物标注，以及独立学习率短诊断。英文报告和演示视频沿用已验证版本。个人署名/真实反思与其他实际组员的独立报告仍待本人确认；未提交任何课程平台。
 
 本次结论：相同 100 个测试场景，APF 成功 92 次，高于 PPO 的 80、81、65 次；没有支持 RL 超过 APF。三个 PPO seed 各训练 98,304 policy steps，全部 188 个 train/validation/test 场景具有物理 witness；不声称 PPO 已收敛。
 
@@ -34,7 +34,7 @@ python3 -m unittest discover -s tests -p test_release_archive.py -v
 
 <a id="archive-integrity"></a>
 
-[只读归档检查器](scripts/verify_release_archive.py)及[完整使用命令](docs/reproduction.md#legacy-archive-check)保留对 **v1.0.0 历史完整包**的静态验收：下载 SHA-256、逐成员 CRC/清单哈希、study index、冻结/评估身份和具体 README 包内路径。已验证该旧包；没有将此结果迁移为 v1.1.0 静态检查器验收。v1.1.0 的实际发布与 Linux 解压复跑证据见下方最新入口。
+[只读归档检查器](scripts/verify_release_archive.py)及[完整使用命令](docs/reproduction.md#legacy-archive-check)保留对 **v1.0.0 历史完整包**的静态验收：下载 SHA-256、逐成员 CRC/清单哈希、study index、冻结/评估身份和具体 README 包内路径。已验证该旧包；没有将此结果迁移为 后续版本的静态检查器验收。v1.1.0 历史解压复跑证据与 v1.2.0 当前工程更新见下方各自入口。
 
 原包按设计排除的 30 个 PyBullet 依赖资产仍须安装锁定环境后由原冻结入口核验。脚本不联网、不解包、不执行归档代码或加载模型；包完整性不等于物理复现。完整 `run_tests.sh` 包含短 PPO 学习 smoke test，与上述无训练检查分开。
 
@@ -49,11 +49,27 @@ cd panda-obstacle-aware-posture-control
 
 源码 clone 适合阅读实现和运行不依赖冻结模型的基础检查。直接体验训练好的模型，请下载下面的完整 ZIP。仅需要轻量环境/demo 时，可选下载同一 Release 的 `Panda_Gym_Code_Report.zip`，按其独立 README 运行；它不是完整模型复现包。
 
-本轮验收：108 项关键测试通过；最终 ZIP 的 6,434 个清单文件已核验，实际解压到本机新目录并建立项目独立环境后，三个模型各完成 960 物理步，状态和命令与原验证逐位一致。详见 [解压复跑记录](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.verification.json)。这是同一 Linux 主机上的验证，不宣称其他电脑或跨平台已验证。
+v1.1.0 历史归档验收：108 项关键测试通过；当时的完整 ZIP 的 6,434 个清单文件已核验，实际解压到本机新目录并建立项目独立环境后，三个模型各完成 960 物理步，状态和命令与原验证逐位一致。详见 [解压复跑记录](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.verification.json)。这是同一 Linux 主机上的验证，不宣称其他电脑或跨平台已验证。
+
+## v1.2.0：启动、演示与学习率诊断
+
+当前版本新增统一的启动检查：依赖或模型数据缺失、误用其他 Python、外部 `PYTHONPATH` 干扰、无图形显示时，会给出原因和修复步骤。下面仅检查安装与必要文件，**不会执行仿真，也不代表冻结哈希或功能验收通过**：
+
+```bash
+env -u PYTHONPATH .venv/bin/python scripts/quickstart.py --check-only
+```
+
+普通 `quickstart.py` 仍进行完整冻结检查和三个模型的物理验证。更新后的 `live_demo.py`、`run_frozen_test.py` 也自动处理完整项目搬迁，无须手工复制 `--freeze` 路径；显式 `--freeze` 仍可用于诊断。演示增加红球障碍标注与颜色图例，显示标题去掉课程标识。
+
+v1.2.0 完整 ZIP 包含这些入口、新诊断的模型/日志/轨迹与原研究证据。旧 v1.1.0 ZIP 保留原字节。公开检查摘要见 [验证记录](deliverables/updates_v1.2.0/verification_summary.json)，完整历史见 [进度记录](docs/progress.md)。
+
+本版发布前验收已达到 **128 项测试通过**，并完成原生 GUI 的开始/结束截图检查：红球侧面标注不再遮住净空读数，[实际画面](deliverables/updates_v1.2.0/demo_ready.png)。窗口实际执行 960 物理步后自动关闭，轨迹与原 DIRECT 记录逐位一致。
+
+另完成约 4.48 分钟的[学习率单因素短实验（英文附录＋中文解读）](docs/learning_rate_diagnostic.md)：同一选中模型、两组各续训 12,288 步，validation 最终为原学习率 15/24、较低学习率 17/24，起点也为 17/24。这是单 seed、重复使用 validation 的探索诊断；没有改善起点的总体成功数，没有替换正式模型，也没有产生新 test 结论。
 
 ## 新电脑上的最短验证流程 / Quick verification
 
-从 [v1.1.0 Assets](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) 下载 **Panda_Final_Project_20261009.zip**（750,132,146 字节）及 `SHA256SUMS`。GitHub 自动生成的 **Source code (zip/tar.gz)** 不包含模型和实验数据。核对 SHA-256 后解压完整 ZIP，进入 `panda-posture/`，运行：
+从 [v1.2.0 Assets](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.2.0) 下载 **Panda_Posture_Control_v1.2.0.zip**及 `SHA256SUMS`。GitHub 自动生成的 **Source code (zip/tar.gz)** 不包含模型和实验数据。核对 SHA-256 后解压完整 ZIP，进入 `panda-posture/`，运行：
 
 ```bash
 bash scripts/bootstrap.sh
@@ -79,7 +95,7 @@ env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
 
 这是调用原控制器和 `stepSimulation` 的实际仿真，界面只添加显示与墙钟节奏。每次运行单独写入 `experiments/*_live_gui_demo/`；中断不记为成功，GUI 耗时不能当作正式性能计时。`--autostart --exit-after-run` 可完成一次自动 GUI smoke 后退出；`--scenario study-4490-0017` 或 `study-4490-0069` 可查看报告中已有的例子，个例不代替批量评估。
 
-交互入口已纳入当前源码和 v1.1.0 完整 ZIP。原 v1.0.0 ZIP 保持不变，因此旧版本用户需要更新文件。项目搬迁后，先运行 quickstart，再把其打印的 `freeze_for_other_commands` 路径通过 `--freeze` 传给 GUI。需要本地图形显示；无显示环境继续使用 DIRECT 验证。
+交互入口已纳入当前源码和 v1.1.0 完整 ZIP。原 v1.0.0 ZIP 保持不变，因此旧版本用户需要更新文件。v1.2.0 入口在搬迁后自动核验并重绑路径。已发布的 v1.1.0 ZIP 仍使用旧流程：先运行 quickstart，再把其打印的 `freeze_for_other_commands` 路径通过 `--freeze` 传给 GUI。需要本地图形显示；无显示环境继续使用 DIRECT 验证。
 
 ## 范围与成功定义
 

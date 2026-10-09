@@ -1,0 +1,54 @@
+{
+  "arms": [
+    {
+      "name": "original_lr",
+      "learning_rate": 0.0003,
+      "successes": 15,
+      "denominator": 24,
+      "failures": {
+        "collision": 9
+      },
+      "mean_approx_kl": 0.012399000387328366,
+      "mean_ppo_clip_fraction": 0.10231119791666667,
+      "mean_raw_sample_clipped_fraction": 0.36215355282738093,
+      "fixed_probe_mean_drift": 0.9866109490394592,
+      "training_steps_per_s": 170.03844333297818,
+      "wall_s": 116.71790126000087
+    },
+    {
+      "name": "lower_lr",
+      "learning_rate": 0.0001,
+      "successes": 17,
+      "denominator": 24,
+      "failures": {
+        "collision": 7
+      },
+      "mean_approx_kl": 0.005584321212760794,
+      "mean_ppo_clip_fraction": 0.029077148437499995,
+      "mean_raw_sample_clipped_fraction": 0.35585239955357145,
+      "fixed_probe_mean_drift": 0.5732840895652771,
+      "training_steps_per_s": 149.09150068145806,
+      "wall_s": 127.99039492600059
+    }
+  ],
+  "paired_validation": {
+    "denominator": 24,
+    "both_success": 14,
+    "original_only": 1,
+    "lower_only": 3,
+    "both_failure": 6,
+    "lower_minus_original_count": 2
+  },
+  "initial_successes": 17,
+  "initial_state_equal": true,
+  "first_rollout_arrays_equal": {
+    "observations": true,
+    "actions": true,
+    "rewards": true,
+    "returns": true,
+    "advantages": true,
+    "episode_starts": true
+  },
+  "interpretation": "Exploratory one-seed continuation on reused validation; no independent generalization estimate",
+  "clipping_boundary": "Raw Gaussian policy action clipping is distinct from final seven-joint motor-speed saturation"
+}

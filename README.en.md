@@ -8,7 +8,7 @@ This project asks whether learned secondary posture control improves full-trajec
 
 **The frozen study does not support PPO outperforming the tuned APF under this budget and witness-filtered distribution.** All 500 test episodes, including failures, are retained. Each PPO seed completed 98,304 policy steps; this is not a convergence claim.
 
-**Current technical revision: 2026-10-09 (v1.1.0).** It adds a reviewed 10-page report, a 52-second annotated video, training-stability analysis and automatic relocation verification. Individual reflections and other actual participants' independent reports still require their own review; nothing was submitted to a course platform. Historical reports and v1.0.0 remain available.
+**Current distribution: v1.2.0.** It adds startup checks, automatic relocation across entry points, inspected native-GUI labels and a bounded learning-rate diagnostic. The reviewed 10-page report, 52-second annotated video and original models/test study remain unchanged. Individual reflections and other actual participants' independent reports still require their own review; nothing was submitted to a course platform. Historical reports and earlier releases remain available.
 
 ## Online reading and complete reproduction
 
@@ -17,14 +17,14 @@ This project asks whether learned secondary posture control improves full-trajec
 | Read methods and results | [English report, 10 pages](deliverables/final_20261009/report_en_v2/final_report_en.pdf), [Chinese interpretation](deliverables/final_20261009/interpretation_zh.md), [failure analysis](docs/failure_analysis.md) | No |
 | Inspect code | [Shared control](src/panda_posture/control.py), [whole-arm APF](src/panda_posture/secondary.py), [environment](src/panda_posture/env.py), [tests](tests/) | No |
 | Watch the demonstration | [52-second video](deliverables/final_20261009/videos/final_demo_en_v2.mp4) | No |
-| Inspect checkpoints, witnesses and all trajectories | [v1.1.0 Release assets](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) | Yes |
+| Inspect checkpoints, witnesses and all trajectories | [v1.2.0 Release assets](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.2.0) | Yes |
 | Validate pretrained models or rerun the fixed 500 episodes | [Relocation and reproduction guide](docs/reproduction.md) | Yes; verify checksums and relocate the freeze first |
 
-Download **`Panda_Final_Project_20261009.zip`**, not GitHub's automatically generated **Source code (zip/tar.gz)**. The current complete archive is **750,132,146 bytes**. Its receipt records base commit `4b003c5` and the then-uncommitted files, and the manifest hashes bind its actual contents; the release tag identifies the subsequent publication commit. Download `SHA256SUMS` and its listed attachments into the same directory, then run:
+Download **`Panda_Posture_Control_v1.2.0.zip`**, not GitHub's automatically generated **Source code (zip/tar.gz)**. Each archive's own receipt and manifest bind its contents and code provenance; do not substitute a later commit into an earlier receipt. Download `SHA256SUMS` and its listed attachments into the same directory, then run:
 
 ```bash
 shasum -a 256 -c SHA256SUMS
-unzip Panda_Final_Project_20261009.zip
+unzip Panda_Posture_Control_v1.2.0.zip
 cd panda-posture
 ```
 
@@ -46,7 +46,7 @@ python3 .github/scripts/check_readmes.py
 python3 -m unittest discover -s tests -p test_release_archive.py -v
 ```
 
-The [read-only archive checker](scripts/verify_release_archive.py) has been exercised on the **historical v1.0.0 complete archive**. Follow the [version-specific command](docs/reproduction.md#legacy-archive-check) with that release's ZIP, receipt and checksum files. Its old-archive validation is not a validation of v1.1.0 by this checker; the current release's separate publication and Linux extraction/run records are linked from the [release verification record](docs/github_sync_20261009.json).
+The [read-only archive checker](scripts/verify_release_archive.py) has been exercised on the **historical v1.0.0 complete archive**. Follow the [version-specific command](docs/reproduction.md#legacy-archive-check) with that release's ZIP, receipt and checksum files. Its old-archive validation does not validate later archives by this checker. Historical v1.1.0 publication and Linux extraction/run records are linked from its [release verification record](docs/github_sync_20261009.json); v1.2.0 has its own [recorded engineering summary](deliverables/updates_v1.2.0/verification_summary.json).
 
 The checker does not access the network, extract files, execute archived code or load models. It checks download SHA-256, every member's CRC and manifest SHA-256, index/freeze/evaluation references and concrete README archive paths. The historical archive intentionally excludes `.venv/`: **30 PyBullet dependency assets remain unchecked** until installation of the locked environment and the original freeze validation. Archive integrity is not physical reproduction or model execution. The full `run_tests.sh` suite includes a small PPO learning smoke test and is separate from these no-training checks.
 
@@ -79,7 +79,7 @@ env -u PYTHONPATH .venv/bin/python -m panda_posture.evaluate --diagnostics
 
 Bootstrap obtains ordinary packages from PyPI and the CPU Torch wheel from its dedicated `find-links` source. It preserves and audits the five frozen `src/panda_posture.egg-info/` files when the full archive's freeze manifest is present. Do not remove these metadata files from a reproduction package. Clear host ROS `PYTHONPATH`; a GPU driver does not imply that the simulation or small PPO model uses CUDA. The reference installation and same-host relocation were validated on Linux; macOS, Windows, GPU execution and cross-hardware bitwise identity are not established by that evidence.
 
-The basic test suite includes a small PPO save/load learning smoke test; it is separate from the 98,304-step study. The documentation workflow only checks local navigation, not physics, model quality or experimental reproduction. Run its dependency-free check with `python .github/scripts/check_readmes.py`.
+The basic test suite includes a small PPO save/load learning smoke test; it is separate from the 98,304-step study. The documentation workflow checks local navigation and synthetic archive contracts, not physics, model quality or experimental reproduction. Run its dependency-free check with `python .github/scripts/check_readmes.py`.
 
 ## Frozen inputs and experimental choices
 
@@ -101,16 +101,16 @@ The three PPO learners ran concurrently on one CPU, each with one Torch/BLAS thr
 
 ## Validate existing models without retraining
 
-After extracting the **v1.1.0 full archive**, run its automatic entry point:
+After extracting the **v1.2.0 full archive**, run its automatic entry point:
 
 ```bash
 bash scripts/bootstrap.sh
 env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/quickstart.py
 ```
 
-It verifies the frozen inputs, creates a new relocation manifest when needed and runs the three selected models on the same fixed validation scene. Each must complete 960 physics steps. The printed `freeze_for_other_commands` path can be passed to the GUI or explicit commands below. This is a functionality check, not another 500-episode study. The [reproduction guide](docs/reproduction.md) retains the explicit diagnostic steps. Original configurations and frozen records must remain byte-identical. Relocation maps identical files to new paths, validates hashes and preserves the parent manifest; it cannot waive an input mismatch.
+It verifies the frozen inputs, creates a new relocation manifest when needed and runs the three selected models on the same fixed validation scene. Each must complete 960 physics steps. The v1.2.0 GUI and fixed-test entry points also prepare relocated paths automatically; explicit `--freeze` remains available for diagnostics. The v1.1.0 archive still needs the path printed by quickstart for its older GUI. This is a functionality check, not another 500-episode study. The [reproduction guide](docs/reproduction.md) retains the explicit diagnostic steps. Original configurations and frozen records must remain byte-identical. Relocation maps identical files to new paths, validates hashes and preserves the parent manifest; it cannot waive an input mismatch.
 
-The current release was extracted into a new directory on the same Linux host: 6,434 manifest files were checked, and each selected model completed 960 physics steps with bitwise-identical states and commands. See the [saved extraction verification](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.verification.json). This does not claim validation on another machine or platform.
+The historical v1.1.0 release (750,132,146 bytes) was extracted into a new directory on the same Linux host: 6,434 manifest files were checked, and each selected model completed 960 physics steps with bitwise-identical states and commands. See the [saved extraction verification](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.verification.json). This does not claim validation on another machine or platform.
 
 ```bash
 # After relocation; use the actual new manifest created by the guide.
@@ -130,7 +130,7 @@ The recorded same-host Linux relocation validated 960 physics steps per model an
 
 ## Interactive display
 
-After the complete project and environment pass verification, run `env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/live_demo.py`. For a relocated project, pass `--freeze` with the path printed by quickstart. A local graphical display is required; headless environments should continue to use DIRECT verification.
+After the complete project and environment pass verification, run `env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/live_demo.py`. The v1.2.0 entry point automatically verifies and relocates an intact moved project. For the older v1.1.0 archive, pass `--freeze` with the path printed by quickstart. A local graphical display is required; headless environments should continue to use DIRECT verification.
 
 SPACE starts the fixed validation trajectory. Before a run or after termination, keys 1/2/3 select tracker/APF/PPO; R starts a new episode after termination, and Q/Esc exits. Controls cannot pause the reference clock during execution. Blue shows the reference path and green the actual tool path. Each run stores separate evidence; interruption is not success. The display reuses the original controllers and `stepSimulation`; GUI wall time is not a control-performance measurement. Local GUI execution was checked in the recorded Linux environment, not on all desktops.
 
@@ -160,6 +160,14 @@ Joint position `q:(7,)` is in radians; tool position `x:(3,)` is in world-frame 
 Primary velocity is `J_dls @ (v_ref + Kp*(x_ref-x))`; the secondary term is `N @ u_secondary`. `N` comes from an SVD null-space basis. The damped-inverse expression `I-J_dls@J` is not generally a strict null-space projector. The seven-element action is clipped to `[-1,1]`, scaled to rad/s, projected, added to primary control and subjected to common velocity limits. Correct geometric projection alone does not establish physical tracking or safety.
 
 Physics and primary tracking run at **240 Hz**; all secondary policies run at **60 Hz**, with `action_repeat=4`. Safety is checked at every physics step. Formal rollouts, witnesses and videos use motor commands and `stepSimulation`; `resetJointState` is limited to initialization, numerical diagnostics and offline geometric candidates. Future reference at 0.25/0.5/1 seconds is known task information; no independent no-future-reference training ablation was completed. See the [RL formulation](docs/rl_formulation.md).
+
+## v1.2.0 startup and diagnostic evidence
+
+`env -u PYTHONPATH .venv/bin/python scripts/quickstart.py --check-only` checks the interpreter, pinned dependencies and required files. It performs no simulation and does not validate frozen hashes. Normal execution still requires the original freeze checks before model/physics work; missing data, external PYTHONPATH and unavailable GUI display produce actionable errors.
+
+The [recorded engineering summary](deliverables/updates_v1.2.0/verification_summary.json) reports 128 passed tests and an inspected native GUI completing 960 physics steps, with states and commands identical to the original DIRECT record. The [ready image](deliverables/updates_v1.2.0/demo_ready.png) shows the revised obstacle label and legend. These are the recorded Linux checks, not a new run on every reader's platform.
+
+The [bounded learning-rate diagnostic](docs/learning_rate_diagnostic.md) continued the same selected seed-145 model for 12,288 steps per arm. Original learning rate 3e-4 reached 15/24 validation successes; lower rate 1e-4 reached 17/24, equal to the 17/24 starting count. This is one continuation seed on reused validation scenes; it did not improve the starting aggregate success count, replace a released model or create a new held-out conclusion. All endpoints and failures are retained. Its roughly 4.48-minute cost does not justify an automatic budget extension.
 
 ## Learning stability and delivery review
 

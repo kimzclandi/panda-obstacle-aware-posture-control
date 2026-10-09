@@ -1,0 +1,160 @@
+{
+  "complete": true,
+  "initial_validation": {
+    "episodes": 24,
+    "success_rate": 0.7083333333333334,
+    "collision_rate": 0.2916666666666667,
+    "completion_rate": 0.7083333333333334,
+    "evaluation_wall_s": 23.810724598999514,
+    "timing_scope": "inference=network predict only; features=55D observation only; task metrics describe control/physics",
+    "completed_only_rmse_m": 2.5291947739079367e-05,
+    "completed_only_n": 17,
+    "by_difficulty": {
+      "simple": {
+        "episodes": 12,
+        "success_rate": 0.75,
+        "collision_rate": 0.25
+      },
+      "tight": {
+        "episodes": 12,
+        "success_rate": 0.6666666666666666,
+        "collision_rate": 0.3333333333333333
+      }
+    },
+    "successes": 17,
+    "failure_counts": {
+      "collision": 7
+    },
+    "visited_observations": 4803,
+    "deterministic_raw_mean_outside_action_bounds_fraction": 0.0,
+    "gaussian_std": [
+      1.007840633392334,
+      1.076084017753601,
+      0.9837704300880432,
+      1.0236223936080933,
+      0.9794358611106873,
+      1.0265733003616333,
+      1.039991021156311
+    ]
+  },
+  "arms": [
+    {
+      "arm": {
+        "name": "original_lr",
+        "learning_rate": 0.0003
+      },
+      "additional_steps": 12288,
+      "wall_s": 116.71790126000087,
+      "validation_wall_s": 44.45189035600197,
+      "training_steps_per_s": 170.03844333297818,
+      "endpoint_model_sha256": "2e625aafb7c59a77c82f0034750ab784769075edfa2b6b253f9e1aabfa1cfb1d",
+      "save_load_exact": true,
+      "save_load_probe_observations": 4803,
+      "endpoint": {
+        "episodes": 24,
+        "success_rate": 0.625,
+        "collision_rate": 0.375,
+        "completion_rate": 0.625,
+        "evaluation_wall_s": 21.56045161000111,
+        "timing_scope": "inference=network predict only; features=55D observation only; task metrics describe control/physics",
+        "completed_only_rmse_m": 3.0105408587182277e-05,
+        "completed_only_n": 15,
+        "by_difficulty": {
+          "simple": {
+            "episodes": 12,
+            "success_rate": 0.5833333333333334,
+            "collision_rate": 0.4166666666666667
+          },
+          "tight": {
+            "episodes": 12,
+            "success_rate": 0.6666666666666666,
+            "collision_rate": 0.3333333333333333
+          }
+        },
+        "successes": 15,
+        "failure_counts": {
+          "collision": 9
+        },
+        "visited_observations": 4346,
+        "deterministic_raw_mean_outside_action_bounds_fraction": 0.0,
+        "gaussian_std": [
+          0.9473423957824707,
+          1.1270365715026855,
+          0.9939244985580444,
+          1.1413177251815796,
+          0.9948539733886719,
+          1.0301631689071655,
+          1.0383468866348267
+        ],
+        "fixed_probe_raw_mean_l2_drift": 0.9866109490394592,
+        "fixed_probe_raw_mean_outside_bounds_fraction": 0.0
+      }
+    },
+    {
+      "arm": {
+        "name": "lower_lr",
+        "learning_rate": 0.0001
+      },
+      "additional_steps": 12288,
+      "wall_s": 127.99039492600059,
+      "validation_wall_s": 45.57120976900114,
+      "training_steps_per_s": 149.09150068145806,
+      "endpoint_model_sha256": "2b71427b6816965dd3686680f8055deea7964618db9f7306ee5c0e6d8ec5eca1",
+      "save_load_exact": true,
+      "save_load_probe_observations": 4803,
+      "endpoint": {
+        "episodes": 24,
+        "success_rate": 0.7083333333333334,
+        "collision_rate": 0.2916666666666667,
+        "completion_rate": 0.7083333333333334,
+        "evaluation_wall_s": 22.352998877000573,
+        "timing_scope": "inference=network predict only; features=55D observation only; task metrics describe control/physics",
+        "completed_only_rmse_m": 3.244108980928925e-05,
+        "completed_only_n": 17,
+        "by_difficulty": {
+          "simple": {
+            "episodes": 12,
+            "success_rate": 0.6666666666666666,
+            "collision_rate": 0.3333333333333333
+          },
+          "tight": {
+            "episodes": 12,
+            "success_rate": 0.75,
+            "collision_rate": 0.25
+          }
+        },
+        "successes": 17,
+        "failure_counts": {
+          "collision": 7
+        },
+        "visited_observations": 4577,
+        "deterministic_raw_mean_outside_action_bounds_fraction": 0.0,
+        "gaussian_std": [
+          0.9985578656196594,
+          1.074916958808899,
+          0.9908813834190369,
+          1.0453336238861084,
+          0.9961495995521545,
+          1.0275028944015503,
+          1.0434291362762451
+        ],
+        "fixed_probe_raw_mean_l2_drift": 0.5732840895652771,
+        "fixed_probe_raw_mean_outside_bounds_fraction": 0.0
+      }
+    }
+  ],
+  "initial_state_equal": true,
+  "first_rollout_arrays_equal": {
+    "observations": true,
+    "actions": true,
+    "rewards": true,
+    "returns": true,
+    "advantages": true,
+    "episode_starts": true
+  },
+  "protected_inputs_unchanged": true,
+  "endpoint_success_difference_lower_minus_original": 2,
+  "test_evaluated": false,
+  "original_models_replaced": false,
+  "limitations": "One paired continuation seed, reused validation set, fixed short budget; no generalization or convergence claim"
+}
