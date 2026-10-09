@@ -1,16 +1,19 @@
-# Submission map / 提交说明
+# Final delivery map / 交付说明
 
-This archive contains the completed bounded study, not a convergence claim or a claim of PPO superiority.
+Revision: 9 October 2026. GitHub distribution is authorized as v1.1.0; no course-platform submission has been performed. The complete Release ZIP preserves the earlier verified local snapshot, whose internal notes predate publication.
 
-- English individual report draft: `deliverables/report_en/final_report_en.pdf` (9 pages, references included).
-- English silent demonstration: `deliverables/videos/final_demo_en.mp4` (38 seconds). Two original physical replay clips and verification records are beside it.
-- Chinese explanation: `deliverables/interpretation_zh.md`; oral-defense guide: `docs/viva_guide_zh.md`.
-- Source, complete training code, fixed checkpoints and validation entry points: see `README.md` and `study_index.json`.
-- Dataset/witnesses/failures/raw trajectories/selection records: immutable `experiments/`.
-- Reuse and licenses: `docs/attribution.md` and `docs/third_party/`.
+Start with README.md. The current files are resolved by study_index.json; historical versions remain for traceability.
 
-The archive intentionally excludes virtual environments and Python binaries. Rebuild with `bash scripts/bootstrap.sh`. After moving the project, follow `docs/reproduction.md` to create a new relocated freeze manifest, then run the delivery validator or full frozen evaluation. Do not edit the original freeze or raw evidence to replace old absolute paths.
+- English technical report: deliverables/final_20261009/report_en_v2/final_report_en.pdf, 10 pages including references.
+- English silent demonstration: deliverables/final_20261009/videos/final_demo_en_v2.mp4, 52 seconds, two verified four-second physical replays at original speed.
+- Chinese page-by-page explanation: deliverables/final_20261009/interpretation_zh.md.
+- English oral rehearsal: deliverables/final_20261009/oral_script_en.md; Chinese defense guide: docs/viva_guide_zh.md.
+- Full training and evaluation code, three selected trained checkpoints, pinned dependencies, raw results and feasibility witnesses are included.
+- Quick verification after installation: env -u PYTHONPATH .venv/bin/python scripts/quickstart.py. It automatically creates a new location manifest if the archive was moved; original evidence is untouched.
+- Full requirements-to-evidence map and remaining personal items: docs/final_delivery_checklist.md.
 
-研究结果：APF92%，tracker70%，三PPO seed为80%、81%、65%，每策略相同100个测试场景。报告没有声称RL胜出，也没有将已实现等同于学生已掌握。
+研究结果：APF 92/100，tracker 70/100，PPO 三 seed 为 80/100、81/100、65/100。新增 validation 诊断确认一个最后训练模型发生明显退化。不能据此声称 RL 胜出、已收敛或只要延长训练就能改善。
 
-提交者请核对个人身份信息和真正的个人反思；当前报告不虚构组员分工。用户确认截止2026-11-20 23:59、AI辅助允许使用；Canvas时区、完整rubric和原创比例计算口径仍需课程材料确认。本包未自动提交到Canvas。
+Final 要求每名实际组员各自写一份至多十页报告。本包包含一份英文技术稿；署名、课程若要求的学号、你真实的个人反思，以及其他成员自己的报告仍需本人核对或提供。不要把历史草稿、排版失败版本或阶段两页 Gym 报告当作本次 final 报告。历史版本保留不代表要作为个人报告重复提交。
+
+用户确认截止 2026-11-20 23:59；时区、完整 rubric、原创比例统计口径未独立核验。本包不宣称达到未经定义的原创代码比例。复用及许可证见 docs/attribution.md。

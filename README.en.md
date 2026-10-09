@@ -8,21 +8,23 @@ This project asks whether learned secondary posture control improves full-trajec
 
 **The frozen study does not support PPO outperforming the tuned APF under this budget and witness-filtered distribution.** All 500 test episodes, including failures, are retained. Each PPO seed completed 98,304 policy steps; this is not a convergence claim.
 
+**Current technical revision: 2026-10-09 (v1.1.0).** It adds a reviewed 10-page report, a 52-second annotated video, training-stability analysis and automatic relocation verification. Individual reflections and other actual participants' independent reports still require their own review; nothing was submitted to a course platform. Historical reports and v1.0.0 remain available.
+
 ## Online reading and complete reproduction
 
 | Goal | Entry point | Full ZIP required |
 | --- | --- | --- |
-| Read methods and results | [English report, 9 pages](deliverables/report_en/final_report_en.pdf), [Chinese interpretation](deliverables/interpretation_zh.md), [failure analysis](docs/failure_analysis.md) | No |
+| Read methods and results | [English report, 10 pages](deliverables/final_20261009/report_en_v2/final_report_en.pdf), [Chinese interpretation](deliverables/final_20261009/interpretation_zh.md), [failure analysis](docs/failure_analysis.md) | No |
 | Inspect code | [Shared control](src/panda_posture/control.py), [whole-arm APF](src/panda_posture/secondary.py), [environment](src/panda_posture/env.py), [tests](tests/) | No |
-| Watch the demonstration | [38-second video](deliverables/videos/final_demo_en.mp4) | No |
-| Inspect checkpoints, witnesses and all trajectories | [v1.0.0 Release assets](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) | Yes |
+| Watch the demonstration | [52-second video](deliverables/final_20261009/videos/final_demo_en_v2.mp4) | No |
+| Inspect checkpoints, witnesses and all trajectories | [v1.1.0 Release assets](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) | Yes |
 | Validate pretrained models or rerun the fixed 500 episodes | [Relocation and reproduction guide](docs/reproduction.md) | Yes; verify checksums and relocate the freeze first |
 
-Download **`ME5418_Group44_submission_20261004.zip`**, not GitHub's automatically generated **Source code (zip/tar.gz)**. The complete archive is **716,482,807 bytes**, tied to code commit `62d74a5eca02554596c64979dd2a47559b8850eb`. Download `SHA256SUMS` and the listed ZIP, PDF, MP4 and receipt into the same directory, then run:
+Download **`Panda_Final_Project_20261009.zip`**, not GitHub's automatically generated **Source code (zip/tar.gz)**. The current complete archive is **750,132,146 bytes**. Its receipt records base commit `4b003c5` and the then-uncommitted files, and the manifest hashes bind its actual contents; the release tag identifies the subsequent publication commit. Download `SHA256SUMS` and its listed attachments into the same directory, then run:
 
 ```bash
 shasum -a 256 -c SHA256SUMS
-unzip ME5418_Group44_submission_20261004.zip
+unzip Panda_Final_Project_20261009.zip
 cd panda-posture
 ```
 
@@ -44,17 +46,9 @@ python3 .github/scripts/check_readmes.py
 python3 -m unittest discover -s tests -p test_release_archive.py -v
 ```
 
-After downloading the full ZIP, run the [read-only archive checker](scripts/verify_release_archive.py) from a source checkout containing this script (the frozen ZIP predates it). Replace `/path/to/downloads/` with your download directory:
+The [read-only archive checker](scripts/verify_release_archive.py) has been exercised on the **historical v1.0.0 complete archive**. Follow the [version-specific command](docs/reproduction.md#legacy-archive-check) with that release's ZIP, receipt and checksum files. Its old-archive validation is not a validation of v1.1.0 by this checker; the current release's separate publication and Linux extraction/run records are linked from the [release verification record](docs/github_sync_20261009.json).
 
-```bash
-python3 scripts/verify_release_archive.py \
-  --archive /path/to/downloads/ME5418_Group44_submission_20261004.zip \
-  --receipt /path/to/downloads/ME5418_Group44_submission_20261004.receipt.json \
-  --checksums /path/to/downloads/SHA256SUMS \
-  --readme README.md --readme README.en.md
-```
-
-The checker does not access the network, extract files, execute archived code or load models. It checks download SHA-256, every member's CRC and manifest SHA-256, index/freeze/evaluation references and concrete README archive paths. The archive intentionally excludes `.venv/`: **30 PyBullet dependency assets remain unchecked** until installation of the locked environment and the original freeze validation. Archive integrity is not physical reproduction or model execution. The full `run_tests.sh` suite includes a small PPO learning smoke test and is separate from these no-training checks.
+The checker does not access the network, extract files, execute archived code or load models. It checks download SHA-256, every member's CRC and manifest SHA-256, index/freeze/evaluation references and concrete README archive paths. The historical archive intentionally excludes `.venv/`: **30 PyBullet dependency assets remain unchecked** until installation of the locked environment and the original freeze validation. Archive integrity is not physical reproduction or model execution. The full `run_tests.sh` suite includes a small PPO learning smoke test and is separate from these no-training checks.
 
 ## Results and scope
 
@@ -62,9 +56,9 @@ The checker does not access the network, extract files, execute archived code or
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Successful full trajectories | 70 | **92** | 80 | 81 | 65 |
 
-![Full-trajectory success](deliverables/report_en/figures/success.png)
+![Full-trajectory success](deliverables/final_20261009/report_en_v2/figures/success.png)
 
-The set contains 50 simple and 50 tight scenarios. Stratified results, paired intervals, conditionally compared continuous metrics and seed variability are recorded in the complete ZIP at `experiments/20261003T201319.444915Z_paired_evaluation/analysis/summary.json`. The video contains two real physical replays; all six panes reproduced joint states exactly in the recorded validation. Its 1,140 frames at 30 fps illustrate behavior and do not replace the 500-episode evidence.
+The set contains 50 simple and 50 tight scenarios. Stratified results, paired intervals, conditionally compared continuous metrics and seed variability are recorded in the complete ZIP at `experiments/20261003T201319.444915Z_paired_evaluation/analysis/summary.json`. The video contains two real physical replays; all six panes reproduced joint states exactly in the recorded validation. Its 1,560 frames at 30 fps illustrate behavior and do not replace the 500-episode evidence.
 
 The robot is a fixed-base Franka Panda with seven controlled arm joints and two finger targets of 0.02 m each. The task follows a short 3D straight-line position trajectory with a four-second quintic timing law near one known static sphere. Secondary control cannot change the reference path or timing, or pause the clock. Orientation control, vision, grasping, hardware, ROS and distributed training are outside the study.
 
@@ -107,7 +101,16 @@ The three PPO learners ran concurrently on one CPU, each with one Torch/BLAS thr
 
 ## Validate existing models without retraining
 
-After extracting the **full archive**, follow the [reproduction guide](docs/reproduction.md) to bootstrap a fresh environment and create a relocated freeze manifest. Original configurations and frozen records must remain byte-identical. Relocation maps identical files to new paths, validates hashes and preserves the parent manifest; it cannot waive an input mismatch.
+After extracting the **v1.1.0 full archive**, run its automatic entry point:
+
+```bash
+bash scripts/bootstrap.sh
+env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/quickstart.py
+```
+
+It verifies the frozen inputs, creates a new relocation manifest when needed and runs the three selected models on the same fixed validation scene. Each must complete 960 physics steps. The printed `freeze_for_other_commands` path can be passed to the GUI or explicit commands below. This is a functionality check, not another 500-episode study. The [reproduction guide](docs/reproduction.md) retains the explicit diagnostic steps. Original configurations and frozen records must remain byte-identical. Relocation maps identical files to new paths, validates hashes and preserves the parent manifest; it cannot waive an input mismatch.
+
+The current release was extracted into a new directory on the same Linux host: 6,434 manifest files were checked, and each selected model completed 960 physics steps with bitwise-identical states and commands. See the [saved extraction verification](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.verification.json). This does not claim validation on another machine or platform.
 
 ```bash
 # After relocation; use the actual new manifest created by the guide.
@@ -124,6 +127,12 @@ env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python \
 These commands create new result directories and retain failures. The quick delivery check uses one fixed validation scenario for all three selected models; it is not the held-out test comparison. Test evaluation requires the freeze and verifies input hashes before loading models. New results do not replace the original evidence.
 
 The recorded same-host Linux relocation validated 960 physics steps per model and 240 visited observations each, with identical actions before/after save-load and bitwise-identical physical states and commands across relocation. Maximum joint/command differences were zero; timing arrays were excluded. See complete-ZIP paths `experiments/20261003T201415.503267Z_delivery_validation/status.json` and `experiments/20261003T202857.594683Z_relocation_verification/summary.json`. This does not guarantee another platform's deterministic trajectories.
+
+## Interactive display
+
+After the complete project and environment pass verification, run `env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/live_demo.py`. For a relocated project, pass `--freeze` with the path printed by quickstart. A local graphical display is required; headless environments should continue to use DIRECT verification.
+
+SPACE starts the fixed validation trajectory. Before a run or after termination, keys 1/2/3 select tracker/APF/PPO; R starts a new episode after termination, and Q/Esc exits. Controls cannot pause the reference clock during execution. Blue shows the reference path and green the actual tool path. Each run stores separate evidence; interruption is not success. The display reuses the original controllers and `stepSimulation`; GUI wall time is not a control-performance measurement. Local GUI execution was checked in the recorded Linux environment, not on all desktops.
 
 ## Regenerating a study
 
@@ -152,6 +161,12 @@ Primary velocity is `J_dls @ (v_ref + Kp*(x_ref-x))`; the secondary term is `N @
 
 Physics and primary tracking run at **240 Hz**; all secondary policies run at **60 Hz**, with `action_repeat=4`. Safety is checked at every physics step. Formal rollouts, witnesses and videos use motor commands and `stepSimulation`; `resetJointState` is limited to initialization, numerical diagnostics and offline geometric candidates. Future reference at 0.25/0.5/1 seconds is known task information; no independent no-future-reference training ablation was completed. See the [RL formulation](docs/rl_formulation.md).
 
+## Learning stability and delivery review
+
+The [learning-stability review](docs/learning_stability_review.md) keeps checkpoint selection separate from test performance: selected validation successes were 19/17/18 out of 24, while the final checkpoints reached 18/1/17. Independently replaying seed 145's final checkpoint reproduced 1 success, 8 collisions and 15 joint-limit failures. This supports late-training degradation in this run, not a unique cause or a recommendation to extend the same training. Original selected models, thresholds and all test conclusions remain unchanged.
+
+The [delivery checklist](docs/final_delivery_checklist.md) and [English oral script](deliverables/final_20261009/oral_script_en.md) preserve the remaining personal-review requirements. The optional lightweight environment ZIP on v1.1.0 is distinct from the complete model/evidence archive.
+
 ## Artifacts, timing and limitations
 
 Each run has its own `experiments/<UTC>_<kind>/` directory. Trajectories contain N+1 states and N executed commands; command k connects state k to k+1. The shared study tolerance is position error ≤ 0.020 m; geometric distance ≤ +1e-5 m counts as collision; joint limits include a 1e-4 rad numerical tolerance. Servo-held fingers may drift, and that drift is recorded.
@@ -160,7 +175,7 @@ Each run has its own `experiments/<UTC>_<kind>/` directory. Trajectories contain
 
 Witness filtering uses the finite union of tracker, default APF and one random constant secondary candidate. It establishes one successful motion for accepted scenes, while introducing selection bias. Conclusions are limited to that frozen distribution and training budget. Short failed prefixes are not presented as better tracking/smoothness than completed trajectories. Training-seed spread and test-scene uncertainty are distinct.
 
-No arc-trajectory study, no-future-reference training ablation, long-run convergence study, GUI experience validation, moving obstacles, wider workspace, physical robot or continuous-time safety guarantee is claimed. The historical development suite recorded **108 passed**; this is not a current-run CI count.
+No arc-trajectory study, no-future-reference training ablation, long-run convergence study, cross-platform GUI validation, moving obstacles, wider workspace, physical robot or continuous-time safety guarantee is claimed. The historical development suite recorded **108 passed**; this is not a current-run CI count.
 
 ## Contributions, reuse and AI assistance
 

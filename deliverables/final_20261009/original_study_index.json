@@ -12,19 +12,16 @@
   "freeze": "experiments/study_pretest_freeze.json",
   "evaluation": "experiments/20261003T201319.444915Z_paired_evaluation",
   "videos": [
-    "deliverables/final_20261009/videos/case_1_obstacle_view.json",
-    "deliverables/final_20261009/videos/case_2.json"
+    "deliverables/videos/case_1.json",
+    "deliverables/videos/case_2.json"
   ],
   "development_evidence": {
     "stage1": "experiments/20261003T191423.707824Z_stage1_tracker",
     "reward_probe": "experiments/20261003T194031.739736Z_reward_probe"
   },
-  "report": "deliverables/final_20261009/report_en_v2",
-  "demo": "deliverables/final_20261009/videos/final_demo_en_v2.mp4",
-  "interpretation": "deliverables/final_20261009/interpretation_zh.md",
-  "delivery_validation": "experiments/20261008T221557.513252Z_delivery_validation",
-  "relocation_verification": "experiments/20261003T202857.594683Z_relocation_verification",
-  "learning_stability_review": "experiments/20261008T215230.514261Z_learning_stability_review",
-  "final_delivery_review": "experiments/20261008T222511.498438Z_final_delivery_review",
-  "final_revision": "2026-10-09 local technical deliverables; individual review pending"
+  "report": "deliverables/report_en",
+  "demo": "deliverables/videos/final_demo_en.mp4",
+  "interpretation": "deliverables/interpretation_zh.md",
+  "delivery_validation": "experiments/20261003T201415.503267Z_delivery_validation",
+  "relocation_verification": "experiments/20261003T202857.594683Z_relocation_verification"
 }

@@ -2,26 +2,35 @@
 
 [中文入口](../README.md) | [English overview](../README.en.md)
 
-**本页用于完整 Release 附件。** 请从 [v1.0.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0) 下载 `ME5418_Group44_submission_20261004.zip` 与 `SHA256SUMS`。普通 clone 和 GitHub 自动生成的 Source code 压缩包不含模型、witness 和 `experiments/`，不能运行本页冻结验证。
+**当前完整包是 [v1.1.0 Release](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0) 的 `Panda_Final_Project_20261009.zip`**（750,132,146 字节）。下载该版本 `SHA256SUMS` 与所列附件后，在同一目录运行 `shasum -a 256 -c SHA256SUMS`，再解压并进入 `panda-posture/`。缺失附件会导致校验失败，不可当作通过。普通 clone 和 GitHub 自动生成的 Source code 包不含模型、witness 与 `experiments/`。
 
-```bash
-# 将 ZIP、PDF、MP4、receipt 与 SHA256SUMS 下载到同一目录后核验全部附件
-shasum -a 256 -c SHA256SUMS
-unzip ME5418_Group44_submission_20261004.zip
-cd panda-posture
-```
-
-未下载某个附件时，校验命令会报告它缺失；不要将缺失项当作校验通过。原始包为 716,482,807 字节，发布对应代码提交 `62d74a5eca02554596c64979dd2a47559b8850eb`。
+该完整包的 receipt 记录基准 commit `4b003c5` 与打包时未提交文件，清单哈希绑定实际内容；release tag 对应之后的发布提交。不要反填新提交到旧 provenance。v1.0.0 保留供历史复核，不作为最新运行入口。
 
 冻结清单记录了最初实验所在 Linux 项目的绝对路径。把工程解压到另一目录后，不能直接把旧路径当作新环境，也不能修改原始配置文件来“修复路径”：这些文件本身属于已哈希的证据。`scripts/relocate_freeze.py` 仅为相同文件创建新的位置映射，保留原始清单和训练选择，随后仍经过同一个 `verify_frozen_inputs` 入口检查。
 
 本页描述可执行复跑流程。尚未完成的训练、冻结、批量测试不因有复跑命令而视作已完成；实际运行目录及结果以 `progress.md` 和交付清单为准。路径中的 `<...>` 必须替换为包内实际目录。
 
-## 0. 解压前做静态归档检查
+## 本地 final 修订的自动入口
 
-从包含新[归档检查器](../scripts/verify_release_archive.py)的源码 checkout 执行 [README 的只读命令](../README.md#在线阅读与完整包复现)。旧完整 ZIP 不包含此后新增的检查脚本；不要修改或重新打包原 ZIP。校验只读取本地 ZIP、receipt 和 SHA256SUMS，并向标准输出返回结果，不联网、不解压、不执行包内代码。
+2026-10-09 完整 ZIP 包含 `scripts/quickstart.py`。解压后先 `bash scripts/bootstrap.sh`，再运行 `env -u PYTHONPATH .venv/bin/python scripts/quickstart.py`。它从冻结 protocol 的明确路径结构识别原位置，核对全部受保护证据，必要时创建新的 relocated freeze，再验证三个模型。原清单与模型保持不变。它打印的 `freeze_for_other_commands` 可用于 GUI 或完整复评的 `--freeze`。下方显式流程仍保留用于诊断。
 
-逐成员 CRC/清单 SHA、冻结项目文件、26 份冻结源码、study index 与评估身份一致，才构成该入口的静态通过。冻结清单还引用 30 个原环境 PyBullet 资产，位于 `.venv/lib/python3.11/site-packages/pybullet_data/franka_panda/`，按打包规则不在 ZIP；它们单列为未核验，不能静默当作通过。继续执行下列锁定环境安装与原冻结验证时才能检查这些资产。校验和与 receipt 的相互一致也不能独立证明记录者或历史过程的真实性。
+<a id="legacy-archive-check"></a>
+
+## 0. v1.0.0 历史完整包的静态核验
+
+当前[归档检查器](../scripts/verify_release_archive.py)的真实大包验收针对 [v1.0.0](https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.0.0)。在包含检查脚本的源码 checkout 中运行以下命令，将路径换成该版本附件目录；旧包本身不包含后来加入的检查器，也无需修改或重打包。
+
+```bash
+python3 scripts/verify_release_archive.py \
+  --archive /path/to/downloads/ME5418_Group44_submission_20261004.zip \
+  --receipt /path/to/downloads/ME5418_Group44_submission_20261004.receipt.json \
+  --checksums /path/to/downloads/SHA256SUMS \
+  --readme README.md --readme README.en.md
+```
+
+该旧包为 716,482,807 字节，记录代码提交 `62d74a5eca02554596c64979dd2a47559b8850eb`。已核验 6,231 个成员 CRC、6,230 个清单 SHA-256、冻结引用及评估身份；不能将这些数量或结果写成 v1.1.0 的静态检查器验收。较新的完整包结构和入口须另行核验；当前 v1.1.0 的发布与解压实跑记录见 [GitHub 同步记录](github_sync_20261009.json)。
+
+脚本只读取本地 ZIP、receipt、SHA256SUMS 和可选 README，返回 JSON，不联网、不解压、不运行归档代码或模型。原冻结清单中的 30 个 PyBullet 资产位于 `.venv/lib/python3.11/site-packages/pybullet_data/franka_panda/`，按设计未打包；它们单列为未核验，安装锁定环境后才由原冻结验证检查。校验和一致不独立证明历史过程真实性，包完整性不等于物理复现。
 
 ## 1. 交付包必须带哪些文件
 
@@ -130,7 +139,7 @@ env -u PYTHONPATH .venv/bin/python -m panda_posture.analysis \
 
 ## 6. 已实际执行的搬迁验收
 
-原目录快速验收保存在 `experiments/20261003T201415.503267Z_delivery_validation/`。随后复制冻结证据到全新的项目目录，独立安装 Python 3.11.17 与锁定依赖，完成 bootstrap、路径重绑和同一个快速验收入口；完整证据归档在完整 ZIP 内的 `experiments/20261003T202857.594683Z_relocation_verification/summary.json`。
+原目录快速验收保存在 `experiments/20261003T201415.503267Z_delivery_validation/`。随后复制冻结证据到全新的项目目录，独立安装 Python 3.11.17 与锁定依赖，完成 bootstrap、路径重绑和同一个快速验收入口；完整证据归档在 完整 ZIP 内的 `experiments/20261003T202857.594683Z_relocation_verification/summary.json`。
 
 固定 validation 场景 `study-4410-0005` 上，seed 144、145、146 均完成 960 个物理步，每个模型的 240 次访问 observation 上保存前后确定性 action 完全一致。搬迁前后的全部物理状态与命令数组也逐位一致，最大关节差和命令差均为 0；耗时数组不纳入一致性声明。26 个冻结源码文件全部保持原 hash，三模型均通过原冻结输入核验。
 

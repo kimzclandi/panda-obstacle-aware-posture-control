@@ -1,0 +1,97 @@
+{
+  "repository": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control",
+  "visibility": "public",
+  "release": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/tag/v1.1.0",
+  "tag": "v1.1.0",
+  "release_id": 407317049,
+  "published_at": "2026-10-08T22:39:22Z",
+  "latest_release": true,
+  "tag_commit": "d301cdb9661a85c9f2a440e4e82d5064f4735ea8",
+  "anonymous_access_verified": true,
+  "all_9_remote_asset_sizes_and_sha256_verified": true,
+  "sha256sums_downloaded_and_verified": true,
+  "full_zip_anonymous_download_head": {
+    "status": 200,
+    "content_length": "750132146"
+  },
+  "old_v1_0_0_assets_unchanged": true,
+  "public_introduction_identifier_matches": 0,
+  "assets": [
+    {
+      "id": 623195122,
+      "name": "final_demo_en.mp4",
+      "size": 2275617,
+      "digest": "sha256:ffcca67a6027c134b1176c82f8573edc97b04a7357a4818df0d118884a7bfce9",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/final_demo_en.mp4"
+    },
+    {
+      "id": 623195121,
+      "name": "final_report_en.pdf",
+      "size": 598341,
+      "digest": "sha256:3a0102f86d5b6a975ba3a599b5740b0df1a6477740a8a151e63e5a4abaebe7c6",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/final_report_en.pdf"
+    },
+    {
+      "id": 623195142,
+      "name": "interpretation_zh.md",
+      "size": 3857,
+      "digest": "sha256:4769312fea14a621fcb735066b0c93a22e02183bdea08c842bc9a6477a91ddde",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/interpretation_zh.md"
+    },
+    {
+      "id": 623195145,
+      "name": "oral_script_en.md",
+      "size": 3581,
+      "digest": "sha256:5d83f2257b54545f3695521e4552a1e320d11be20552c47d9daf188a2d66697d",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/oral_script_en.md"
+    },
+    {
+      "id": 623195123,
+      "name": "Panda_Final_Project_20261009.receipt.json",
+      "size": 1221,
+      "digest": "sha256:67cdfe56f0e3619bbb6ceb46c3c63b13af31c842ebddcab511bf7abdb1b6e835",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.receipt.json"
+    },
+    {
+      "id": 623195119,
+      "name": "Panda_Final_Project_20261009.verification.json",
+      "size": 2006,
+      "digest": "sha256:5facfbde25b79172c35d17e99dfd0836f21a4df37f3c7ccf8603201e5f637148",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.verification.json"
+    },
+    {
+      "id": 623195120,
+      "name": "Panda_Final_Project_20261009.zip",
+      "size": 750132146,
+      "digest": "sha256:4e417e3ae147c51fc7bcd3b82d6aede94c6defe0391a7729362ac09d1be3e7ae",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Final_Project_20261009.zip"
+    },
+    {
+      "id": 623195144,
+      "name": "Panda_Gym_Code_Report.zip",
+      "size": 4774215,
+      "digest": "sha256:4bdbf29298e3037e6cd712661e11beef47bb84a69981961091ec0664959e81a0",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/Panda_Gym_Code_Report.zip"
+    },
+    {
+      "id": 623195173,
+      "name": "SHA256SUMS",
+      "size": 753,
+      "digest": "sha256:54fc4fcd040100ac295b0fcfc9700da4716c09d7f1b7a7dc2eedc2c2ac7aba2f",
+      "browser_download_url": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control/releases/download/v1.1.0/SHA256SUMS"
+    }
+  ],
+  "course_platform_submission_performed": false,
+  "verified_at_utc": "2026-10-08T22:41:28.853185+00:00",
+  "main_commit_at_verification": "d301cdb9661a85c9f2a440e4e82d5064f4735ea8",
+  "remote_clone_verification": {
+    "commit": "d301cdb9661a85c9f2a440e4e82d5064f4735ea8",
+    "tracked_files": 323,
+    "fresh_clone_all_bytes_equal": true,
+    "clone_clean": true,
+    "scientific_inputs_unchanged": "Confirmed by prepublication freeze verification",
+    "cloned_repository": "https://github.com/kimzclandi/panda-obstacle-aware-posture-control",
+    "scope": "Remote source/file transfer verification, not a new model performance experiment."
+  },
+  "note": "Verification snapshot before this documentation-only recording commit; release tag and immutable assets remain at the stated revision."
+}

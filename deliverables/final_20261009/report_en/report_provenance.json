@@ -1,0 +1,53 @@
+{
+  "pages": 10,
+  "study_index": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/study_index.json",
+  "index_sha256": "fa94d1b7ca12ebba59d8efc4771bb72f2340214a5911bd7566b62f2cdad22ca4",
+  "episodes_sha256": "e88fd737a0d4a503402daa37412f7c1fd515be7e8026e4f383ba30e551029b51",
+  "pdf_sha256": "cbcf33a590cf1179f0ecec0629bb5e76ae8878db3071a8e3f17f4e63f8e55c08",
+  "generator_sha256": "ad2ba0fc1cc4abeb806b61c6fe4c7cab85b13c106396ca8253dfef7091d68153",
+  "development_evidence": [
+    {
+      "path": "experiments/20261003T191423.707824Z_stage1_tracker/summary.json",
+      "sha256": "c10e6d3128ba1120b049f4508fcc57c0b44440d6de42df12dde4e12da4d310b2"
+    },
+    {
+      "path": "experiments/20261003T191423.707824Z_stage1_tracker/jacobian_check.json",
+      "sha256": "9cd01f58e66c5676c922d96a96a3d91a7658d255a519b2c1a1d19839f0430bbb"
+    },
+    {
+      "path": "experiments/20261003T194031.739736Z_reward_probe/summary.json",
+      "sha256": "cd23652dca1d2914ee3b9620a5fd1c370de0a2084eebe25fd13e95eb96d9358c"
+    },
+    {
+      "path": "experiments/20261003T194210.629028Z_study_scenes/generation_summary.json",
+      "sha256": "08b6daee81e69e711b5beb1e4ceef57d0597b88486f2a15a4529387953fb1c14"
+    },
+    {
+      "path": "experiments/20261008T215230.514261Z_learning_stability_review/summary.json",
+      "sha256": "7d7df0c7bd612aeea21427217399ffbaac06e0c94bfaca4abcd77f799f9363c8"
+    },
+    {
+      "path": "experiments/20261008T215230.514261Z_learning_stability_review/input_sha256.json",
+      "sha256": "5c688d22600f5d2af87067854ce52275f06ae30c1069d1991fbc29391fe4e2a3"
+    },
+    {
+      "path": "experiments/20261008T215230.514261Z_learning_stability_review/validation_history.csv",
+      "sha256": "ab5509910fd6a4609cf11662a52cd70c6cfa65b72b457ab450eb2703b15dede2"
+    },
+    {
+      "path": "experiments/20261008T215230.514261Z_learning_stability_review/validation_stability.png",
+      "sha256": "7155ac0d3355c62f59990b7a5f8d75e6edd2598627b94d6938f89823a1af1e9d"
+    }
+  ],
+  "video_evidence": [
+    {
+      "path": "deliverables/final_20261009/videos/case_1.json",
+      "sha256": "b7aea7eb684040771b325406bd36e5d803c3c402de1a52dbc1ff151e464dc0e2"
+    },
+    {
+      "path": "deliverables/final_20261009/videos/case_2.json",
+      "sha256": "7f73cafb6eaed4ffb637ffa4b9e41f1649c1113c3a84a84affe8275fcff44cfc"
+    }
+  ],
+  "visual_review": "pending; render and inspect every page before delivery"
+}

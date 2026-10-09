@@ -1,0 +1,209 @@
+{
+  "created_utc": "2026-10-08T22:17:17.106785+00:00",
+  "video_file": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/deliverables/final_20261009/videos/final_demo_en.mp4",
+  "video_sha256": "6359f34e371aae4ba6852519576293e8d83714620a35b51b320e07fddabe932c",
+  "generator_sha256": "5edf212ac0dc1be42c4e155eb81cd43be2be8b5f34a7d1354c99053d33767520",
+  "study_index": "/home/linjun/Documents/Codex/2026-10-04/nus-me5418-machine-learning-in-robotics/outputs/panda-posture/study_index.json",
+  "index_sha256": "fa94d1b7ca12ebba59d8efc4771bb72f2340214a5911bd7566b62f2cdad22ca4",
+  "episodes_sha256": "e88fd737a0d4a503402daa37412f7c1fd515be7e8026e4f383ba30e551029b51",
+  "analysis_summary_sha256": "b4754e03c2a3d31ad14955bf356658997a7b911b731563fbf6d329295c782acc",
+  "freeze_sha256": "1a09e1d06a940ec4afd3f94cf197fa064f4658e97ed6691c7e0794dee58d3251",
+  "test_dataset_sha256": "cea56e113faf3621cc3026e5fda807512295400a9072248847d32ac9dda2ad70",
+  "fps": 30,
+  "frame_count": 1560,
+  "duration_s": 52.0,
+  "resolution": [
+    1536,
+    722
+  ],
+  "audio": false,
+  "source_videos": [
+    {
+      "path": "deliverables/final_20261009/videos/case_1.mp4",
+      "sha256": "13ad3cfd65fdae1e2f8c1bfa37b92099b9eb427d8cb0ce84e7f0d85f0037f14c"
+    },
+    {
+      "path": "deliverables/final_20261009/videos/case_2.mp4",
+      "sha256": "8f6f894236a6a9773df7986ddaa5b90cd811b15c6769c088048251a137eb2c97"
+    }
+  ],
+  "source_metadata": [
+    {
+      "path": "deliverables/final_20261009/videos/case_1.json",
+      "sha256": "b7aea7eb684040771b325406bd36e5d803c3c402de1a52dbc1ff151e464dc0e2"
+    },
+    {
+      "path": "deliverables/final_20261009/videos/case_2.json",
+      "sha256": "7f73cafb6eaed4ffb637ffa4b9e41f1649c1113c3a84a84affe8275fcff44cfc"
+    }
+  ],
+  "ppo_seed_in_case_videos": 144,
+  "test_episode_count": 500,
+  "test_scenes_per_policy": 100,
+  "validation_audit_sha256": "7d7df0c7bd612aeea21427217399ffbaac06e0c94bfaca4abcd77f799f9363c8",
+  "all_failures_retained": true,
+  "results": [
+    {
+      "controller": "tracker",
+      "training_seed": null,
+      "successes": 70,
+      "failures": 30,
+      "denominator": 100
+    },
+    {
+      "controller": "potential",
+      "training_seed": null,
+      "successes": 92,
+      "failures": 8,
+      "denominator": 100
+    },
+    {
+      "controller": "ppo",
+      "training_seed": 144,
+      "successes": 80,
+      "failures": 20,
+      "denominator": 100
+    },
+    {
+      "controller": "ppo",
+      "training_seed": 145,
+      "successes": 81,
+      "failures": 19,
+      "denominator": 100
+    },
+    {
+      "controller": "ppo",
+      "training_seed": 146,
+      "successes": 65,
+      "failures": 35,
+      "denominator": 100
+    }
+  ],
+  "timeline": [
+    {
+      "name": "title",
+      "start_frame": 0,
+      "start_s": 0.0,
+      "kind": "text_card",
+      "card_rgb_sha256": "addac700ed8aaecd70227e453ec859025564abdbae99e50488d397fdf10dec00",
+      "end_frame_exclusive": 120,
+      "duration_s": 4.0
+    },
+    {
+      "name": "method",
+      "start_frame": 120,
+      "start_s": 4.0,
+      "kind": "text_card",
+      "card_rgb_sha256": "48f5de1c1edb12c30989dcd2707d4b3607490b8c77766abf54729d8ec86edf59",
+      "end_frame_exclusive": 300,
+      "duration_s": 6.0
+    },
+    {
+      "name": "reading_legend",
+      "start_frame": 300,
+      "start_s": 10.0,
+      "kind": "text_card",
+      "card_rgb_sha256": "8eb8266104886e120412fb984827e6061d3ee5ac058bbbaf68b62d277e721974",
+      "end_frame_exclusive": 480,
+      "duration_s": 6.0
+    },
+    {
+      "name": "case_1_title",
+      "start_frame": 480,
+      "start_s": 16.0,
+      "kind": "text_card",
+      "card_rgb_sha256": "5f479eac525953d3e67b102dc638aa7de34c9b6e7d663bbff1e98fbe63d41cc5",
+      "end_frame_exclusive": 540,
+      "duration_s": 2.0
+    },
+    {
+      "name": "physical_clip_1",
+      "start_frame": 540,
+      "start_s": 18.0,
+      "kind": "existing_physical_replay",
+      "scenario_id": "study-4490-0017",
+      "source_metadata": "deliverables/final_20261009/videos/case_1.json",
+      "source_video": "deliverables/final_20261009/videos/case_1.mp4",
+      "source_metadata_sha256": "b7aea7eb684040771b325406bd36e5d803c3c402de1a52dbc1ff151e464dc0e2",
+      "source_video_sha256": "13ad3cfd65fdae1e2f8c1bfa37b92099b9eb427d8cb0ce84e7f0d85f0037f14c",
+      "decoded_rgb_frames_forwarded_sha256": "d853b118a7a97f157bff26e64bfa6a42b302d1db463650ad72a30be2e545d823",
+      "original_frame_count": 120,
+      "original_fps": 30,
+      "speed_multiplier": 1.0,
+      "interpolated_frames": 0,
+      "source_frames_visually_transformed": false,
+      "end_frame_exclusive": 660,
+      "duration_s": 4.0
+    },
+    {
+      "name": "case_2_title",
+      "start_frame": 660,
+      "start_s": 22.0,
+      "kind": "text_card",
+      "card_rgb_sha256": "80239c967a28eb648ea000fc3cfa567b3bf2960df94ee7bb9efe22b1a8cdc604",
+      "end_frame_exclusive": 720,
+      "duration_s": 2.0
+    },
+    {
+      "name": "physical_clip_2",
+      "start_frame": 720,
+      "start_s": 24.0,
+      "kind": "existing_physical_replay",
+      "scenario_id": "study-4490-0069",
+      "source_metadata": "deliverables/final_20261009/videos/case_2.json",
+      "source_video": "deliverables/final_20261009/videos/case_2.mp4",
+      "source_metadata_sha256": "7f73cafb6eaed4ffb637ffa4b9e41f1649c1113c3a84a84affe8275fcff44cfc",
+      "source_video_sha256": "8f6f894236a6a9773df7986ddaa5b90cd811b15c6769c088048251a137eb2c97",
+      "decoded_rgb_frames_forwarded_sha256": "ec587f0bab8a50d234afc4e3233a224465a236301abf49bb1bb3f1be7a636bd4",
+      "original_frame_count": 120,
+      "original_fps": 30,
+      "speed_multiplier": 1.0,
+      "interpolated_frames": 0,
+      "source_frames_visually_transformed": false,
+      "end_frame_exclusive": 840,
+      "duration_s": 4.0
+    },
+    {
+      "name": "held_out_results",
+      "start_frame": 840,
+      "start_s": 28.0,
+      "kind": "text_card",
+      "card_rgb_sha256": "1500fefdc1612571b9dc26428124738172340af9fa6b07804977ee112ae98d57",
+      "end_frame_exclusive": 1140,
+      "duration_s": 10.0
+    },
+    {
+      "name": "validation_stability",
+      "start_frame": 1140,
+      "start_s": 38.0,
+      "kind": "text_card",
+      "card_rgb_sha256": "d69488b87eb69138c3a3b8b251ab6f8564c52f19c0ac98d0a2ad4a07bde20a47",
+      "end_frame_exclusive": 1380,
+      "duration_s": 8.0
+    },
+    {
+      "name": "limitations",
+      "start_frame": 1380,
+      "start_s": 46.0,
+      "kind": "text_card",
+      "card_rgb_sha256": "e4b509ae2a57f93c2b9e70e5d8c6c7d0bf64064b924faaa2b1c319236c57a49b",
+      "end_frame_exclusive": 1560,
+      "duration_s": 6.0
+    }
+  ],
+  "font_files": [
+    {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+      "sha256": "ae7b7855e115a5966d8b1b3f80f254ccc117ec86f9965e202ee2940453837280"
+    },
+    {
+      "path": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+      "sha256": "5c1247acef7f2b8522a31742c76d6adcb5569bacc0be7ceaa4dc39dd252ce895"
+    }
+  ],
+  "physical_replay_metadata_verified": true,
+  "temporal_integrity": "Each existing 120-frame clip forwarded at native 30 fps; no resampling, interpolation or speed change",
+  "encoding_scope": "H.264 re-encoding of decoded RGB; compressed byte identity and decoded-output pixel identity are not claimed",
+  "claim_scope": "Neutral exact held-out counts; no claim that RL wins, converged, or guarantees safety",
+  "visual_review": "pending; inspect text cards, boundaries and clips before delivery"
+}
