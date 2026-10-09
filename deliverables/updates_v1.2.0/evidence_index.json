@@ -1,0 +1,30 @@
+{
+  "kind": "Exact public copies of selected evidence; raw records remain in full archive",
+  "files": [
+    {
+      "public_file": "learning_rate_diagnostic.png",
+      "original_in_full_archive": "experiments/20261009T002444.484308Z_learning_rate_diagnostic/analysis_v2/diagnostic.png",
+      "sha256": "6defb03a3ea160d92050bd1f1c41966b07d2c5ebdd9d429015f79bb369071ac0"
+    },
+    {
+      "public_file": "learning_rate_summary.json",
+      "original_in_full_archive": "experiments/20261009T002444.484308Z_learning_rate_diagnostic/summary.json",
+      "sha256": "07cfec53872405a41f0600e44b9b9c025e2ef1f1d83086dbfd8e3c421e7da4f9"
+    },
+    {
+      "public_file": "paired_analysis.json",
+      "original_in_full_archive": "experiments/20261009T002444.484308Z_learning_rate_diagnostic/analysis_v2/summary.json",
+      "sha256": "e4cdce8568e4dbb13b17faaac4ce98624fb3e3227c1fa409a69fdb9d6462b350"
+    },
+    {
+      "public_file": "demo_ready.png",
+      "original_in_full_archive": "experiments/20261009T002646.585396Z_native_gui_review/ready.png",
+      "sha256": "c5d9b1063b04f67d8cf8cbe3c84227bd46c73f13105b5ffb51e556d9c13c4b03"
+    },
+    {
+      "public_file": "demo_completed.png",
+      "original_in_full_archive": "experiments/20261009T002646.585396Z_native_gui_review/completed.png",
+      "sha256": "10ac23e7157a5e4e87b38487a79769ad5386afd3d5650134fb22a58a89a57fcb"
+    }
+  ]
+}

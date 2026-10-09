@@ -1,0 +1,15 @@
+{
+  "scope": "Public digest of recorded local checks; detailed raw evidence is in the full reproduction archive",
+  "tests_passed": 128,
+  "test_wall_s": 7.97,
+  "historical_files_checked": 1265,
+  "historical_files_changed": 0,
+  "native_gui_physically_executed_steps": 960,
+  "native_gui_matches_original_direct_state_and_command_arrays": true,
+  "native_gui_ready_and_completed_images_visually_checked": true,
+  "core_test_study_unchanged": true,
+  "new_test_evaluation": false,
+  "endpoint_save_load_actions_exact_on_common_observations": 4803,
+  "raw_engineering_record_in_archive": "experiments/20261009T002444.484308Z_learning_rate_diagnostic/engineering_verification.json",
+  "raw_engineering_record_sha256": "831aa93b3c0d3ed5141ef09da7f0283bac68a53611fdf579fb267601d7d181a6"
+}

@@ -57,3 +57,5 @@ seed 145 的验证成功数从选中时 17/24 逐渐下降，在 86,016 步为 3
 env -u PYTHONPATH OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
   .venv/bin/python scripts/audit_learning_stability.py
 ```
+
+后续更新：已另立计划并完成[学习率短诊断](learning_rate_diagnostic.md)。两组从同一已选模型续训各 12,288 步，最终 validation 15/24 与 17/24，起点17/24；较低学习率的策略变化更小，但尚不能识别这里记录的长期退化原因。原审阅证据、模型选择和正式测试保持不变。

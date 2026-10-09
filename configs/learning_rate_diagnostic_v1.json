@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "scope": "Post-study single-seed train/validation diagnostic; no held-out claim or replacement of released models",
+  "hypothesis": "Reducing PPO learning rate from 0.0003 to 0.0001 may reduce update drift and preserve deterministic validation success during short continuation",
+  "dataset": "experiments/20261003T194210.629028Z_study_scenes/scenes.json",
+  "checkpoint": "experiments/20261003T195813.017181Z_ppo_study_seed145/best_model.zip",
+  "checkpoint_sha256": "01556cd6bad0d9ceeaaa08120db123d13b2035b0c6f21ab98d4435b0f5b2b043",
+  "dataset_sha256": "4a164c1b3792f67e637cf3516c69c3b9a77f9a1d42d27896f3c21b7a4211a55f",
+  "continuation_seed": 9145,
+  "additional_steps_each": 12288,
+  "evaluate_after_updates_at": [6144, 12288],
+  "arms": [
+    {"name": "original_lr", "learning_rate": 0.0003},
+    {"name": "lower_lr", "learning_rate": 0.0001}
+  ],
+  "primary_comparison": "Final endpoint full-trajectory success count on all 24 validation scenes; no checkpoint selection",
+  "secondary_diagnostics": ["joint-limit and collision failures", "PPO approximate KL and clipping fraction", "Gaussian action clipping before bounded environment input", "deterministic policy drift on common initial validation observations"],
+  "continuation_semantics": "Restore identical selected weights and optimizer state; reset environment and RNG identically for both arms. This does not reconstruct the original run's missing environment/RNG state.",
+  "budget_estimate": "Historical 177 decisions/s implies about 139s combined training plus roughly 125s validation; allow 4-6 minutes. No automatic budget extension.",
+  "decision_rule": "Report both arms and all failures, including a null/negative result. Any advantage is exploratory on a reused validation set. No new test evaluation, no original model replacement."
+}
